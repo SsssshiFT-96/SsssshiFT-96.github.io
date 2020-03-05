@@ -100,4 +100,4 @@ theme: landscape
 deploy:
   type: git
   repo: https://github.com/SsssshiFT-96/SsssshiFT-96.github.io.git
-  branch: master
+  branch: public
