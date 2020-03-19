@@ -143,7 +143,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">8</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">11</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -202,6 +202,427 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/19/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A12/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/19/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A12/" class="post-title-link" itemprop="url">JavaSE-面向对象2</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-19 20:05:05 / 修改时间：21:41:30" itemprop="dateCreated datePublished" datetime="2020-03-19T20:05:05+08:00">2020-03-19</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="面向对象2"><a href="#面向对象2" class="headerlink" title="面向对象2"></a>面向对象2</h1><h2 id="1-面向对象-构造函数-概述、默认构造函数"><a href="#1-面向对象-构造函数-概述、默认构造函数" class="headerlink" title="1 面向对象-构造函数-概述、默认构造函数"></a>1 面向对象-构造函数-概述、默认构造函数</h2><p>构造函数：构建创造对象时调用的函数。</p>
+<p>作用：可以给对象进行初始化。</p>
+<p>特点：</p>
+<p>1.函数名与类名相同。</p>
+<p>2.不用定义返回值。</p>
+<p>3.没有具体的返回值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">	Person()&#123;</span><br><span class="line">		System.out.println(<span class="string">"hello world"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建对象都必须要通过构造函数初始化。</p>
+<p><strong>默认构造函数</strong></p>
+<p>一个类中如果没有定义过构造函数，那么该类中会有一个默认的空参数构造函数。</p>
+<p>如果在类中定义了指定的构造函数，那么类中的默认构造函数就没有了。</p>
+<h2 id="2-面向对象-构造函数-构造函数和一般函数的区别"><a href="#2-面向对象-构造函数-构造函数和一般函数的区别" class="headerlink" title="2 面向对象-构造函数-构造函数和一般函数的区别"></a>2 面向对象-构造函数-构造函数和一般函数的区别</h2><p>一般函数和构造函数的区别</p>
+<p>构造函数：对象创建时，就会调用与之对应的构造函数，对对象进行初始化</p>
+<p>一般函数：对象创建后，需要函数功能时才调用。</p>
+<p>构造函数：对象创建时，会调用只调用一次</p>
+<p>一般函数：对象创建后，可以被调用多次。</p>
+<h2 id="3-面向对象-构造函数-重载"><a href="#3-面向对象-构造函数-重载" class="headerlink" title="3 面向对象-构造函数-重载"></a>3 面向对象-构造函数-重载</h2><p>构造函数重载与一般函数重载相同：在同一个类中，允许存在一个以上的同名函数，只要它们的参数个数或者参数类型不同即可。</p>
+<p><strong>注意</strong>：小括号中，参数个数和参数类型相同，但顺序不同也可以重载，因为java是强类型语言，是十分严谨的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name = <span class="string">"aaa"</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age = <span class="number">1</span>;</span><br><span class="line">	Person(String n)&#123;</span><br><span class="line">		name = n;</span><br><span class="line">	&#125;</span><br><span class="line">    Person(<span class="keyword">int</span> a)&#123;</span><br><span class="line">		age = a;</span><br><span class="line">	&#125;</span><br><span class="line">     Person(String n,<span class="keyword">int</span> a)&#123;</span><br><span class="line">		age = a;</span><br><span class="line">        name = n;</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-面向对象-构造函数-内存图解"><a href="#4-面向对象-构造函数-内存图解" class="headerlink" title="4 面向对象-构造函数-内存图解"></a>4 面向对象-构造函数-内存图解</h2><p>与之前不一样的是，中间多了一步构造函数初始化。图解略</p>
+<h2 id="5-面向对象-构造函数-细节"><a href="#5-面向对象-构造函数-细节" class="headerlink" title="5 面向对象-构造函数-细节"></a>5 面向对象-构造函数-细节</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name = <span class="string">"aaa"</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age = <span class="number">1</span>;</span><br><span class="line">	Person(String n)&#123;</span><br><span class="line">		name = n;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String n)</span></span>&#123;</span><br><span class="line">        name = n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>1.上述二者函数功能一样，但用法不同，所以第二种需要存在。</p>
+<p>2.一般函数中不能调用构造函数，构造函数可以调用一般函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name = <span class="string">"aaa"</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age = <span class="number">1</span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Person</span><span class="params">(String n)</span></span>&#123;</span><br><span class="line">		name = n;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3.上述这是可以的，虽然构造函数前面不能加返回值，但这图中，它不当作构造函数，当作是一般函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name = <span class="string">"aaa"</span>;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age = <span class="number">1</span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">Person</span><span class="params">(String n)</span></span>&#123;</span><br><span class="line">		name = n;</span><br><span class="line">	&#125;</span><br><span class="line">    Person(String n)&#123;</span><br><span class="line">		name = n;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4.上述定义类的情况下， 在主函数中用下列语句创建对象</p>
+<p>Person p = new Person();</p>
+<p>编译是不行的。因为这种情况下，没有默认构造函数即空参构造函数，第二个Person函数是构造函数，故就没有默认构造函数，编译不成功。</p>
+<p>5.构造函数中是可以有return的，但不多见。</p>
+<h2 id="6-面向对象-this关键字-使用场景-amp-this原理"><a href="#6-面向对象-this关键字-使用场景-amp-this原理" class="headerlink" title="6 面向对象-this关键字-使用场景&amp;this原理"></a>6 面向对象-this关键字-使用场景&amp;this原理</h2><p>场景1：当成员变量和局部变量重名，可以用this关键字区分。</p>
+<p>this ：代表对象，代表当前对象</p>
+<p>​       this就是所在函数所属对象的引用。</p>
+<p>​       <strong>简单说，哪个对象调用了this所在的函数，this就代表哪个对象，即拿到那个对象的地址。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    Person(String n, <span class="keyword">int</span> a)&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = n;</span><br><span class="line">		<span class="keyword">this</span>.age = a;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>引入this关键字后，之前的内存图解重新解释：运行主函数，在栈里面划出内存给主函数，构建一个p对象，堆中也出现一块内存给这个对象，然后给这个空间赋予地址，内存存入两个变量，并对其进行默认初始化。然后调用构造函数，因此在栈中又划出内存给构造函数，然后出现this关键字，将堆中的内存地址与this绑定，这样就知道之后的变量赋值是赋给哪个内存的对应变量。然后将旺财赋给对应内存当中的name，赋值结束弹栈，地址赋给p。运行下一个指令，p.speak()。在栈内存中给出一块内存给speak函数，同样的在此中将调用的对象的相应地址与speak中的this绑定，输出语句，之后弹栈。</p>
+<p><strong>这里注意</strong>：其实之前的写这些时都把this省去了，因为成员变量和局部变量没有重复。其实真正的写法是this.name，this.age。</p>
+<p>场景2：一个类当中，所有的成员想要运行，就必须有对象调用。</p>
+<p>想在构造函数中调用构造函数，也可以使用this，用this代替构造函数名，形式：this(…,…,…) </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    Person(String n)&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = n;</span><br><span class="line">    &#125;</span><br><span class="line">    Person(String n, <span class="keyword">int</span> a)&#123;</span><br><span class="line">        <span class="keyword">this</span>(n);</span><br><span class="line">		age = a;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：凡是调用构造函数，this只能定义在构造函数的第一行，因为初始化动作要先执行。</p>
+<h2 id="7-面向对象-this关键字-应用"><a href="#7-面向对象-this关键字-应用" class="headerlink" title="7 面向对象-this关键字-应用"></a>7 面向对象-this关键字-应用</h2><p>判断是否为同龄人</p>
+<p>思路：对象是人，所以函数的参量是人。参量的个数可以是2，但是可以认为比较这个功能可以是人本身具备的，可以理解为一个人用这个功能来与另外一个人进行年龄的比较，只要调用即可，故这个函数的参量个数是一个。在函数里面，p1调用了这个函数，故this就代表着p1，p代表着p2。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    Person(<span class="keyword">int</span> a)</span><br><span class="line">        <span class="keyword">this</span>.age = a;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">compare</span><span class="params">(Person p)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.age == p.age; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-面向对象-static关键字-数据共享、特点"><a href="#8-面向对象-static关键字-数据共享、特点" class="headerlink" title="8 面向对象-static关键字-数据共享、特点"></a>8 面向对象-static关键字-数据共享、特点</h2><p>static特点</p>
+<p>1.static是一个修饰符，用于修饰成员</p>
+<p>2.static修饰的成员被所有的对象共享</p>
+<p>3.static优先于对象存在。因为static的成员随着类的加载就已经存在了</p>
+<p>4.static修饰的成员多了一种调用方式，即可以直接被类名所调用。</p>
+<p>调用方式：类名.静态成员</p>
+<p>5.static修饰的数据是共享数据，对象中的存储的是特有数据</p>
+<h2 id="9-面向对象-static关键字-成员变量和静态变量的区别"><a href="#9-面向对象-static关键字-成员变量和静态变量的区别" class="headerlink" title="9 面向对象-static关键字-成员变量和静态变量的区别"></a>9 面向对象-static关键字-成员变量和静态变量的区别</h2><p>成员变量和静态变量的区别</p>
+<p>1.两个变量的生命周期不一样。</p>
+<p>成员变量随着对象的创建而存在，随着对象的被回收而释放</p>
+<p>静态变量随着类的加载而存在，随着类的消失而消失</p>
+<p>2.调用方式不同</p>
+<p>成员变量只能被对象调用</p>
+<p>静态变量可以被对象调用，还可以被类名调用。一般建议用类名调用。</p>
+<p>3.别名不同</p>
+<p>成员变量也称为实例变量</p>
+<p>静态变量也称为类变量</p>
+<p>4.数据的存储位置不同</p>
+<p>成员变量数据存储在堆内存的对象中，所有也叫对象的特有数据</p>
+<p>静态变量数据存储在方法区(共享数据区)的静态区，所以也叫对象的共享数据</p>
+<h2 id="10-面向对象-static关键字-注意事项"><a href="#10-面向对象-static关键字-注意事项" class="headerlink" title="10  面向对象-static关键字-注意事项"></a>10  面向对象-static关键字-注意事项</h2><p>1.静态方法只能访问静态成员。（非静态既可以访问静态，又可以访问非静态）</p>
+<p>2.静态方法中不可以使用this或super等关键字</p>
+<p>3.主函数是静态的</p>
+<h2 id="11-面向对象-static关键字-main函数解析"><a href="#11-面向对象-static关键字-main函数解析" class="headerlink" title="11  面向对象-static关键字-main函数解析"></a>11  面向对象-static关键字-main函数解析</h2><p>public static void main(String[ ] args)</p>
+<p>主函数特殊之处：</p>
+<p>1.格式是固定的，上述每个单词都不能换成其他的。</p>
+<p>2.被JVM所识别和调用</p>
+<p>public：因为权限必须是最大的。</p>
+<p>static：虚拟机调用主函数的时候不需要对象，直接用主函数所属类名调用即可。</p>
+<p>void：主函数没有具体的返回值。</p>
+<p>main：函数名，不是关键字只是一个JVM识别的固定的名字</p>
+<p>String[ ] args：这是主函数的参数列表，是一个数组类型的参数，而且元素都是字符串类型。</p>
+<p>args可以用其他替代</p>
+<h2 id="12-面向对象-static关键字-内存图解"><a href="#12-面向对象-static关键字-内存图解" class="headerlink" title="12 面向对象-static关键字-内存图解"></a>12 面向对象-static关键字-内存图解</h2><p>先划分一片空间出来给栈、堆、方法区等。当StaticDemo2被执行时，类进内存，开辟空间。在非静态区存储StaticDemo2(){ }，静态区存储Static main()。非静态区都用this来调用对象。然后在栈空间开辟一个main函数空间。运行第一句话，Peson类开始加载，它就开始找在classpath下找有没有Person.class文件，找到后加载进内存，静态类进去静态区，其他类进去非静态区。然后在内存中寻找method方法，因为是静态，所以到静态区找。找到后在栈中开辟空间给method。然后开始执行method方法，执行结束后，弹栈。执行第二句话，开始创建对象，在堆中开辟空间，然后这句话的执行与前述相同。执行第三句话，show方法进栈，将地址赋值给this，执行语句，country在静态区找，name和age到对象中找，执行结束弹栈。然后主函数弹栈，之后虚拟机也结束。</p>
+<h2 id="13-面向对象-static关键字-什么时候用"><a href="#13-面向对象-static关键字-什么时候用" class="headerlink" title="13  面向对象-static关键字-什么时候用"></a>13  面向对象-static关键字-什么时候用</h2><p>1.静态变量</p>
+<p>当分析对象中所具备的成员变量的值都是相同的这时这个成员可以被静态修饰</p>
+<p>只要数据在对象中都是不同的，就是对象的特有数据，必须存储在对象中，是非静态的。</p>
+<p>如果是相同的数据，对象不需要做修改，只需要使用即可，不需要存储在对象中，定义成静态的。</p>
+<p>2.静态函数</p>
+<p>函数是否用静态修饰，就参考一点：该函数功能是否需要访问到对象中的特有数据</p>
+<p>简单点说，从源代码看，该功能是否需要访问非静态的成员变量，如果需要，该功能就是非静态的。如果不需要，就可以将该功能定义成静态的。</p>
+<p>当然，也可以定义成非静态，但是非静态需要被对象调用，而仅创建对象调用非静态的，没有访问特有数据的方法，该对象的创建是没有意义的。</p>
+<h2 id="14-面向对象-static关键字-静态代码块"><a href="#14-面向对象-static关键字-静态代码块" class="headerlink" title="14 面向对象-static关键字-静态代码块"></a>14 面向对象-static关键字-静态代码块</h2><p>静态代码块</p>
+<p> static{</p>
+<p>}</p>
+<p>随着类的加载而执行，而且只执行一次。</p>
+<p>作用：用于给类进行初始化。如果没有对象，那么就可以用这种方法进行初始化。</p>
+<p>在静态代码块中可以对静态变量进行运算等操作。</p>
+<p>它也先于主函数执行。</p>
+<h2 id="15-面向对象-static关键字-构造代码块"><a href="#15-面向对象-static关键字-构造代码块" class="headerlink" title="15 面向对象-static关键字-构造代码块"></a>15 面向对象-static关键字-构造代码块</h2><p>构造代码块</p>
+<p>{</p>
+<p>}</p>
+<p>特点：可以给所有对象进行初始化。每次创建对象的时候都会提前调用一次构造代码块</p>
+<p>构造函数</p>
+<p>是给对应的对象进行针对性的初始化。</p>
+<p>面试：静态代码块、构造代码块、构造函数操作执行顺序</p>
+<p>静态代码块先执行，然后构造代码块执行，最后构造函数执行。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+   </div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/18/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/18/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" class="post-title-link" itemprop="url">JavaSE-面向对象</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-18 21:58:05" itemprop="dateCreated datePublished" datetime="2020-03-18T21:58:05+08:00">2020-03-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-19 20:07:30" itemprop="dateModified" datetime="2020-03-19T20:07:30+08:00">2020-03-19</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h1><h2 id="1-面向对象-概述"><a href="#1-面向对象-概述" class="headerlink" title="1 面向对象-概述"></a>1 面向对象-概述</h2><p>有两个思想，面向过程和面向对象。</p>
+<p>面向过程</p>
+<p>举例：大象装进冰箱</p>
+<p>打开冰箱</p>
+<p>存储大象</p>
+<p>关闭冰箱</p>
+<p>对于面向过程思想，强调的是过程（动作），比如C语言就是面向过程。</p>
+<p>面向对象</p>
+<p>举例：大象装进冰箱</p>
+<p>冰箱打开</p>
+<p>冰箱存储</p>
+<p>冰箱关闭</p>
+<p>只要找到冰箱这个实体就能完成后面的动作。</p>
+<p>对于面向对象思想，强调的是对象（实体），比如java、C++、C#就是面向对象。</p>
+<p>特点：</p>
+<p>1.面向对象就是一种常见的思想，符合人们的思考习惯。</p>
+<p>2.面向对象的出现，将复杂的问题简单化。</p>
+<p>3.面向对象的出现，让曾经在过程中的执行者，变成了对象中的指挥者。</p>
+<h2 id="2-面向对象-举例"><a href="#2-面向对象-举例" class="headerlink" title="2 面向对象-举例"></a>2 面向对象-举例</h2><p>Java中万物皆可作为对象。（这是一种境界，面试的时候不要说）</p>
+<p>有对象用对象，没对象造对象，不断的去维护各个对象之间的关系。</p>
+<p><strong>使用面向对象的三个特征：封装、继承、多态</strong></p>
+<p>例子：人开门</p>
+<p>对象：人和门，名词提炼法找对象</p>
+<p>动作/功能赋予：开这个是门的功能，哪个对象最清楚动作就赋予给哪个对象</p>
+<h2 id="3-类与对象的关系"><a href="#3-类与对象的关系" class="headerlink" title="3 类与对象的关系"></a>3 类与对象的关系</h2><p>类</p>
+<p>Java通过类的形式来对现实生活中的事物进行描述。</p>
+<p>对于事物描述通常只关注两方面：属性，行为。</p>
+<p>只要明确该事物的属性和行为并定义在类中即可</p>
+<p>对象</p>
+<p>其实就是该类事物实实在在的个体。</p>
+<p>类与对象之间的关系</p>
+<p>类:事物的描述</p>
+<p>对象：类的实例。在java中通过new来创建的</p>
+<h3 id="4-类与对象的体现"><a href="#4-类与对象的体现" class="headerlink" title="4 类与对象的体现"></a>4 类与对象的体现</h3><p>描述小汽车</p>
+<p>分析：</p>
+<p>1.属性</p>
+<p>轮胎数</p>
+<p>颜色</p>
+<p>2.行为</p>
+<p>运行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> num;</span><br><span class="line">	String color;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(num + <span class="string">"..."</span> + color);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CarDemo</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">		Car c = <span class="keyword">new</span> Car();</span><br><span class="line">		c.num = <span class="number">4</span>;</span><br><span class="line">		c.color = <span class="string">"red"</span>;</span><br><span class="line">		c.run();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>定义类其实就是在定义类中的成员</p>
+<p>成员:成员变量、成员函数。前者对应变量，后者对应行为。</p>
+<p>成员变量定义在类中，其作用范围是最大的。</p>
+<p>Car类中没有定义主函数，它专门用来描述某一事物，不需要独立运行</p>
+<p>如果被用到才需要独立运行。当然，也可以让其独立运行，在类中定义主函数即可。</p>
+<p>要使用对象中的内容，可以通过 <strong>对象.成员</strong> 的形式完成调用。</p>
+<h2 id="5-面向对象-对象的内存体现"><a href="#5-面向对象-对象的内存体现" class="headerlink" title="5 面向对象-对象的内存体现"></a><strong>5 面向对象-对象的内存体现</strong></h2><p>在主函数中创建car对象内存过程:<br>因为定义的c是局部变量，所以c在栈中会占用内存。然后定义的是对象，故打开堆内存，占用内存并赋予一个地址，在里面定义变量，同时进行默认初始化。接下来给变量赋予数值。找到c，然后根据地址找到堆内存中位置，并赋予数值。<br>一个对象封装着其所对应的数据，比如num、color。</p>
+<h2 id="6-面向对象-成员变量和局部变量的区别"><a href="#6-面向对象-成员变量和局部变量的区别" class="headerlink" title="6 面向对象-成员变量和局部变量的区别"></a>6 面向对象-成员变量和局部变量的区别</h2><p>成员变量和局部变量的区别</p>
+<p>1.成员变量定义在类中，整个类中都可以访问。</p>
+<p>   局部变量定义在函数、语句、局部代码块中，只在所属的区域有效。</p>
+<p>2.成员变量存在于堆内存的对象中</p>
+<p>   局部变量存在于栈内存的方法中</p>
+<p>3.成员变量随着对象的创建而存在，随着对象的消失而消失</p>
+<p>   局部变量随着所属区域的执行而存在，随着所属区域的结束而释放</p>
+<p>4.成员变量都有默认初始化值</p>
+<p>   局部变量没有默认初始化值</p>
+<h2 id="7-面向对象-成员变量和局部变量的同名-amp-显示初始化"><a href="#7-面向对象-成员变量和局部变量的同名-amp-显示初始化" class="headerlink" title="7 面向对象-成员变量和局部变量的同名&amp;显示初始化"></a>7 面向对象-成员变量和局部变量的同名&amp;显示初始化</h2><p>如果在类中描述时变量同名，则运行时先在哪个内存中找到这个变量就显示哪个。上述例子就是先打开是栈内存，并找到num。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> num;</span><br><span class="line">	String color;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">int</span> num = <span class="number">5</span>;</span><br><span class="line">		System.out.println(num + <span class="string">"..."</span> + color);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Car c = <span class="keyword">new</span> Car();</span><br><span class="line">		c.color = <span class="string">"red"</span>;</span><br><span class="line">		c.run();</span><br><span class="line">		System.out.println(c.num + <span class="string">"..."</span> + c.color);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述打印结果是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">5...red</span><br><span class="line">6...red</span><br></pre></td></tr></table></figure>
+
+<p>显示初始化</p>
+<p>可以在类中的描述直接赋值，这与继承有关系。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> num = <span class="number">6</span>;</span><br><span class="line">	String color;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(num + <span class="string">"..."</span> + color);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-面向对象-类类型参数"><a href="#8-面向对象-类类型参数" class="headerlink" title="8 面向对象-类类型参数"></a>8 面向对象-类类型参数</h2><p> 类类型的变量一定指向对象，要不就是null。</p>
+<h2 id="9-面向对象-匿名对象"><a href="#9-面向对象-匿名对象" class="headerlink" title="9 面向对象-匿名对象"></a>9 面向对象-匿名对象</h2><p>匿名对象：</p>
+<p>没有名字的对象。</p>
+<p>new Car();//匿名对象其实就是定义对象的简写格式。</p>
+<p>使用方式：</p>
+<p>1.当对象对方法仅进行一次调用的时候，就可以简化成匿名对象。</p>
+<p>new Car().run();</p>
+<p>2.匿名对象可以作为实际参数进行传递。</p>
+<p>show(new Car());</p>
+<h2 id="10-基本数据类型和引用数据类型参数传递图解"><a href="#10-基本数据类型和引用数据类型参数传递图解" class="headerlink" title="10 基本数据类型和引用数据类型参数传递图解"></a>10 基本数据类型和引用数据类型参数传递图解</h2><p>基本数据类型参数传递不用涉及到堆，而引用数据类型涉及到堆。</p>
+<p>图解略。</p>
+<h2 id="11-面向对象-封装-代码实例、思想"><a href="#11-面向对象-封装-代码实例、思想" class="headerlink" title="11 面向对象-封装-代码实例、思想"></a>11 面向对象-封装-代码实例、思想</h2><p>封装：指隐藏对象的属性和实现细节，仅对外提供公共访问方式。</p>
+<p>Java中最小的封装体是函数。类，框架等都是封装体。</p>
+<p>好处：</p>
+<p>将变化隔离</p>
+<p>便于使用</p>
+<p>提高重用性</p>
+<p>提高安全性</p>
+<p>封装原则：</p>
+<p>将不需要对外提供的内容都隐藏起来</p>
+<p>把属性都隐藏，提供公共方法对其访问。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">        age = a;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">speak</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于Person类中的age是私有的，所以在主函数中不能使用直接调用age，只能利用getAge函数来获得。</p>
+<p><strong>Private（私有关键字）</strong>:是一个权限修饰符，用于修饰成员。私有的内容只在本类中有效。</p>
+<p>常用之一：将成员变量私有化，对外提供对应的set，get。</p>
+<p>​                   方法对其进行访问。提高数据访问的安全性。</p>
+<p><strong>注意</strong>：私有仅仅是封装的一种体现而已。不私有也能进行封装。</p>
+<p>​           私有是封装，但封装不是私有。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+   </div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/18/JavaSE-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/03/18/JavaSE-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/" class="post-title-link" itemprop="url">JavaSE-二维数组</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-18 21:45:53" itemprop="dateCreated datePublished" datetime="2020-03-18T21:45:53+08:00">2020-03-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-19 21:49:05" itemprop="dateModified" datetime="2020-03-19T21:49:05+08:00">2020-03-19</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="二维数组"><a href="#二维数组" class="headerlink" title="二维数组"></a>二维数组</h1><h2 id="1-定义方式"><a href="#1-定义方式" class="headerlink" title="1.定义方式"></a>1.定义方式</h2><p>第一种命名格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Int[][] arr&#x3D;new int [3][2];</span><br></pre></td></tr></table></figure>
+
+<p>二维数组可以理解为一个大箱子，里面有若干个小箱子。箱子里面又有若干个格子即元素。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/18/JavaSE-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+   </div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/17/JavaSE-%E6%95%B0%E7%BB%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -225,10 +646,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-03-17 21:16:12 / 修改时间：21:40:01" itemprop="dateCreated datePublished" datetime="2020-03-17T21:16:12+08:00">2020-03-17</time>
+              <time title="创建时间：2020-03-17 21:16:12" itemprop="dateCreated datePublished" datetime="2020-03-17T21:16:12+08:00">2020-03-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-18 21:44:52" itemprop="dateModified" datetime="2020-03-18T21:44:52+08:00">2020-03-18</time>
+              </span>
 
           
 
@@ -241,8 +668,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><p>1 定义</p>
-<p>定义：同一种类型数据的集合。其实数组就是一个容器。<br>好处：可以自动给数组中的元素从0开始编号，方便操作这些元素。<br>格式：元素类型[ ] 数组名=new 元素类型[元素个数或数组长度]<br>数组索引从0开始，这里MySQL数据库索引是从1开始。</p>
+          <h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><h2 id="1-定义"><a href="#1-定义" class="headerlink" title="1 定义"></a>1 定义</h2><p>定义：同一种类型数据的集合。其实数组就是一个容器。<br>好处：可以自动给数组中的元素从0开始编号，方便操作这些元素。<br>格式：元素类型[ ] 数组名=new 元素类型[元素个数或数组长度]<br>数组索引从0开始，这里MySQL数据库索引是从1开始。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/03/17/JavaSE-%E6%95%B0%E7%BB%84/#more" rel="contents">
@@ -726,83 +1152,12 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/05/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/A%20lemon.jpg">
-      <meta itemprop="name" content="詹智健">
-      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SsssshiFT-96">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/05/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-05 19:31:48" itemprop="dateCreated datePublished" datetime="2020-03-05T19:31:48+08:00">2020-03-05</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-	
-   </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 
 
@@ -869,7 +1224,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -919,7 +1274,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共6.6k字</span>
+  <span class="post-count">博客全站共12.1k字</span>
 </div>
         
 <div class="busuanzi-count">

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*��������ɫ*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*��Ӱ��ɫ*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*�ϱ߿���ɫ*/
+        border-left-color: #1E92FB;    /*��߿���ɫ*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Z_Letter.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Z_Letter.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ssssshift-96.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="面向对象1 面向对象-概述有两个思想，面向过程和面向对象。 面向过程 举例：大象装进冰箱 打开冰箱 存储大象 关闭冰箱 对于面向过程思想，强调的是过程（动作），比如C语言就是面向过程。 面向对象 举例：大象装进冰箱 冰箱打开 冰箱存储 冰箱关闭 只要找到冰箱这个实体就能完成后面的动作。 对于面向对象思想，强调的是对象（实体），比如java、C++、C#就是面向对象。 特点： 1.面向对象就是一种常">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaSE-面向对象">
+<meta property="og:url" content="https://ssssshift-96.github.io/2020/03/18/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/index.html">
+<meta property="og:site_name" content="SsssshiFT-96">
+<meta property="og:description" content="面向对象1 面向对象-概述有两个思想，面向过程和面向对象。 面向过程 举例：大象装进冰箱 打开冰箱 存储大象 关闭冰箱 对于面向过程思想，强调的是过程（动作），比如C语言就是面向过程。 面向对象 举例：大象装进冰箱 冰箱打开 冰箱存储 冰箱关闭 只要找到冰箱这个实体就能完成后面的动作。 对于面向对象思想，强调的是对象（实体），比如java、C++、C#就是面向对象。 特点： 1.面向对象就是一种常">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-18T13:58:05.000Z">
+<meta property="article:modified_time" content="2020-03-19T12:07:30.325Z">
+<meta property="article:author" content="詹智健">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ssssshift-96.github.io/2020/03/18/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>JavaSE-面向对象 | SsssshiFT-96</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SsssshiFT-96</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">11</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/18/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaSE-面向对象
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-18 21:58:05" itemprop="dateCreated datePublished" datetime="2020-03-18T21:58:05+08:00">2020-03-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-19 20:07:30" itemprop="dateModified" datetime="2020-03-19T20:07:30+08:00">2020-03-19</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h1><h2 id="1-面向对象-概述"><a href="#1-面向对象-概述" class="headerlink" title="1 面向对象-概述"></a>1 面向对象-概述</h2><p>有两个思想，面向过程和面向对象。</p>
+<p>面向过程</p>
+<p>举例：大象装进冰箱</p>
+<p>打开冰箱</p>
+<p>存储大象</p>
+<p>关闭冰箱</p>
+<p>对于面向过程思想，强调的是过程（动作），比如C语言就是面向过程。</p>
+<p>面向对象</p>
+<p>举例：大象装进冰箱</p>
+<p>冰箱打开</p>
+<p>冰箱存储</p>
+<p>冰箱关闭</p>
+<p>只要找到冰箱这个实体就能完成后面的动作。</p>
+<p>对于面向对象思想，强调的是对象（实体），比如java、C++、C#就是面向对象。</p>
+<p>特点：</p>
+<p>1.面向对象就是一种常见的思想，符合人们的思考习惯。</p>
+<p>2.面向对象的出现，将复杂的问题简单化。</p>
+<p>3.面向对象的出现，让曾经在过程中的执行者，变成了对象中的指挥者。</p>
+<h2 id="2-面向对象-举例"><a href="#2-面向对象-举例" class="headerlink" title="2 面向对象-举例"></a>2 面向对象-举例</h2><p>Java中万物皆可作为对象。（这是一种境界，面试的时候不要说）</p>
+<p>有对象用对象，没对象造对象，不断的去维护各个对象之间的关系。</p>
+<p><strong>使用面向对象的三个特征：封装、继承、多态</strong></p>
+<p>例子：人开门</p>
+<p>对象：人和门，名词提炼法找对象</p>
+<p>动作/功能赋予：开这个是门的功能，哪个对象最清楚动作就赋予给哪个对象</p>
+<h2 id="3-类与对象的关系"><a href="#3-类与对象的关系" class="headerlink" title="3 类与对象的关系"></a>3 类与对象的关系</h2><p>类</p>
+<p>Java通过类的形式来对现实生活中的事物进行描述。</p>
+<p>对于事物描述通常只关注两方面：属性，行为。</p>
+<p>只要明确该事物的属性和行为并定义在类中即可</p>
+<p>对象</p>
+<p>其实就是该类事物实实在在的个体。</p>
+<p>类与对象之间的关系</p>
+<p>类:事物的描述</p>
+<p>对象：类的实例。在java中通过new来创建的</p>
+<h3 id="4-类与对象的体现"><a href="#4-类与对象的体现" class="headerlink" title="4 类与对象的体现"></a>4 类与对象的体现</h3><p>描述小汽车</p>
+<p>分析：</p>
+<p>1.属性</p>
+<p>轮胎数</p>
+<p>颜色</p>
+<p>2.行为</p>
+<p>运行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> num;</span><br><span class="line">	String color;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(num + <span class="string">"..."</span> + color);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CarDemo</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">		Car c = <span class="keyword">new</span> Car();</span><br><span class="line">		c.num = <span class="number">4</span>;</span><br><span class="line">		c.color = <span class="string">"red"</span>;</span><br><span class="line">		c.run();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>定义类其实就是在定义类中的成员</p>
+<p>成员:成员变量、成员函数。前者对应变量，后者对应行为。</p>
+<p>成员变量定义在类中，其作用范围是最大的。</p>
+<p>Car类中没有定义主函数，它专门用来描述某一事物，不需要独立运行</p>
+<p>如果被用到才需要独立运行。当然，也可以让其独立运行，在类中定义主函数即可。</p>
+<p>要使用对象中的内容，可以通过 <strong>对象.成员</strong> 的形式完成调用。</p>
+<h2 id="5-面向对象-对象的内存体现"><a href="#5-面向对象-对象的内存体现" class="headerlink" title="5 面向对象-对象的内存体现"></a><strong>5 面向对象-对象的内存体现</strong></h2><p>在主函数中创建car对象内存过程:<br>因为定义的c是局部变量，所以c在栈中会占用内存。然后定义的是对象，故打开堆内存，占用内存并赋予一个地址，在里面定义变量，同时进行默认初始化。接下来给变量赋予数值。找到c，然后根据地址找到堆内存中位置，并赋予数值。<br>一个对象封装着其所对应的数据，比如num、color。</p>
+<h2 id="6-面向对象-成员变量和局部变量的区别"><a href="#6-面向对象-成员变量和局部变量的区别" class="headerlink" title="6 面向对象-成员变量和局部变量的区别"></a>6 面向对象-成员变量和局部变量的区别</h2><p>成员变量和局部变量的区别</p>
+<p>1.成员变量定义在类中，整个类中都可以访问。</p>
+<p>   局部变量定义在函数、语句、局部代码块中，只在所属的区域有效。</p>
+<p>2.成员变量存在于堆内存的对象中</p>
+<p>   局部变量存在于栈内存的方法中</p>
+<p>3.成员变量随着对象的创建而存在，随着对象的消失而消失</p>
+<p>   局部变量随着所属区域的执行而存在，随着所属区域的结束而释放</p>
+<p>4.成员变量都有默认初始化值</p>
+<p>   局部变量没有默认初始化值</p>
+<h2 id="7-面向对象-成员变量和局部变量的同名-amp-显示初始化"><a href="#7-面向对象-成员变量和局部变量的同名-amp-显示初始化" class="headerlink" title="7 面向对象-成员变量和局部变量的同名&amp;显示初始化"></a>7 面向对象-成员变量和局部变量的同名&amp;显示初始化</h2><p>如果在类中描述时变量同名，则运行时先在哪个内存中找到这个变量就显示哪个。上述例子就是先打开是栈内存，并找到num。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> num;</span><br><span class="line">	String color;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">int</span> num = <span class="number">5</span>;</span><br><span class="line">		System.out.println(num + <span class="string">"..."</span> + color);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Car c = <span class="keyword">new</span> Car();</span><br><span class="line">		c.color = <span class="string">"red"</span>;</span><br><span class="line">		c.run();</span><br><span class="line">		System.out.println(c.num + <span class="string">"..."</span> + c.color);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述打印结果是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">5...red</span><br><span class="line">6...red</span><br></pre></td></tr></table></figure>
+
+<p>显示初始化</p>
+<p>可以在类中的描述直接赋值，这与继承有关系。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> num = <span class="number">6</span>;</span><br><span class="line">	String color;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(num + <span class="string">"..."</span> + color);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-面向对象-类类型参数"><a href="#8-面向对象-类类型参数" class="headerlink" title="8 面向对象-类类型参数"></a>8 面向对象-类类型参数</h2><p> 类类型的变量一定指向对象，要不就是null。</p>
+<h2 id="9-面向对象-匿名对象"><a href="#9-面向对象-匿名对象" class="headerlink" title="9 面向对象-匿名对象"></a>9 面向对象-匿名对象</h2><p>匿名对象：</p>
+<p>没有名字的对象。</p>
+<p>new Car();//匿名对象其实就是定义对象的简写格式。</p>
+<p>使用方式：</p>
+<p>1.当对象对方法仅进行一次调用的时候，就可以简化成匿名对象。</p>
+<p>new Car().run();</p>
+<p>2.匿名对象可以作为实际参数进行传递。</p>
+<p>show(new Car());</p>
+<h2 id="10-基本数据类型和引用数据类型参数传递图解"><a href="#10-基本数据类型和引用数据类型参数传递图解" class="headerlink" title="10 基本数据类型和引用数据类型参数传递图解"></a>10 基本数据类型和引用数据类型参数传递图解</h2><p>基本数据类型参数传递不用涉及到堆，而引用数据类型涉及到堆。</p>
+<p>图解略。</p>
+<h2 id="11-面向对象-封装-代码实例、思想"><a href="#11-面向对象-封装-代码实例、思想" class="headerlink" title="11 面向对象-封装-代码实例、思想"></a>11 面向对象-封装-代码实例、思想</h2><p>封装：指隐藏对象的属性和实现细节，仅对外提供公共访问方式。</p>
+<p>Java中最小的封装体是函数。类，框架等都是封装体。</p>
+<p>好处：</p>
+<p>将变化隔离</p>
+<p>便于使用</p>
+<p>提高重用性</p>
+<p>提高安全性</p>
+<p>封装原则：</p>
+<p>将不需要对外提供的内容都隐藏起来</p>
+<p>把属性都隐藏，提供公共方法对其访问。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> a)</span></span>&#123;</span><br><span class="line">        age = a;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">speak</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于Person类中的age是私有的，所以在主函数中不能使用直接调用age，只能利用getAge函数来获得。</p>
+<p><strong>Private（私有关键字）</strong>:是一个权限修饰符，用于修饰成员。私有的内容只在本类中有效。</p>
+<p>常用之一：将成员变量私有化，对外提供对应的set，get。</p>
+<p>​                   方法对其进行访问。提高数据访问的安全性。</p>
+<p><strong>注意</strong>：私有仅仅是封装的一种体现而已。不私有也能进行封装。</p>
+<p>​           私有是封装，但封装不是私有。</p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+	  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	
+   </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaSE/" rel="tag"># JavaSE</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/18/JavaSE-%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84/" rel="prev" title="JavaSE-二维数组">
+      <i class="fa fa-chevron-left"></i> JavaSE-二维数组
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/19/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A12/" rel="next" title="JavaSE-面向对象2">
+      JavaSE-面向对象2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面向对象"><span class="nav-number">1.</span> <span class="nav-text">面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-面向对象-概述"><span class="nav-number">1.1.</span> <span class="nav-text">1 面向对象-概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-面向对象-举例"><span class="nav-number">1.2.</span> <span class="nav-text">2 面向对象-举例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-类与对象的关系"><span class="nav-number">1.3.</span> <span class="nav-text">3 类与对象的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-类与对象的体现"><span class="nav-number">1.3.1.</span> <span class="nav-text">4 类与对象的体现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-面向对象-对象的内存体现"><span class="nav-number">1.4.</span> <span class="nav-text">5 面向对象-对象的内存体现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-面向对象-成员变量和局部变量的区别"><span class="nav-number">1.5.</span> <span class="nav-text">6 面向对象-成员变量和局部变量的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-面向对象-成员变量和局部变量的同名-amp-显示初始化"><span class="nav-number">1.6.</span> <span class="nav-text">7 面向对象-成员变量和局部变量的同名&amp;显示初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-面向对象-类类型参数"><span class="nav-number">1.7.</span> <span class="nav-text">8 面向对象-类类型参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-面向对象-匿名对象"><span class="nav-number">1.8.</span> <span class="nav-text">9 面向对象-匿名对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-基本数据类型和引用数据类型参数传递图解"><span class="nav-number">1.9.</span> <span class="nav-text">10 基本数据类型和引用数据类型参数传递图解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-面向对象-封装-代码实例、思想"><span class="nav-number">1.10.</span> <span class="nav-text">11 面向对象-封装-代码实例、思想</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="詹智健"
+      src="/images/A%20lemon.jpg">
+  <p class="site-author-name" itemprop="name">詹智健</p>
+  <div class="site-description" itemprop="description">今天也是很多个开心日子里开心的一天呀</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SsssshiFT-96" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SsssshiFT-96" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">詹智健</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共12.1k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
