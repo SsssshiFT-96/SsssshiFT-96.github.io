@@ -12,6 +12,8 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">	Person()&#123;</span><br><span class="line">		System.out.println(<span class="string">"hello world"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>创建对象都必须要通过构造函数初始化。</p>
+<a id="more"></a>
+
 <p><strong>默认构造函数</strong></p>
 <p>一个类中如果没有定义过构造函数，那么该类中会有一个默认的空参数构造函数。</p>
 <p>如果在类中定义了指定的构造函数，那么类中的默认构造函数就没有了。</p>
@@ -127,6 +129,8 @@
 <p>存储大象</p>
 <p>关闭冰箱</p>
 <p>对于面向过程思想，强调的是过程（动作），比如C语言就是面向过程。</p>
+ <a id="more"></a>
+
 <p>面向对象</p>
 <p>举例：大象装进冰箱</p>
 <p>冰箱打开</p>
