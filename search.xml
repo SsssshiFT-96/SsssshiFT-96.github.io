@@ -1,6 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>JavaSE-面向对象4</title>
+    <url>/2020/03/20/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A14/</url>
+    <content><![CDATA[<h1 id="面向对象4"><a href="#面向对象4" class="headerlink" title="面向对象4"></a>面向对象4</h1><h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><h2 id="1-面向对象-继承-概述"><a href="#1-面向对象-继承-概述" class="headerlink" title="1 面向对象-继承-概述"></a>1 面向对象-继承-概述</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    String name;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span>/*继承*/ <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">study</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(name +<span class="string">"..."</span> + age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExtendsDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Student s = <span class="keyword">new</span> Student();</span><br><span class="line">        s.name = <span class="string">"aaa"</span>;</span><br><span class="line">        s.age = <span class="number">22</span>;</span><br><span class="line">        s.study();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果为：aaa…22</p>
+<a id="more"></a>
+
+<p>上述代码中，Person是Student的父类，Student继承了Person中的name和age。</p>
+<p>继承的好处</p>
+<p>1.提高代码的复用性</p>
+<p>2.让类与类之间产生了关系，给第三个特征多态提供了前提。</p>
+<h2 id="2-面向对象-继承-单继承与多重继承"><a href="#2-面向对象-继承-单继承与多重继承" class="headerlink" title="2 面向对象-继承-单继承与多重继承"></a>2 面向对象-继承-单继承与多重继承</h2><p>java中支持单继承，不直接支持多继承，但对c++中的多继承机制进行改良</p>
+<p>单继承：一个子类只能有一个直接父类</p>
+<p>多继承：一个子类可以有多个直接父类（java中不允许，进行改良）。</p>
+<p>​               不直接支持，是因为若父类中有相同的成员，会产生调用的不确定性。</p>
+<p>​               在java中是通过“多实现”的方式来体现。</p>
+<p>java支持多层（多重）继承</p>
+<p>即C继承B，B继承A。</p>
+<p>就会出现继承体系</p>
+<p>当要使用继承体系时</p>
+<p>1.查看该体系中的顶层类，了解该体系的基本功能</p>
+<p>2.创建体系中的最子类对象，完成功能的使用</p>
+<h2 id="3-面向对象-继承-定义继承"><a href="#3-面向对象-继承-定义继承" class="headerlink" title="3 面向对象-继承-定义继承"></a>3 面向对象-继承-定义继承</h2><p>什么时候定义继承</p>
+<p>当类与类之间存在着所属关系的时候，就定义继承。</p>
+<p>如xxx是yyy中的一种，则xxx extends yyy。</p>
+<p>若A类有a方法和b方法，B类有a方法和c方法，即使B类有a方法，但是A类中没有c方法，所有这两个类不能构成继承关系。</p>
+<h2 id="4-面向对象-继承-子父类中成员变量的特点"><a href="#4-面向对象-继承-子父类中成员变量的特点" class="headerlink" title="4 面向对象-继承-子父类中成员变量的特点"></a>4 面向对象-继承-子父类中成员变量的特点</h2><p>当本类的成员和局部变量同名用this区分</p>
+<p>当子父类中的成员变量同名用<strong>super</strong>区分父类</p>
+<p>this和super的用法很相似。</p>
+<p>this代表一个本类对象的引用</p>
+<p>super代表一个父类空间</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fu</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> num = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Zi</span> <span class="keyword">extends</span> <span class="title">Fu</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> num = <span class="number">4</span>;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="keyword">this</span>.num + <span class="string">"..."</span> + <span class="keyword">super</span>.num);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若调用show()，结果为4…5。</p>
+<h2 id="5-面向对象-继承-子父类中成员变量的内存图解"><a href="#5-面向对象-继承-子父类中成员变量的内存图解" class="headerlink" title="5 面向对象-继承-子父类中成员变量的内存图解"></a>5 面向对象-继承-子父类中成员变量的内存图解</h2><p>主函数先进栈，然后先在方法区加载一个父类空间，其次加载子类空间。之后在堆内存中开辟空间，产生地址，创建对象，<strong>然后在该堆空间中，分别开辟空间存储子类和父类变量</strong>，然后进行初始化。然后将地址给z。然后进行show方法，进栈，将地址赋给this指向堆内存。父类成员变量已经随着子类建立已经存储在子类空间当中。打印super.num时，就直接找到那个空间的父类成员变量。</p>
+<p>一般开发时，同名这种情况不多见，面试的时候比较常见。</p>
+<p><strong>子类不能直接访问父类当中的私有内容</strong></p>
+<h2 id="6-面向对象-继承-子父类中成员函数的特点-覆盖"><a href="#6-面向对象-继承-子父类中成员函数的特点-覆盖" class="headerlink" title="6 面向对象-继承-子父类中成员函数的特点-覆盖"></a>6 面向对象-继承-子父类中成员函数的特点-覆盖</h2><p>当子父类中出现成员函数一模一样的情况，会运行子类的函数</p>
+<p>这种现象，称为<strong>覆盖操作</strong>，这是函数在子父类中的特性。</p>
+<p>函数两个特性（只有函数有）：</p>
+<p>1.重载，同一个类中</p>
+<p>2.覆盖，子类中，覆盖也称为重写，覆写。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fu</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"fu run"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Zi</span> <span class="keyword">extends</span> <span class="title">Fu</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"zi run"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExtendsDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Zi z = <span class="keyword">new</span> Zi();</span><br><span class="line">        z.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果为：Zi show run。</p>
+<p><strong>覆盖注意事项</strong>：</p>
+<p>1.子类方法覆盖父类方法时，子类权限必须大于等于父类的权限，才可以引发覆盖。</p>
+<p> 如果父类是权限为private，则就不称之为覆盖，因为父类就不能访问，故称不上覆盖。</p>
+<p>2.静态只能覆盖静态，或被静态覆盖。</p>
+<h2 id="7-面向对象-继承-子父类中成员函数的特点-覆盖的使用场景"><a href="#7-面向对象-继承-子父类中成员函数的特点-覆盖的使用场景" class="headerlink" title="7 面向对象-继承-子父类中成员函数的特点-覆盖的使用场景"></a>7 面向对象-继承-子父类中成员函数的特点-覆盖的使用场景</h2><p>什么时候使用覆盖操作</p>
+<p>当对一个类进行子类的扩展时，子类需要保留父类的功能声明，</p>
+<p>但是要定义子类中该功能的特有内容时，就使用覆盖操作完成。</p>
+<h2 id="8-面向对象-继承-子父类中的构造函数-子类的实例化过程、细节"><a href="#8-面向对象-继承-子父类中的构造函数-子类的实例化过程、细节" class="headerlink" title="8 面向对象-继承-子父类中的构造函数-子类的实例化过程、细节"></a>8 面向对象-继承-子父类中的构造函数-子类的实例化过程、细节</h2><p>在子类构造对象时，发现访问子类构造函数时，父类也运行了。</p>
+<p>原因是：在子类的构造函数中第一行有一个默认的隐式语句。super(){ };这会让父类中构造函数也运行。</p>
+<p>super();//调用的就是父类中的空参数的构造函数。如果父类没有空参，则会编译失败，若父类是带参的，即Fu(int x)，那么就写成super(4);类型即可。</p>
+<p>子类的实例化过程：子类中所有的构造函数默认都会访问父类中的空参数的构造函数。</p>
+<p>为什么子类实例化的时候要访问父类中的构造函数？</p>
+<p>因为子类继承了父类，获取到了父类中内容（属性），所以在使用父类内容之前，</p>
+<p>要先看父类是如何对自己的内容进行初始化的。</p>
+<p>所以子类在构造对象时，必须访问父类中的构造函数</p>
+<p>为了完成这个必须的动作，就在子类的构造函数中加入了super()；语句。</p>
+<p>如果父类没有定义空参数构造函数，那么子类的构造函数必须用super明确调用父类中的一个构造函数。</p>
+<p><strong>注意</strong>：super语句必须要定义在子类构造函数的第一行，因为父类的初始化动作要先完成。</p>
+<p>同时子类构造函数中如果使用this调用了本类构造函数时，super就没有了，因为super和this都只能定义在第一行，所以只能有一个。</p>
+<p>但是可以保证的是，若使用的子类的构造函数中有this，那么创建对象时会使用子类中其他的构造函数访问父类的构造函数。</p>
+<p>Java中有若干对象，他们有个最顶层的类，是Object，创建的任何对象都是Object的子类。class Demo extends Object，一般extends Object不写。</p>
+<h2 id="9-面向对象-继承-子父类中的构造函数-子类的实例化过程-内存图解"><a href="#9-面向对象-继承-子父类中的构造函数-子类的实例化过程-内存图解" class="headerlink" title="9 面向对象-继承-子父类中的构造函数-子类的实例化过程-内存图解"></a>9 面向对象-继承-子父类中的构造函数-子类的实例化过程-内存图解</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fu</span></span>&#123;</span><br><span class="line">    Fu()&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        show();</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"fu show"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Zi</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">8</span>;</span><br><span class="line">    Zi()&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"zi show"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExtendsDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Zi z = <span class="keyword">new</span> Zi();</span><br><span class="line">        z.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果为：zi show…0<br>               zi show…8</p>
+<p>先主函数进栈，出现z，要创建对象，加载Zi类，但是Zi类有继承Fu类，所以先加载Fu类，Fu就进内存中的方法区，然后加载Zi类。之后在堆中创建new Zi对象，赋予地址，对变量进行默认初始化，num=0。默认初始化结束后，Zi的构造函数进栈，里面有个super函数，Fu类构造函数进栈，然后运行show()函数，这里注意，这里的函数全写为this.show();所以先从this所指的对象中开始找show();发现在new Zi中有show()函数，所以就调用子类的show()函数。此时Fu类的构造结束，弹栈。然后才将8赋给num值，即显示初始化。之后Zi类构造函数弹栈。然后地址赋给z。</p>
+<p><strong>总结</strong></p>
+<p>一个对象实例化过程</p>
+<p>Person p=new Person();</p>
+<p>1.JVM会读取指定的路径下的Person.class 文件，并加载进内存</p>
+<p>​    并会先加载Person的父类（如果有直接父类的情况下）</p>
+<p>2.在堆内存中开辟空间，分配地址</p>
+<p>3.并在对象空间中，对对象中的属性进行默认初始化</p>
+<p>4.调用对应的构造函数进行初始化</p>
+<p>5.在构造函数中，第一行会先到调用父类中构造函数中进行初始化</p>
+<p><strong>6.父类初始化完毕后，再对子类的属性进行显示初始化。//这一块是分水岭。</strong></p>
+<p>7.再进行自类构造函数的特定初始化</p>
+<p>8.初始化完毕后，将地址值赋给引用变量。</p>
+<h2 id="10-面向对象-final关键字"><a href="#10-面向对象-final关键字" class="headerlink" title="10 面向对象-final关键字"></a>10 面向对象-final关键字</h2><p>1.Final可以修饰类，方法，变量</p>
+<p>2.Final修饰的类不可以被继承</p>
+<p>3.Final修饰的方法不可以被覆盖</p>
+<p>4.Final修饰的变量是一个常量。只能被赋值一次</p>
+<p>为什么要用final修饰变量</p>
+<p>其实在程序中，如果一个数据是固定的，那么直接使用这个数据就可以了，但是这样阅读性差</p>
+<p>所以它该数据起个名称，而且这个变量名称的值不能变化，所以加上final固定。</p>
+<p>写法规范：常见所有字母都大写，多个单词中间用下划线“_”连接，MY_NUM。</p>
+<p>Final固定的是显示初始化值，不是默认初始化值。</p>
+<p>public static为全局的意思</p>
+<p>public static final double PI=3.14 全局常量。</p>
+<p>5.内部类只能访问被final修饰的局部变量</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-面向对象3</title>
+    <url>/2020/03/20/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A13/</url>
+    <content><![CDATA[<h1 id="面向对象3"><a href="#面向对象3" class="headerlink" title="面向对象3"></a>面向对象3</h1><h2 id="1-数组对象建立、数组工具类中静态的使用"><a href="#1-数组对象建立、数组工具类中静态的使用" class="headerlink" title="1 数组对象建立、数组工具类中静态的使用"></a>1 数组对象建立、数组工具类中静态的使用</h2><p>可以建立一个数组对象，将对数组的操作方法定义在类中。用到了面向对象的方法。</p>
+<h2 id="2-文档注释"><a href="#2-文档注释" class="headerlink" title="2 文档注释"></a>2 文档注释</h2><p>Javadoc.exe可以提取文档注释，只能解析/** */的内容</p>
+<p>提取操作</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">javadoc -d. -author -version xxx.java</span><br></pre></td></tr></table></figure>
+
+<p>-d指输出文件的目标目录， . 指在当前目录下， -***，指需要提取的目录。</p>
+<p>要将文档用该程序提取注释，则需要将类公有化，否则无法执行</p>
+<h2 id="3-面向对象-单例设计-概念-amp-体现"><a href="#3-面向对象-单例设计-概念-amp-体现" class="headerlink" title="3  面向对象-单例设计-概念&amp;体现"></a>3  面向对象-单例设计-概念&amp;体现</h2><p>设计模式：对问题行之有效的解决方式，其实它是一种思想。</p>
+<p>1.单例设计模式</p>
+<p>解决的问题：可以保证一个类在内存中的对象唯一性。</p>
+ <a id="more"></a>
+
+<p>比如对于多个程序使用同一个配置信息对象时，就需要保证该对象的唯一性。</p>
+<p>如何保证对象的唯一性：</p>
+<p>1.不允许其他程序用new创建该类对象。这样可以避免产生更多对象</p>
+<p>2.在该类中创建一个本类实例。</p>
+<p>3.对外提供方法让其他程序可以获取该对象。</p>
+<p>步骤：</p>
+<p>1.私有化该类的构造函数</p>
+<p>2.通过new在本类中创建一个本类并私有的对象</p>
+<p>3.定义一个公有的方法将创建的对象返回</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Single</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> Single s = <span class="keyword">new</span> Single();</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Single</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single <span class="title">getInstance</span><span class="params">()</span></span>&#123;<span class="comment">//设置这个函数是为了可控因为可以在里面设置条件</span></span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingleDemo</span>()</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Sinlge ss = getInstance();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-面向对象-单例设计-内存图解"><a href="#4-面向对象-单例设计-内存图解" class="headerlink" title="4 面向对象-单例设计-内存图解"></a>4 面向对象-单例设计-内存图解</h2><p>略</p>
+<h2 id="5-面向对象-单例设计-饿汉式和懒汉式"><a href="#5-面向对象-单例设计-饿汉式和懒汉式" class="headerlink" title="5 面向对象-单例设计-饿汉式和懒汉式"></a>5 面向对象-单例设计-饿汉式和懒汉式</h2><p>饿汉式：类一加载，对象就已经存在，即上述3中的代码就是饿汉式</p>
+<p>懒汉式：类加载进来，没有对象，只有调用了getInstance()方法时，才会创建对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Single</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Single s = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Single</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Single <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(s == <span class="keyword">null</span>) s = <span class="keyword">new</span> Single();</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正式开发中饿汉式用的多，因为懒汉式后期被另外一种技术比如多线程技术操作时，可能会保证不了唯一性。</p>
+<p><strong>面试几乎涉及懒汉式</strong>，里面涉及的知识点比较多。</p>
+<p><strong>单例模式作为重点掌握</strong></p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaSE-面向对象2</title>
     <url>/2020/03/19/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A12/</url>
     <content><![CDATA[<h1 id="面向对象2"><a href="#面向对象2" class="headerlink" title="面向对象2"></a>面向对象2</h1><h2 id="1-面向对象-构造函数-概述、默认构造函数"><a href="#1-面向对象-构造函数-概述、默认构造函数" class="headerlink" title="1 面向对象-构造函数-概述、默认构造函数"></a>1 面向对象-构造函数-概述、默认构造函数</h2><p>构造函数：构建创造对象时调用的函数。</p>
