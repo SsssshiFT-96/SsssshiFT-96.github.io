@@ -1,6 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>JavaSE-面向对象多态内部类</title>
+    <url>/2020/03/21/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%A4%9A%E6%80%81%E5%86%85%E9%83%A8%E7%B1%BB/</url>
+    <content><![CDATA[<h1 id="面向对象-多态-amp-内部类"><a href="#面向对象-多态-amp-内部类" class="headerlink" title="面向对象-多态&amp;内部类"></a>面向对象-多态&amp;内部类</h1><h2 id="1-面向对象-多态-概述、好处"><a href="#1-面向对象-多态-概述、好处" class="headerlink" title="1 面向对象-多态-概述、好处"></a>1 面向对象-多态-概述、好处</h2><p>定义：某一类型事物的多种存在形态</p>
+<p>对象的多态性</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> 动物</span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> 猫 <span class="keyword">extends</span> 动物</span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> 狗 <span class="keyword">extends</span> 动物</span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DuoTaiDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        猫 x=<span class="keyword">new</span> 猫();</span><br><span class="line">		动物 x=<span class="keyword">new</span> 猫();<span class="comment">//一个对象两种形态。</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>猫这类事物即具备着猫的形态，又具备着动物的形态</p>
+<p>这就是对象的多态性。</p>
+<p>简单说<strong>就是一个对象对应着不同类型。</strong></p>
+<p>多态在代码中的体现：父类或者接口的引用指向其子类的对象。</p>
+<p>多态的好处：提高了代码的扩展性，前期定义的代码可以使用后期的内容</p>
+<h2 id="2-面向对象-多态-弊端-amp-前提"><a href="#2-面向对象-多态-弊端-amp-前提" class="headerlink" title="2 面向对象-多态-弊端&amp;前提"></a>2 面向对象-多态-弊端&amp;前提</h2><p>多态的弊端：前期定义的内容不能使用（调用）后期子类的特有内容。</p>
+<p>动物 x = new 猫();这个对象x不能调用猫类中的特有内容。但方法若能调用，则都是猫类中复写的方法。</p>
+<p>多态的前提</p>
+<p>1.必须有关系，继承，实现</p>
+<p>2.要有覆盖</p>
+<h2 id="3-面向对象-多态-转型"><a href="#3-面向对象-多态-转型" class="headerlink" title="3 面向对象-多态-转型"></a>3 面向对象-多态-转型</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Animal x=<span class="keyword">new</span> Cat();</span><br></pre></td></tr></table></figure>
+
+<p>自动类型提升，猫对象提升了为动物类型。但是特有功能无法访问。</p>
+<p>作用就是提高扩展性和限制对特有功能的访问。</p>
+<p>专业讲：向上转型。将子类型隐藏，就不能使用子类的特有方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Cat c = (Cat)x;</span><br></pre></td></tr></table></figure>
+
+<p>如果还想用具体动物猫的特有功能，你可以将该对象进行向下转型</p>
+<p>写法与强制转型相同</p>
+<p>向下转型的目的是为了使用子类中的特有方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Animal a1 = <span class="keyword">new</span> Dog();</span><br><span class="line">Cat c1 = (Cat)a1;</span><br></pre></td></tr></table></figure>
+
+<p>这样会转型失败。</p>
+<p><strong>注意</strong>：对于转型，自始至终都是子类对象在做着类型的变化。而cat和dog没有继承关系</p>
+<h2 id="4-面向对象-多态-类型判断-instanceof"><a href="#4-面向对象-多态-类型判断-instanceof" class="headerlink" title="4 面向对象-多态-类型判断-instanceof"></a>4 面向对象-多态-类型判断-instanceof</h2><p>instanceof 用于判断对象的具体类型。只能用于引用数据类型判断。</p>
+<p>通常在向下转型前用于健壮性的判断</p>
+<h2 id="5-面向对象-多态-成员变量"><a href="#5-面向对象-多态-成员变量" class="headerlink" title="5 面向对象-多态-成员变量"></a>5 面向对象-多态-成员变量</h2><p>1.成员变量</p>
+<p>​    编译时：参考的是引用型变量所属的类中是否有调用的成员变量，有，编译通过，没有，编译失败</p>
+<p>​    运行时：参考的是引用型变量所属的类中是否有调用的成员变量，并运行该所属类中的成员变量</p>
+<p>​    简单说：编译和运行都参考等号左边的类中是否存在需要的成员变量。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fu</span></span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Zi</span> <span class="keyword">extends</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DuoTaiDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Fu f = <span class="keyword">new</span> Zi();</span><br><span class="line">		System.out.print(f.num);<span class="comment">//此时会编译失败，因为Fu类中不存在num这个成员变量</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-面向对象-多态-成员函数（非静态）"><a href="#6-面向对象-多态-成员函数（非静态）" class="headerlink" title="6 面向对象-多态-成员函数（非静态）"></a>6 面向对象-多态-成员函数（非静态）</h2><p>图解：</p>
+<p>主函数进栈，然后Fu类加载，接着Zi类加载。堆中创建Zi对象，先生成地址，没有变量，无需初始化，将地址赋给f。调用show()方法，show进栈，f的地址指向Zi对象，先在Zi类中寻找show方法，若Zi类中没有，则在Fu类中寻找。</p>
+<p>编译时：参考的是引用型变量所属的类中是否有调用的成员函数，有，编译通过，没有，编译失败</p>
+<p>运行时：参考的是对象所属的类中是否有调用的函数</p>
+<p>简单说：编译看左边，运行看右边。</p>
+<h2 id="7-面向对象-多态-静态函数"><a href="#7-面向对象-多态-静态函数" class="headerlink" title="7 面向对象-多态-静态函数"></a>7 面向对象-多态-静态函数</h2><p>与上述不同，加载时，两个类中的静态show在静态区，调用直接和类绑定，与对象无关。所以f.show（）；，一看f是属于Fu类吗，就直接调用Fu的show。</p>
+<p>编译时：参考的是引用型变量所属的类中是否有调用的静态方法，有，编译通过，没有，编译失败</p>
+<p>运行时：参考的是引用型变量所属的类中是否有调用的静态方法</p>
+<p>简单说：编译和运行都参考左边</p>
+<p>其实对于静态方法，是不需要对象的，直接用类名调用即可。</p>
+<h2 id="8-面向对象-内部类-概述"><a href="#8-面向对象-内部类-概述" class="headerlink" title="8 面向对象-内部类-概述"></a>8 面向对象-内部类-概述</h2><p>将一个类定义在另一个类的里面，对里面那个类就称为内部类（内置类、嵌套类）。</p>
+<p>内部类生成文件的名字为：外部类$内部类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Outer</span></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">Inner</span></span>&#123;<span class="comment">//内部类</span></span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>1.内部类可以直接访问外部类中的成员</p>
+<p>2.外部类要访问内部类，必须建立内部类的对象</p>
+<p>一般用于类的设计</p>
+<p>分析事物时，发现该事物描述中还有事物，而且这个事物还在访问被描述事物的内容</p>
+<p>这时就是还有的事物定义成内部类来描述。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Outer</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> num = <span class="number">3</span>;</span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">Inner</span></span>&#123;<span class="comment">//内部类</span></span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">            System.out.print(num);</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Inner in = <span class="keyword">new</span> Inner();</span><br><span class="line">        in.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InnerClassDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Outer out = <span class="keyword">new</span> Outer();</span><br><span class="line">        out.method();</span><br><span class="line">		System.out.print(<span class="string">"aaa"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">输出结果为：<span class="number">3</span>。</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-面向对象-内部类-修饰符"><a href="#9-面向对象-内部类-修饰符" class="headerlink" title="9 面向对象-内部类-修饰符"></a>9 面向对象-内部类-修饰符</h2><p>直接访问外部类中的内部类的成员</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Outer.Inner in = <span class="keyword">new</span> Outer().<span class="keyword">new</span> Inner();</span><br><span class="line">in.show();</span><br></pre></td></tr></table></figure>
+
+<p>如果内部类是静态的，相当于一个外部类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Outer.Inner in =<span class="keyword">new</span> Outer.Inner();</span><br><span class="line">in.show();</span><br></pre></td></tr></table></figure>
+
+<p>如果内部类是静态的，成员是静态的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Outer.Inner in = Outer.Inner.show();</span><br></pre></td></tr></table></figure>
+
+<p>如果内部类中定义了静态成员，该内部类也必须是静态。</p>
+<h2 id="10-面向对象-内部类-细节"><a href="#10-面向对象-内部类-细节" class="headerlink" title="10 面向对象-内部类-细节"></a>10 面向对象-内部类-细节</h2><p>为什么内部类能直接访问外部类中成员呢？</p>
+<p>那是因为内部类持有了外部类的引用。外部类名.this</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Outer</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> num = <span class="number">3</span>;</span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">Inner</span></span>&#123;<span class="comment">//内部类</span></span><br><span class="line">        <span class="keyword">int</span> num = <span class="number">4</span>;</span><br><span class="line">		<span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">int</span> num = <span class="number">6</span>;</span><br><span class="line">            System.out.print(<span class="keyword">this</span>.num);</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Inner in = <span class="keyword">new</span> Inner();</span><br><span class="line">        in.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InnerClassDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Outer out = <span class="keyword">new</span> Outer();</span><br><span class="line">        out.method();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">结果是<span class="number">3</span>。</span><br></pre></td></tr></table></figure>
+
+<h2 id="11-面向对象-内部类-局部内部类"><a href="#11-面向对象-内部类-局部内部类" class="headerlink" title="11 面向对象-内部类-局部内部类"></a>11 面向对象-内部类-局部内部类</h2><p>内部类可以存放在局部位置上。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Outer</span></span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> x = <span class="number">30</span>;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">3</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">Inner</span></span>&#123;<span class="comment">//内部类</span></span><br><span class="line">			<span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">            	System.out.print(num);</span><br><span class="line">        	&#125;</span><br><span class="line">    	&#125;</span><br><span class="line">        Inner in = <span class="keyword">new</span> Inner();</span><br><span class="line">        in.show();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InnerClassDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Outer out = <span class="keyword">new</span> Outer();</span><br><span class="line">        out.method();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">答案：<span class="number">3</span>。</span><br></pre></td></tr></table></figure>
+
+<p>内部类在局部位置上只能访问局部中被final修饰的局部变量。</p>
+<h2 id="12-面向对象-匿名内部类-概述"><a href="#12-面向对象-匿名内部类-概述" class="headerlink" title="12 面向对象-匿名内部类-概述"></a>12 面向对象-匿名内部类-概述</h2><p>匿名内部类，就是内部类的简写格式</p>
+<p><strong>必须有前提</strong></p>
+<p>内部类必须继承或者实现一个外部类或者接口</p>
+<p>匿名内部类：其实就是一个匿名子类对象。</p>
+<p>格式：new 父类or接口名(){子类内容}</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Demo()&#123;</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">		System.out.println(num);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="function">abtract <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Outer</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> num = <span class="number">3</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Demo()&#123;</span><br><span class="line">			<span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">				System.out.println(num);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;.show();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InnerClassDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Outer out = <span class="keyword">new</span> Outer();</span><br><span class="line">        out.method();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">结果：<span class="number">3</span>。</span><br></pre></td></tr></table></figure>
+
+<h2 id="13-面向对象-匿名内部类-应用、细节"><a href="#13-面向对象-匿名内部类-应用、细节" class="headerlink" title="13  面向对象-匿名内部类-应用、细节"></a>13  面向对象-匿名内部类-应用、细节</h2><p>通常使用场景之一：</p>
+<p>当函数参数是接口类型时，而且接口中的方法不超过三个</p>
+<p>可以用匿名内部类作为实际参数进行传递</p>
+<p>细节：1.匿名内部类这个子类对象被向上转型了为Object类型，这样就不能再使用子类的特有方法了。</p>
+<p>​            2.在静态方法中不能创建匿名内部类。</p>
+<h2 id="14-面向对象-对象的初始化过程（总结）"><a href="#14-面向对象-对象的初始化过程（总结）" class="headerlink" title="14 面向对象-对象的初始化过程（总结）"></a>14 面向对象-对象的初始化过程（总结）</h2><p>1.首先产生对象，堆中开辟内存，默认初始化变量。</p>
+<p>2.然后先进Zi类的构造函数，根据super();进入Fu类的构造函数，执行语句</p>
+<p>3.调用其中的show函数，这个show函数为Zi类中的show函数，因为被覆盖了。</p>
+<p>4.开始显示初始化</p>
+<p>5.开始构造代码块初始化</p>
+<p>6.构造函数具体初始化</p>
+<p>7.调用show函数</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-面向对象抽象类接口</title>
+    <url>/2020/03/21/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%8A%BD%E8%B1%A1%E7%B1%BB%E6%8E%A5%E5%8F%A3/</url>
+    <content><![CDATA[<h1 id="面向对象-抽象类-amp-接口"><a href="#面向对象-抽象类-amp-接口" class="headerlink" title="面向对象-抽象类&amp;接口"></a>面向对象-抽象类&amp;接口</h1><h2 id="1-抽象类概述-amp-特点"><a href="#1-抽象类概述-amp-特点" class="headerlink" title="1 抽象类概述&amp;特点"></a>1 抽象类概述&amp;特点</h2><p>抽象：笼统、模糊</p>
+<p>当一个类描述一个事物时，没有足够的信息描述时，就叫抽象类。</p>
+<p>比如狗和狼都会吼叫，他们提取出来都是犬科，犬科也有吼叫，但是吼叫内容不一样，所以就是有着相同的函数声明，但内容不同，这样就出现了抽象的概念。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> 犬科</span>&#123;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">void</span> 吼叫();</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> 狗 <span class="keyword">extends</span> 犬科</span>&#123;</span><br><span class="line">    <span class="keyword">void</span> 吼叫()&#123;</span><br><span class="line">        System.out.println(<span class="string">"汪汪"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> 狼 <span class="keyword">extends</span> 犬科</span>&#123;</span><br><span class="line">    <span class="keyword">void</span> 吼叫()&#123;</span><br><span class="line">        System.out.println(<span class="string">"嗷嗷"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>特点：</p>
+<p>1.方法只有声明没有实现时，该方法就是抽象方法，需要被abstract修饰</p>
+<p>​    抽象方法必须定义在抽象类中，该类必须也被关键字修饰</p>
+<p>2.抽象类不可以被实例化，即不能被new创建对象。因为调用抽象方法没有意义。</p>
+<p>3.抽象类必须有其子类覆盖了所有的抽象方法后，该子类才可以实例化</p>
+<p>​    否则这个子类还是抽象类。</p>
+<h2 id="2-面向对象-抽象类-细节"><a href="#2-面向对象-抽象类-细节" class="headerlink" title="2 面向对象-抽象类-细节"></a>2 面向对象-抽象类-细节</h2><p>1)抽象类中有构造函数吗？</p>
+<p>有，用于给子类对象进行初始化</p>
+<p>2)抽象类可以不定义抽象方法吗？</p>
+<p>可以的。但是很少见，目的是不让该类创建对象。AWT的适配器对象就是这种类</p>
+<p>通常这个类中的方法有方法体，但是没有内容</p>
+<p>3)抽象关键字不可以和哪些关键字共存？</p>
+<p>private 抽象方法需要被覆盖，私有了子类就无法访问就无法覆盖。</p>
+<p>static 成员变静态，不需要对象，抽象方法没有方法体，运行没有意义，</p>
+<p>final 抽象需要覆盖，而final不让覆盖</p>
+<p>4)抽象类和一般类的异同点</p>
+<p>相同点：抽象类和一般类都是用来描述事物的，都在内部定义了成员</p>
+<p>不同点：</p>
+<p>1.一般类有足够的信息描述事物，抽象类描述事物的信息有可能不足。</p>
+<p>2.一般类中不能定义抽象方法，只能定义非抽象方法，而抽象类中可以定义抽象方法金和非抽象方法。</p>
+<p>3.一般类可以被实例化，抽象类不可被实例化</p>
+<p>5)抽象类一定是个父类吗？</p>
+<p>是的，因为需要子类覆盖其方法后才可以对子类实例化。</p>
+<h2 id="3-面向对象-接口-定义interface、实现implements"><a href="#3-面向对象-接口-定义interface、实现implements" class="headerlink" title="3 面向对象-接口-定义interface、实现implements"></a>3 面向对象-接口-定义interface、实现implements</h2><p>当一种抽象类中的<strong>方法都是抽象</strong>的时候，这是可以将该抽象类用另一种形式定义和表示，就是接口，interface</p>
+<p>定义接口使用的关键字不是class，是interface,但编译出来的文件后缀名仍是class。</p>
+<p>对于接口当中常见的成员，而且这些成员都有固定的修饰符</p>
+<p>1.全局常量：public static final</p>
+<p>2.抽象方法；public abstract</p>
+<p>由此得出结论：<strong>接口中的成员都是公共的权限即权限都是最大的</strong>。</p>
+<p>因为接口中的成员修饰符是固定的，所以可以省略前面的修饰符，编译器会自动加上。例如abstract因为接口中的方法必是抽象方法，所有可以省略abstract。</p>
+<p>虽说如此，但修饰符还是要带上</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NUM = <span class="number">4</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">show1</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现</p>
+<p><strong>类与类之间是继承关系，类与接口之间是实现关系</strong></p>
+<p>接口<strong>不可以实例化</strong></p>
+<p>只能由实现了接口的子类并<strong>覆盖了接口中所有的抽象方法</strong>后，该子类才可以实例化</p>
+<p>否则这个子类就是一个抽象类。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoImp1</span> <span class="keyword">implements</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show1</span><span class="params">()</span></span>&#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InterfaceDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        DemoImp1 d = <span class="keyword">new</span> DemoImp1();</span><br><span class="line">        System.out.println(d.NUM);</span><br><span class="line">        System.out.println(Demo.NUM);</span><br><span class="line">        System.out.println(DemoImp1.NUM);<span class="comment">//这三种调用皆可</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-面向对象-接口-多实现"><a href="#4-面向对象-接口-多实现" class="headerlink" title="4 面向对象-接口-多实现"></a>4 面向对象-接口-多实现</h2><p>在java中不直接支持多继承，因为会出现调用的不确定性</p>
+<p>所以java将多继承机制进行改良，在java中变成了多实现</p>
+<p>一个类可以实现多接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Z</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">implements</span> <span class="title">A</span>, <span class="title">Z</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-面向对象-接口-细节"><a href="#5-面向对象-接口-细节" class="headerlink" title="5 面向对象-接口-细节"></a>5 面向对象-接口-细节</h2><p>一个类继承另一个类的同时，还可以实现多个接口。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">extends</span> <span class="title">Q</span> <span class="keyword">implements</span> <span class="title">A</span>, <span class="title">Z</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接口与接口之间是继承关系，而且接口可以多继承，原理在于是否存在方法体，是否存在不确定性</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">AA</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ZZ</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">QQ</span> <span class="keyword">extends</span> <span class="title">AA</span>, <span class="title">ZZ</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">function</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> <span class="keyword">implements</span> <span class="title">QQ</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">function</span><span class="params">()</span></span>&#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-面向对象-接口-特点"><a href="#6-面向对象-接口-特点" class="headerlink" title="6 面向对象-接口-特点"></a>6 面向对象-接口-特点</h2><p>接口是对外暴露的规则</p>
+<p>接口是程序的功能扩展</p>
+<p>接口的出现降低耦合性</p>
+<p>接口可以用来多实现</p>
+<p>类与接口之间是实现关系，而且类可以继承一个类的同时实现多个接口</p>
+<p>接口与接口之间可以有继承关系</p>
+<h2 id="7-面向对象-接口-接口和抽象类的区别"><a href="#7-面向对象-接口-接口和抽象类的区别" class="headerlink" title="7 面向对象-接口-接口和抽象类的区别"></a>7 面向对象-接口-接口和抽象类的区别</h2><p>抽象类和接口的异同点</p>
+<p>相同点：</p>
+<p>都是不断向上抽取而来的</p>
+<p>不同点：</p>
+<p>1.抽象类需要被继承，而且只能单继承</p>
+<p>   接口需要被实现，而且可以多实现</p>
+<p>2.抽象类中可以定义抽象方法和非抽象方法，子类继承后，可以直接使用非抽象方法</p>
+<p>   接口中只能定义抽象方法，必须有子类去实现</p>
+<p>3.抽象类的继承是is a 关系，所属关系，在定义该体系的基本共性内容</p>
+<p>   接口的实现时like a关系，像关系，在定义体系额外功能</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaSE-面向对象4</title>
     <url>/2020/03/20/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A14/</url>
     <content><![CDATA[<h1 id="面向对象4"><a href="#面向对象4" class="headerlink" title="面向对象4"></a>面向对象4</h1><h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><h2 id="1-面向对象-继承-概述"><a href="#1-面向对象-继承-概述" class="headerlink" title="1 面向对象-继承-概述"></a>1 面向对象-继承-概述</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    String name;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span>/*继承*/ <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">study</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(name +<span class="string">"..."</span> + age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExtendsDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Student s = <span class="keyword">new</span> Student();</span><br><span class="line">        s.name = <span class="string">"aaa"</span>;</span><br><span class="line">        s.age = <span class="number">22</span>;</span><br><span class="line">        s.study();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
