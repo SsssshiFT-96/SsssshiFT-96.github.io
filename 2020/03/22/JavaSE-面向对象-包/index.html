@@ -35,19 +35,20 @@
     var CONFIG = {"hostname":"ssssshift-96.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="创建新文章并部署到远端1.执行 hexo new[layout] 文章名 即可layout为布局，Hexo有三种默认布局：post、page和draft，默认为post，可以在_config.yml中的default_layout 参数来指定默认布局 2.文章写完后保存文件，执行 hexo generate 或 hexo g 生成静态文件 3.执行 hexo deploy 将文件部署到远端">
+  <meta name="description" content="面向对象-包1 面向对象-包-概述对类文件进行分类管理 给类提供多层命名（名称）空间 写在程序文件第一行 类名的全称的：包名.类名。 包也是一种封装形式 包在系统中的表现形式是文件夹 包命名时字母都小写。 1package mypack  也可以创建多级包 1package mypack.aa.bb.cc.dd">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo的一些基本操作">
-<meta property="og:url" content="https://ssssshift-96.github.io/2020/03/06/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:title" content="JavaSE-面向对象-包">
+<meta property="og:url" content="https://ssssshift-96.github.io/2020/03/22/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1-%E5%8C%85/index.html">
 <meta property="og:site_name" content="SsssshiFT-96">
-<meta property="og:description" content="创建新文章并部署到远端1.执行 hexo new[layout] 文章名 即可layout为布局，Hexo有三种默认布局：post、page和draft，默认为post，可以在_config.yml中的default_layout 参数来指定默认布局 2.文章写完后保存文件，执行 hexo generate 或 hexo g 生成静态文件 3.执行 hexo deploy 将文件部署到远端">
+<meta property="og:description" content="面向对象-包1 面向对象-包-概述对类文件进行分类管理 给类提供多层命名（名称）空间 写在程序文件第一行 类名的全称的：包名.类名。 包也是一种封装形式 包在系统中的表现形式是文件夹 包命名时字母都小写。 1package mypack  也可以创建多级包 1package mypack.aa.bb.cc.dd">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-03-06T14:50:41.000Z">
-<meta property="article:modified_time" content="2020-03-06T14:57:04.655Z">
+<meta property="article:published_time" content="2020-03-22T13:38:41.000Z">
+<meta property="article:modified_time" content="2020-03-22T14:03:02.706Z">
 <meta property="article:author" content="詹智健">
+<meta property="article:tag" content="JavaSE">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ssssshift-96.github.io/2020/03/06/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
+<link rel="canonical" href="https://ssssshift-96.github.io/2020/03/22/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1-%E5%8C%85/">
 
 
 <script id="page-configurations">
@@ -59,7 +60,7 @@
   };
 </script>
 
-  <title>Hexo的一些基本操作 | SsssshiFT-96</title>
+  <title>JavaSE-面向对象-包 | SsssshiFT-96</title>
   
 
 
@@ -204,7 +205,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/06/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/22/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1-%E5%8C%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/A%20lemon.jpg">
@@ -217,7 +218,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hexo的一些基本操作
+          JavaSE-面向对象-包
         </h1>
 
         <div class="post-meta">
@@ -228,7 +229,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-06 22:50:41 / 修改时间：22:57:04" itemprop="dateCreated datePublished" datetime="2020-03-06T22:50:41+08:00">2020-03-06</time>
+              <time title="创建时间：2020-03-22 21:38:41 / 修改时间：22:03:02" itemprop="dateCreated datePublished" datetime="2020-03-22T21:38:41+08:00">2020-03-22</time>
             </span>
 
           
@@ -249,9 +250,112 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="创建新文章并部署到远端"><a href="#创建新文章并部署到远端" class="headerlink" title="创建新文章并部署到远端"></a>创建新文章并部署到远端</h2><p>1.执行 hexo new[layout] 文章名 即可<br>layout为布局，Hexo有三种默认布局：post、page和draft，默认为post，可以在_config.yml中的default_layout 参数来指定默认布局</p>
-<p>2.文章写完后保存文件，执行 hexo generate 或 hexo g 生成静态文件</p>
-<p>3.执行 hexo deploy 将文件部署到远端</p>
+        <h1 id="面向对象-包"><a href="#面向对象-包" class="headerlink" title="面向对象-包"></a>面向对象-包</h1><h2 id="1-面向对象-包-概述"><a href="#1-面向对象-包-概述" class="headerlink" title="1 面向对象-包-概述"></a>1 面向对象-包-概述</h2><p>对类文件进行分类管理</p>
+<p>给类提供多层命名（名称）空间</p>
+<p><strong>写在程序文件第一行</strong></p>
+<p><strong>类名的全称的：包名.类名。</strong></p>
+<p>包也是一种封装形式</p>
+<p>包在系统中的表现形式是文件夹</p>
+<p>包命名时字母都小写。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mypack</span><br></pre></td></tr></table></figure>
+
+<p>也可以创建多级包</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mypack.aa.bb.cc.dd</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="2-面向对象-包-包之间的访问-protected"><a href="#2-面向对象-包-包之间的访问-protected" class="headerlink" title="2 面向对象-包-包之间的访问-protected"></a>2 面向对象-包-包之间的访问-protected</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mypack;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PackageDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        DemoA d = <span class="keyword">new</span> DemoA();</span><br><span class="line">        d.show();</span><br><span class="line">        System.out.println(<span class="string">"hello package"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> packa;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoA</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"demoa show run"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种情况下，要先编译DemoA.java。以前在同一个包中时，先编译PackageDemo.java时，会在当前包中找所需要的类，如果没有就找需要的.java源文件。但是现在不在同一个包中，DemoA有个包所属，所以我们要用的这个类全称是packa.DemoA.class，如果没有就找packa.DemoA.java，然而在目前的情况下是找不到，因为其源文件不在packa文件夹中，在别的地方，所以是找不到的。所以要先编译后者。</p>
+<p>按顺序编译后出现问题</p>
+<p>原因 类型名写错</p>
+<p>因为DemoA类已经有包的所属，所以必须要明确其包名</p>
+<p>记住：DemoA这个名字是错的，正确的名称是<strong>包名.类名. packa.DemoA</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">packa.Demoa d = <span class="keyword">new</span> packa.DemoA();</span><br></pre></td></tr></table></figure>
+
+<p>再次编译，仍出现问题</p>
+<p>原因：DemoA不是公共的，加public</p>
+<p>加了之后，还是出现问题</p>
+<p>原因：show()不是公共的，加public</p>
+<p>总结：</p>
+<p>包与包之间的类进行访问，被访问的包中的类必须是public的，被访问包中的类的方法也必须是public的。</p>
+<p>protected（保护）：被这个修饰的类、函数。同一包中的类可以访问，不同包中，只有其子类才可以使用。</p>
+<table>
+<thead>
+<tr>
+<th>四种权限</th>
+<th>public</th>
+<th>protected</th>
+<th>default(默认全限)</th>
+<th>private</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>同一类中</td>
+<td>ok</td>
+<td>ok</td>
+<td>ok</td>
+<td>ok</td>
+</tr>
+<tr>
+<td>同一包中</td>
+<td>ok</td>
+<td>ok</td>
+<td>ok</td>
+<td>ok</td>
+</tr>
+<tr>
+<td>子类中</td>
+<td>ok</td>
+<td>ok</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>不同包中</td>
+<td>ok</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="3-面向对象-包-导入import"><a href="#3-面向对象-包-导入import" class="headerlink" title="3 面向对象-包-导入import"></a>3 面向对象-包-导入import</h2><p>Import：导入其他包中的类。这样在调用其他包中的类就不用加包名称，简化类名书写。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> mypack;</span><br><span class="line"><span class="keyword">import</span> packa.DemoA;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PackageDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        DemoA d = <span class="keyword">new</span> DemoA();</span><br><span class="line">        d.show();</span><br><span class="line">        System.out.println(<span class="string">"hello package"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>import packa.<em>;：导入了packa包中所有的类，但*</em>不导入其包中的子包**。</p>
+<p>比如</p>
+<p>packa\DemoA.class</p>
+<p>packa\abc\DemoAbc.class</p>
+<p>import packa.*时，不导入DemoAbc.class。</p>
+<p><strong>导包原则</strong>：用到哪个类，就导入哪个类，不建议一起全部导入。</p>
+<p>4 面向对象-包-jar包</p>
+<p>Jar：java的压缩包，不是图形化界面的工具，是dos命令行形式的工具</p>
+<p>用法: jar {ctxui}[vfmn0PMe] [jar-file] [manifest-file] [entry-point] [-C dir] files …</p>
+<p>选项:</p>
+<p>  -c 创建新档案</p>
+<p>  -t 列出档案目录</p>
+<p>  -x 从档案中提取指定的 (或所有) 文件</p>
+<p>  -u 更新现有档案</p>
+<p>  -v 在标准输出中生成详细输出</p>
+<p>  -f 指定档案文件名</p>
+<p>  -m 包含指定清单文件中的清单信息</p>
+<p>  -n 创建新档案后执行 Pack200 规范化</p>
+<p>  -e 为捆绑到可执行 jar 文件的独立应用程序</p>
+<p>​    指定应用程序入口点</p>
+<p>  -0 仅存储; 不使用任何 ZIP 压缩</p>
+<p>  -P 保留文件名中的前导 ‘/‘ (绝对路径) 和 “..” (父目录) 组件</p>
+<p>  -M 不创建条目的清单文件</p>
+<p>  -i 为指定的 jar 文件生成索引信息</p>
+<p>  -C 更改为指定的目录并包含以下文件</p>
+<p>如果任何文件为目录, 则对其进行递归处理。</p>
+<p>清单文件名, 档案文件名和入口点名称的指定顺序</p>
+<p>与 ‘m’, ‘f’ 和 ‘e’ 标记的指定顺序相同。</p>
+<p>示例 1: 将两个类文件归档到一个名为 classes.jar 的档案中:</p>
+<p>​    jar cvf classes.jar Foo.class Bar.class</p>
+<p>示例 2: 使用现有的清单文件 ‘mymanifest’ 并将 foo/ 目录中的所有文件归档到 ‘classes.jar’ 中:</p>
+<p>​    jar cvfm classes.jar mymanifest -C foo/ .</p>
 
     </div>
 
@@ -271,6 +375,9 @@
    </div>
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaSE/" rel="tag"># JavaSE</a>
+          </div>
 
         
 
@@ -278,13 +385,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/05/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" rel="prev" title="我的第一篇博客">
-      <i class="fa fa-chevron-left"></i> 我的第一篇博客
+    <a href="/2020/03/22/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1-Object%E7%B1%BB/" rel="prev" title="JavaSE-面向对象-Object类">
+      <i class="fa fa-chevron-left"></i> JavaSE-面向对象-Object类
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/03/13/JavaSE-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" rel="next" title="JavaSE-语言基础">
-      JavaSE-语言基础 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -344,7 +448,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建新文章并部署到远端"><span class="nav-number">1.</span> <span class="nav-text">创建新文章并部署到远端</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面向对象-包"><span class="nav-number">1.</span> <span class="nav-text">面向对象-包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-面向对象-包-概述"><span class="nav-number">1.1.</span> <span class="nav-text">1 面向对象-包-概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-面向对象-包-包之间的访问-protected"><span class="nav-number">1.2.</span> <span class="nav-text">2 面向对象-包-包之间的访问-protected</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-面向对象-包-导入import"><span class="nav-number">1.3.</span> <span class="nav-text">3 面向对象-包-导入import</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

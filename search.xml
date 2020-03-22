@@ -1,6 +1,251 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>JavaSE-面向对象-包</title>
+    <url>/2020/03/22/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1-%E5%8C%85/</url>
+    <content><![CDATA[<h1 id="面向对象-包"><a href="#面向对象-包" class="headerlink" title="面向对象-包"></a>面向对象-包</h1><h2 id="1-面向对象-包-概述"><a href="#1-面向对象-包-概述" class="headerlink" title="1 面向对象-包-概述"></a>1 面向对象-包-概述</h2><p>对类文件进行分类管理</p>
+<p>给类提供多层命名（名称）空间</p>
+<p><strong>写在程序文件第一行</strong></p>
+<p><strong>类名的全称的：包名.类名。</strong></p>
+<p>包也是一种封装形式</p>
+<p>包在系统中的表现形式是文件夹</p>
+<p>包命名时字母都小写。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> mypack</span><br></pre></td></tr></table></figure>
+
+<p>也可以创建多级包</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> mypack.aa.bb.cc.dd</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="2-面向对象-包-包之间的访问-protected"><a href="#2-面向对象-包-包之间的访问-protected" class="headerlink" title="2 面向对象-包-包之间的访问-protected"></a>2 面向对象-包-包之间的访问-protected</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> mypack;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PackageDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        DemoA d = <span class="keyword">new</span> DemoA();</span><br><span class="line">        d.show();</span><br><span class="line">        System.out.println(<span class="string">"hello package"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> packa;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DemoA</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"demoa show run"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种情况下，要先编译DemoA.java。以前在同一个包中时，先编译PackageDemo.java时，会在当前包中找所需要的类，如果没有就找需要的.java源文件。但是现在不在同一个包中，DemoA有个包所属，所以我们要用的这个类全称是packa.DemoA.class，如果没有就找packa.DemoA.java，然而在目前的情况下是找不到，因为其源文件不在packa文件夹中，在别的地方，所以是找不到的。所以要先编译后者。</p>
+<p>按顺序编译后出现问题</p>
+<p>原因 类型名写错</p>
+<p>因为DemoA类已经有包的所属，所以必须要明确其包名</p>
+<p>记住：DemoA这个名字是错的，正确的名称是<strong>包名.类名. packa.DemoA</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">packa.Demoa d = <span class="keyword">new</span> packa.DemoA();</span><br></pre></td></tr></table></figure>
+
+<p>再次编译，仍出现问题</p>
+<p>原因：DemoA不是公共的，加public</p>
+<p>加了之后，还是出现问题</p>
+<p>原因：show()不是公共的，加public</p>
+<p>总结：</p>
+<p>包与包之间的类进行访问，被访问的包中的类必须是public的，被访问包中的类的方法也必须是public的。</p>
+<p>protected（保护）：被这个修饰的类、函数。同一包中的类可以访问，不同包中，只有其子类才可以使用。</p>
+<table>
+<thead>
+<tr>
+<th>四种权限</th>
+<th>public</th>
+<th>protected</th>
+<th>default(默认全限)</th>
+<th>private</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>同一类中</td>
+<td>ok</td>
+<td>ok</td>
+<td>ok</td>
+<td>ok</td>
+</tr>
+<tr>
+<td>同一包中</td>
+<td>ok</td>
+<td>ok</td>
+<td>ok</td>
+<td>ok</td>
+</tr>
+<tr>
+<td>子类中</td>
+<td>ok</td>
+<td>ok</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>不同包中</td>
+<td>ok</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="3-面向对象-包-导入import"><a href="#3-面向对象-包-导入import" class="headerlink" title="3 面向对象-包-导入import"></a>3 面向对象-包-导入import</h2><p>Import：导入其他包中的类。这样在调用其他包中的类就不用加包名称，简化类名书写。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> mypack;</span><br><span class="line"><span class="keyword">import</span> packa.DemoA;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PackageDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        DemoA d = <span class="keyword">new</span> DemoA();</span><br><span class="line">        d.show();</span><br><span class="line">        System.out.println(<span class="string">"hello package"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>import packa.<em>;：导入了packa包中所有的类，但*</em>不导入其包中的子包**。</p>
+<p>比如</p>
+<p>packa\DemoA.class</p>
+<p>packa\abc\DemoAbc.class</p>
+<p>import packa.*时，不导入DemoAbc.class。</p>
+<p><strong>导包原则</strong>：用到哪个类，就导入哪个类，不建议一起全部导入。</p>
+<p>4 面向对象-包-jar包</p>
+<p>Jar：java的压缩包，不是图形化界面的工具，是dos命令行形式的工具</p>
+<p>用法: jar {ctxui}[vfmn0PMe] [jar-file] [manifest-file] [entry-point] [-C dir] files …</p>
+<p>选项:</p>
+<p>  -c 创建新档案</p>
+<p>  -t 列出档案目录</p>
+<p>  -x 从档案中提取指定的 (或所有) 文件</p>
+<p>  -u 更新现有档案</p>
+<p>  -v 在标准输出中生成详细输出</p>
+<p>  -f 指定档案文件名</p>
+<p>  -m 包含指定清单文件中的清单信息</p>
+<p>  -n 创建新档案后执行 Pack200 规范化</p>
+<p>  -e 为捆绑到可执行 jar 文件的独立应用程序</p>
+<p>​    指定应用程序入口点</p>
+<p>  -0 仅存储; 不使用任何 ZIP 压缩</p>
+<p>  -P 保留文件名中的前导 ‘/‘ (绝对路径) 和 “..” (父目录) 组件</p>
+<p>  -M 不创建条目的清单文件</p>
+<p>  -i 为指定的 jar 文件生成索引信息</p>
+<p>  -C 更改为指定的目录并包含以下文件</p>
+<p>如果任何文件为目录, 则对其进行递归处理。</p>
+<p>清单文件名, 档案文件名和入口点名称的指定顺序</p>
+<p>与 ‘m’, ‘f’ 和 ‘e’ 标记的指定顺序相同。</p>
+<p>示例 1: 将两个类文件归档到一个名为 classes.jar 的档案中:</p>
+<p>​    jar cvf classes.jar Foo.class Bar.class</p>
+<p>示例 2: 使用现有的清单文件 ‘mymanifest’ 并将 foo/ 目录中的所有文件归档到 ‘classes.jar’ 中:</p>
+<p>​    jar cvfm classes.jar mymanifest -C foo/ .</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-面向对象-Object类</title>
+    <url>/2020/03/22/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1-Object%E7%B1%BB/</url>
+    <content><![CDATA[<h1 id="面向对象-Object类"><a href="#面向对象-Object类" class="headerlink" title="面向对象-Object类"></a>面向对象-Object类</h1><h2 id="1-面向对象-Object类-equals方法、equals方法覆盖"><a href="#1-面向对象-Object类-equals方法、equals方法覆盖" class="headerlink" title="1 面向对象-Object类-equals方法、equals方法覆盖"></a>1 面向对象-Object类-equals方法、equals方法覆盖</h2><p>equals比较对象是否相同，<strong>比较的是地址</strong>。</p>
+<p>但是单纯比较地址值没有意义，一般都会覆盖equals方法，根据对象的特有内容，建立判断对象是否相同的依据。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">extends</span> <span class="title">Object</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    Person(<span class="keyword">int</span> age)&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span></span>&#123;</span><br><span class="line">    	<span class="keyword">if</span>(!(obj <span class="keyword">instanceof</span> Person))<span class="comment">//先判断是否为同类型&#123;</span></span><br><span class="line">            <span class="function">thow new <span class="title">ClassCastException</span><span class="params">(<span class="string">"类型错误"</span>)</span></span>;</span><br><span class="line">    	&#125;</span><br><span class="line">    	Person p = (Person) obj;</span><br><span class="line">    	<span class="keyword">return</span> <span class="keyword">this</span>.age == p.age;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ObjectDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Person p1 = <span class="keyword">new</span> Person(<span class="number">30</span>);</span><br><span class="line">        Person p1 = <span class="keyword">new</span> Person(<span class="number">20</span>);</span><br><span class="line">        System.out.println(p1.equals(p2));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="2-面向对象-Object类-hashCode方法"><a href="#2-面向对象-Object类-hashCode方法" class="headerlink" title="2 面向对象-Object类-hashCode方法"></a>2 面向对象-Object类-hashCode方法</h2><p>hashCode：返回该对象的哈希码值</p>
+<p>实际上Object类定义的hashCode方法确实会针对不同的对象返回不同的整数（这一般是通过将该对象的内部地址转换成一个整数来实现的，但是Java编程语言不需要这种实现技巧）。</p>
+<p>在Java应用程序执行期间，在对同一个对象多次调用hashCode方法时，必须一致地返回相同的整数，前提是将对象进行equals比较时所用的信息没有被修改，</p>
+<p>如果根据equals方法两个对象是相等的，那么对这两个对象进行hashCode方法都必须生成相同的整数结果。</p>
+<p>当equals被重写时，通常有必要重写hashCode方法，以维护hashCode方法的常规协定，该协定声明相等对象必须具有相等的哈希码。</p>
+<p>同样也可以复写其方法，改变哈希值的算法定义</p>
+<h2 id="3-面向对象-Object类-getClass方法"><a href="#3-面向对象-Object类-getClass方法" class="headerlink" title="3 面向对象-Object类-getClass方法"></a>3 面向对象-Object类-getClass方法</h2><p>getClass方法返回此Object的运行时类，返回的是当前对象所属的字节码文件对象，</p>
+<p>即class Class，里面有名称、字段（属性）、构造器、方法。</p>
+<p>如果加载进一个Person类，第一步在堆中产生一个对应的字节码文件对象，即Person.Class</p>
+<p>所以当类加载时，就会有对象产生，</p>
+<h2 id="4-面向对象-Object类-toString方法"><a href="#4-面向对象-Object类-toString方法" class="headerlink" title="4 面向对象-Object类- toString方法"></a>4 面向对象-Object类- toString方法</h2><p>toString方法返回该对象的字符串表示</p>
+<p>Object类的该方法返回一个字符串，该字符串有类名、@、和此对象哈希码的无符号+十六进制表示组成，换句话说，该方法返回一个字符串，它的值等于</p>
+<p>getClass().getName()+”@”+Interger.toHexString(hashCode())</p>
+<p>建议所有子类都重写该方法。</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-面向对象异常</title>
+    <url>/2020/03/22/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%BC%82%E5%B8%B8/</url>
+    <content><![CDATA[<h1 id="面向对象-异常"><a href="#面向对象-异常" class="headerlink" title="面向对象-异常"></a>面向对象-异常</h1><h2 id="1-面向对象-异常-概述"><a href="#1-面向对象-异常-概述" class="headerlink" title="1 面向对象-异常-概述"></a>1 面向对象-异常-概述</h2><p>异常：是在运行时期发生的不正常情况。</p>
+<p>在java中用类的形式对不正常情况进行描述和封装对象</p>
+<p>描述不正常的情况的类，就称为异常类。</p>
+<p>以前正常流程代码和问题处理代码相结合，</p>
+<p>现在将正常流程代码和问题处理代码分离，提高阅读性。</p>
+<p>其实异常就是java通过面向对象的思想将问题封装成了对象</p>
+<p>用异常类对其进行描述。</p>
+<p>不同的问题用不同的类进行具体的描述。比如角标越界，空指针等等。</p>
+<a id="more"></a>
+
+<h2 id="2-面向对象-异常-体系"><a href="#2-面向对象-异常-体系" class="headerlink" title="2 面向对象-异常-体系"></a>2 面向对象-异常-体系</h2><p>问题很多，意味着描述的类也很多</p>
+<p>将其共性进行向上抽取，形成了异常体系</p>
+<p>最终问题（不正常情况）分成两大类</p>
+<p>Throwable:无论是error还是异常，问题，问题发生就应该可以抛出，让调用者知道并处理</p>
+<p>​           该体系的特点就在于Throwable及其所有的子类都具有可抛性。</p>
+<p>可抛性指的是什么？如何体现可抛性？</p>
+<p>​           通过两个关键字来体现的，分别是throws，throw</p>
+<p>​           凡是可以被这两个关键字所操作的类和对象都具备可抛性。</p>
+<p>1.一般不可处理的。用Error表示</p>
+<p>​    特点：是有jvm抛出的严重性的问题</p>
+<p>​       这种问题发生一般不针对性处理。直接修改程序。</p>
+<p>2.可处理的。用Exception表示</p>
+<p>该体系特点：</p>
+<p>子类的后缀名都是用其父类名作为后缀，阅读性很强。</p>
+<h2 id="3-面向对象-异常-原理-amp-异常对象的抛出throw"><a href="#3-面向对象-异常-原理-amp-异常对象的抛出throw" class="headerlink" title="3 面向对象-异常-原理&amp;异常对象的抛出throw"></a>3 面向对象-异常-原理&amp;异常对象的抛出throw</h2><p>原理：</p>
+<p>1.遇到识别的问题进行对象的封装</p>
+<p>2.将问题抛给调用者，结束函数。</p>
+<p>我们可以自己设置异常</p>
+<p>谁调用就将异常抛给谁，还可以自己定义异常信息，这里用到了throw 关键字</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">method</span><span class="params">(<span class="keyword">int</span>[] arr, <span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(arr == <span class="keyword">null</span>)</span><br><span class="line">        	<span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"数组引用不能为空"</span>);</span><br><span class="line">        <span class="keyword">if</span>(index &gt;= arr.length)</span><br><span class="line">        	<span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException(<span class="string">"角标越界"</span>);</span><br><span class="line">        <span class="keyword">if</span>(index &lt; <span class="number">0</span>)</span><br><span class="line">        	<span class="keyword">throw</span> <span class="keyword">new</span> ArrayIndexOutOfBoundsException(<span class="string">"角标不能为负数"</span>);</span><br><span class="line">        <span class="keyword">return</span> arr[index];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExceptionDemo2</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] arr = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">3</span>];</span><br><span class="line">        Demo d = <span class="keyword">new</span> Demo();</span><br><span class="line">        <span class="keyword">int</span> num = d.method(<span class="keyword">null</span>, -<span class="number">30</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">结果：Exception in thread <span class="string">"main"</span> java.lang.NullPointException：数组的引用不能为空</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-面向对象-异常-自定义异常-amp-异常类的抛出throws"><a href="#4-面向对象-异常-自定义异常-amp-异常类的抛出throws" class="headerlink" title="4 面向对象-异常-自定义异常&amp;异常类的抛出throws"></a>4 面向对象-异常-自定义异常&amp;异常类的抛出throws</h2><p>对于角标是整数不存在，可以用角标越界表示</p>
+<p>对于负数为角标的情况，准备用负数角标异常来表示</p>
+<p>负数角标这种异常在java中并没有定义过</p>
+<p>那就按照java异常的创建思想，面向对象，将负数角标进行自定义描述，并封装成对象</p>
+<p>这种自定义的问题描述称为自定义异常</p>
+<p><strong>注意</strong>：如果让一个类成为异常类，必须要继承异常体系，因为只有称为异常体系的子类才有资格具备可抛性才可以被两个关键字所操作，throws，throw</p>
+<p>除此之外，如果函数内发生了异常，<strong>还需要在函数上进行声明</strong>，如下所示。否则编译失败，声明的目的是为了处理。调用发生异常的函数，必须要处理，处理的方式之一就是抛出</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">method</span><span class="params">(...)</span> <span class="keyword">throws</span> xxxException</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5-编译时检测异常和运行时异常的区别-amp-throw和throws的区别"><a href="#5-编译时检测异常和运行时异常的区别-amp-throw和throws的区别" class="headerlink" title="5 编译时检测异常和运行时异常的区别&amp;throw和throws的区别"></a>5 编译时检测异常和运行时异常的区别&amp;throw和throws的区别</h2><p>异常的分类</p>
+<p>1.编译时被检测异常：只要是Exception和其子类都是，除了特殊子类RuntimeException体系。</p>
+<p>​    这种问题一旦出现，希望在编译时就进行检测，让这种问题有对应的处理方式。</p>
+<p>​    这样的问题都可以针对性的处理。</p>
+<p>2.编译时不检测异常（运行时异常）：就是Exception中的RuntimeException和其子类</p>
+<p>​    RuntimeException是那些可能在Java虚拟机正常运行期间抛出的异常超类。</p>
+<p>​    这种问题的发生，无法让功能继续，运算无法进行，更多是因为调用者的原因导致的或者引发了内部状态的改变导致的。</p>
+<p>​    这种问题一般不处理，直接编译通过，在运行时，让调用者调用时的程序强制停止，让调用者对代码进行修正。</p>
+<p>​    在执行方法期间抛出但未被捕获的RuntimeException的任何子类都无需再throws子句中进行声明。</p>
+<p>throws和throw的区别</p>
+<ol>
+<li><p>throws使用在函数上</p>
+<p>throw使用在函数内</p>
+</li>
+<li><p>throws抛出的是异常类，可以抛出多个，用逗号隔开</p>
+<p>throw抛出的是异常对象，只能抛出一个，因为抛出后函数就停止了。</p>
+</li>
+</ol>
+<h2 id="6-面向对象-异常-异常捕捉trycatch"><a href="#6-面向对象-异常-异常捕捉trycatch" class="headerlink" title="6 面向对象-异常-异常捕捉trycatch"></a>6 面向对象-异常-异常捕捉trycatch</h2><p>异常处理的捕捉形式：</p>
+<p>这是可以对异常进行针对性处理的方式。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="comment">//需要被检测异常的代码</span></span><br><span class="line">&#125;<span class="keyword">catch</span>(异常类 变量)<span class="comment">//该变量用于接收发生的异常对象&#123;</span></span><br><span class="line">    <span class="comment">//处理异常的代码</span></span><br><span class="line">&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">    <span class="comment">//一定会执行的代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>什么时候用trycatch</p>
+<p>当在这里可以处理时用trycatch，如果不能处理，则继续抛出。</p>
+<p>过程：</p>
+<p>执行method函数，函数进栈，往里面传值。-30满足条件，则异常抛出被触发，然后将异常抛出到主函数调用的部分中。然后try开始检测，检测到后丢给了catch，然后catch里的参数变量接收异常对象即FuShuIndexException e=new FuShuIndexException(“角标变成负数啦”);</p>
+<p>若传入的值是不发生异常的，则程序正常运行</p>
+<p>对catch里面的异常类对象进行常见方法调用</p>
+<p>e.getMessage()</p>
+<p>e.printStackTrace()</p>
+<p>略</p>
+<h2 id="7-面向对象-异常-多catch情况"><a href="#7-面向对象-异常-多catch情况" class="headerlink" title="7 面向对象-异常-多catch情况"></a>7 面向对象-异常-多catch情况</h2><p>有几个抛出就有几个catch</p>
+<p>有多个catch，抛出的异常就按顺序进行catch。</p>
+<p>然后多catch情况下父类的catch放在最下面</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">method</span><span class="params">(...)</span> <span class="keyword">throws</span> xxxException，yyyException</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>() <span class="keyword">throw</span> <span class="keyword">new</span> xxxException();</span><br><span class="line">    <span class="keyword">if</span>() <span class="keyword">throw</span> <span class="keyword">new</span> yyyException();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;<span class="comment">//因为有trycatch了所以不用声明</span></span><br><span class="line">       </span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">    	<span class="keyword">int</span>[] arr = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">3</span>];</span><br><span class="line">        Demo d = <span class="keyword">new</span> Demo();</span><br><span class="line">        <span class="keyword">int</span> num = d.method(<span class="keyword">null</span>, -<span class="number">30</span>);</span><br><span class="line">	&#125;<span class="keyword">catch</span>(xxxException e)&#123;</span><br><span class="line">        System.out.println(e.toString());</span><br><span class="line">    &#125;<span class="keyword">catch</span>(yyyException e)&#123;</span><br><span class="line">        System.out.println(e.toString());</span><br><span class="line">    &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">        System.out.println(e.toString());</span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">    	System.out.println(“over”);</span><br><span class="line">	&#125;</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-面向对象-异常-异常处理原则"><a href="#8-面向对象-异常-异常处理原则" class="headerlink" title="8 面向对象-异常-异常处理原则"></a>8 面向对象-异常-异常处理原则</h2><p>异常处理的原则：</p>
+<p>1.函数内部如果抛出异常需要检测的异常，那么函数上必须要声明，否则必须在函数内用trycatch捕捉，否则编译失败。</p>
+<p>2.如果调用到了声明异常的函数，要么trycatch要么throws，否则编译失败。</p>
+<p>3.什么时候catch，什么时候throws：功能内部可以解决用catch，解决不了用throws，告诉调用者，由调用者解决。</p>
+<p>4.一个功能如果抛出了多个异常，那么调用时必须有对应多个catch进行针对性的处理。内部有几个需要检测的异常，就抛出几个，就catch几个。</p>
+<h2 id="9-面向对象-异常-finally代码块"><a href="#9-面向对象-异常-finally代码块" class="headerlink" title="9 面向对象-异常-finally代码块"></a>9 面向对象-异常-finally代码块</h2><p>finally通常用于关闭（释放）资源。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">finally</span>&#123;</span><br><span class="line">	<span class="comment">//一定会被执行的代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>try catch finally 代码块组合特点：</p>
+<p>1.try catch finally</p>
+<p>2.try catch(多个)d当没有必要资源需要释放时，可以不用定义finally</p>
+<p>3.try finally//异常无法直接catch处理，但是资源需要关闭</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span><span class="keyword">throws</span> Exception</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">try</span>&#123;</span><br><span class="line">		开启资源</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> Exception();</span><br><span class="line">	&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">		关闭资源</span><br><span class="line">	&#125;</span><br><span class="line">&#125;<span class="comment">//这时没有catch就没有处理，就需要声明即throws。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="10-面向对象-异常-异常注意事项"><a href="#10-面向对象-异常-异常注意事项" class="headerlink" title="10 面向对象-异常-异常注意事项"></a>10 面向对象-异常-异常注意事项</h2><p>异常的注意事项：</p>
+<p>1.子类在覆盖父类方法时，父类的方法如果抛出了异常，那么子类的方法只能抛出父类的异常或者该异常的子类或者不抛。</p>
+<p>2.如果父类抛出多个异常，那么子类只能抛出父类异常的子集。即父类有ABCD 四个异常，子类只能抛出其中3个及其以下的异常</p>
+<p>简单说子类覆盖父类，只能抛出父类的异常或者子类或者子集。</p>
+<p><strong>注意</strong>：如果父类的方法没有抛出异常，那么子类覆盖时绝对不能抛，就只能try。</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaSE-面向对象多态内部类</title>
     <url>/2020/03/21/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%A4%9A%E6%80%81%E5%86%85%E9%83%A8%E7%B1%BB/</url>
     <content><![CDATA[<h1 id="面向对象-多态-amp-内部类"><a href="#面向对象-多态-amp-内部类" class="headerlink" title="面向对象-多态&amp;内部类"></a>面向对象-多态&amp;内部类</h1><h2 id="1-面向对象-多态-概述、好处"><a href="#1-面向对象-多态-概述、好处" class="headerlink" title="1 面向对象-多态-概述、好处"></a>1 面向对象-多态-概述、好处</h2><p>定义：某一类型事物的多种存在形态</p>
