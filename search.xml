@@ -1,9 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>JavaSE-面向对象线程安全、同步、锁</title>
-    <url>/2020/03/23/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E3%80%81%E5%90%8C%E6%AD%A5%E3%80%81%E9%94%81/</url>
-    <content><![CDATA[<h1 id="面向对象线程安全、同步、锁"><a href="#面向对象线程安全、同步、锁" class="headerlink" title="面向对象线程安全、同步、锁"></a>面向对象线程安全、同步、锁</h1><h2 id="1-线程安全问题的现象、问题产生的原因"><a href="#1-线程安全问题的现象、问题产生的原因" class="headerlink" title="1 线程安全问题的现象、问题产生的原因"></a>1 线程安全问题的现象、问题产生的原因</h2><p>建立多线程进行买票操作时，可能会出现这样一种状况：假设当票数减到1时，cpu切到线程0运行，符合票数&gt;0的条件，线程0就具备执行资格，但这时cpu突然切换到线程1，同样这时票数还是为1，线程1也符合条件，具备执行资格，然后这时cpu又切换回线程0，执行输出语句，执行完，票数变为0，然后切到线程1，执行输出语句，这时票数输出为0，但这是不符合条件的，却又输出了。这就出现了线程安全问题。</p>
+    <title>JavaSE-常用对象API-StringBuffer、StringBuilder类</title>
+    <url>/2020/03/24/JavaSE-%E5%B8%B8%E7%94%A8%E5%AF%B9%E8%B1%A1API-StringBuffer%E3%80%81StringBuilder%E7%B1%BB/</url>
+    <content><![CDATA[<h1 id="常用对象API-StringBuffer、StringBuilder类"><a href="#常用对象API-StringBuffer、StringBuilder类" class="headerlink" title="常用对象API-StringBuffer、StringBuilder类"></a>常用对象API-StringBuffer、StringBuilder类</h1><h2 id="StringBuffer类"><a href="#StringBuffer类" class="headerlink" title="StringBuffer类"></a>StringBuffer类</h2><h2 id="1特点-amp-添加功能-amp-插入"><a href="#1特点-amp-添加功能-amp-插入" class="headerlink" title="1特点&amp;添加功能&amp;插入"></a>1特点&amp;添加功能&amp;插入</h2><p>Buffer：缓冲区</p>
+<p>StringBuffer:就是字符串缓冲区</p>
+<p>​        用于存储数据的容器</p>
+<p>特点：</p>
+<p>1.长度是可变的</p>
+<p>2.可以存储不同类型数据</p>
+<p>3.最终要转成字符串进行使用</p>
+<p>4.可以对字符串进行修改</p>
+<a id="more"></a>
+
+<p>功能：添加</p>
+<p>StringBuffer append(data);</p>
+<p>StringBuffer insert(index,data);//index是插入的位置索引，data是插入的数</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">StringBuffer sb = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">sb.append(<span class="number">2</span>).append(<span class="keyword">false</span>).append(<span class="string">"aa"</span>);</span><br><span class="line">sb.insert(<span class="number">2</span>,bb);</span><br><span class="line">结果：<span class="number">2f</span>alseaa</span><br><span class="line">     <span class="number">2f</span>bbalseaa</span><br></pre></td></tr></table></figure>
+
+<p>2删除&amp;查找&amp;修改</p>
+<p>删除</p>
+<p>StringBuffer delete(int start,int end);包含头，不包含尾</p>
+<p>StringBuffer deleteAt(int index);删除指定位置的元素</p>
+<p>查找</p>
+<p>char charAt(index);</p>
+<p>int indexOf(string);</p>
+<p>int lastIndexOf(string);</p>
+<p>修改</p>
+<p>StringBuffer replace(int start,int end,string str);</p>
+<p>void setCharAt(index,char);</p>
+<p>其他</p>
+<p>设置长度：setLength(int num);</p>
+<p>反转：reverse();</p>
+<h2 id="3-可变长度数组"><a href="#3-可变长度数组" class="headerlink" title="3 可变长度数组"></a>3 可变长度数组</h2><p>StringBuffer有四种构造方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">StringBuffer();构造一个没有字符的字符串缓冲区，初始容量为<span class="number">16</span>个字符</span><br><span class="line">StringBuffer(CharSequence seq);构造一个包含与指定的相同字符的字符串缓冲区</span><br><span class="line">StringBuffer(<span class="keyword">int</span> capacity);构造一个没有字符的字符串缓冲区和指定的初始容量</span><br><span class="line">StringBuffer(String str);构造一个初始化为指定字符串内容的字符缓冲区</span><br></pre></td></tr></table></figure>
+
+<p>如果用第一个构造方法，一开始默认是16个字符。若要进去第17个，则先复制原来的数组，创建为原来两倍的新数组，再将原来的数组复制到新数组。这是可变长度数组原理</p>
+<p>第三个函数是指定初始容量。与第一个的区别是在于效率上。如果能一开始能确定数组在比如40个以内，则就构造40即可，若是第一个，一旦超过16，则要延长，要开辟空间，进行运算</p>
+<h2 id="StringBuilder类"><a href="#StringBuilder类" class="headerlink" title="StringBuilder类"></a>StringBuilder类</h2><p>1</p>
+<p>StringBuilder类提供一个与StringBuffer兼容的API，功能一样，用法一样。其实就是一类。</p>
+<p>但StringBuilder不保证同步，即不安全。</p>
+<p>jdk1.5以后出现了功能和StringBuffer一模一样的对象，就是StringBuilder</p>
+<p>不同的是</p>
+<p>StringBuffer是线程同步的。通常用于多线程</p>
+<p>StringBuilder是线程不同步的。通常用于单线程   </p>
+<p>二者通常应该优先使用StringBuilder类，因为它支持所有相同的操作，但是由于它不执行同步，所以速度更快（不执行锁）。</p>
+<p>jdk升级原因</p>
+<p>1.简化书写</p>
+<p>2.提高效率</p>
+<p>3.增加安全性</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-常用对象API-String类</title>
+    <url>/2020/03/24/JavaSE-%E5%B8%B8%E7%94%A8%E5%AF%B9%E8%B1%A1API-String%E7%B1%BB/</url>
+    <content><![CDATA[<h1 id="常用对象API-String类"><a href="#常用对象API-String类" class="headerlink" title="常用对象API-String类"></a>常用对象API-String类</h1><h2 id="1特点"><a href="#1特点" class="headerlink" title="1特点"></a>1特点</h2><p>字符串对象一旦被初始化就不会被改变</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String s = <span class="string">"abc"</span>;</span><br><span class="line">s = <span class="string">"nba"</span>;</span><br><span class="line">System.out.println(s);</span><br><span class="line">结果：nba</span><br></pre></td></tr></table></figure>
+
+<p>原因：</p>
+<p>s是引用型变量，“abc”是被创建的字符串变量，它是不会被改变的。s=“nba”只是s引用的地址发生了变化。</p>
+<a id="more"></a>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String s = <span class="string">"abc"</span>;</span><br><span class="line">String s1 = <span class="string">"abc"</span>;</span><br><span class="line">System.out.println(s == s1);</span><br><span class="line">结果：<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+
+<p>原因：”abc”存储在字符串常量池中。如果没有就创建，如果有就直接拿来用。所以s建立时，到字符串常量池中找abc，发现没有，就建立，然后相应的地址赋给s。当s1也创建abc时，也在常量池中找，发现有，就直接拿其地址赋给s1，所以s和s1地址一样。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String s = <span class="string">"abc"</span>;</span><br><span class="line">String s1 = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br><span class="line">System.out.println(s == s1);</span><br><span class="line">System.out.println(s.equals(s1));</span><br><span class="line">结果：<span class="keyword">false</span></span><br><span class="line">     <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+
+<p>首先第一条是创建一个字符串对象在常量池中，第二条是创建两个对象一个new一个字符串对象在堆内存当中。然后s所引用的地址是常量池中abc的地址，s1引用的地址是new对象在堆内存中的地址，所以直接这两者比较是false。但是使用了equals方法结果是true是因为string类是Object类的子类，其equals复写Object中的equals建立了string类自己的判断字符串对象是否相同的依据，其实也就是比较字符串内容。</p>
+<h2 id="2-构造函数"><a href="#2-构造函数" class="headerlink" title="2 构造函数"></a>2 构造函数</h2><p>String(char[ ] value) </p>
+<p>分配一个新的String ，以便它表示当前包含在字符数组参数中的字符序列。</p>
+<p>字符数组的内容被复制; 字符数组的后续修改不会影响新创建的字符串。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">char</span>[] arr = &#123;<span class="string">'w'</span>,<span class="string">'a'</span>,<span class="string">'p'</span>,<span class="string">'q'</span>,<span class="string">'x'</span>&#125;;</span><br><span class="line">String s = <span class="keyword">new</span> String(arr);</span><br><span class="line">结果：s = wapqx</span><br></pre></td></tr></table></figure>
+
+<p>String(char[ ] value,int offset,int count) </p>
+<p>分配一个新的String ，其中包含字符数组参数的子阵列中的字符。 </p>
+<p>offset参数是子阵列的第一个字符的索引，count参数指定子阵列的长度。 </p>
+<p>副本的内容被复制; 字符数组的后续修改不会影响新创建的字符串</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">char</span>[] arr = &#123;<span class="string">'w'</span>,<span class="string">'a'</span>,<span class="string">'p'</span>,<span class="string">'q'</span>,<span class="string">'x'</span>&#125;;</span><br><span class="line">String s = <span class="keyword">new</span> String(arr,<span class="number">2</span>,<span class="number">3</span>);</span><br><span class="line">结果：s = pqx</span><br></pre></td></tr></table></figure>
+
+<p>String(byte[ ] bytes)</p>
+<p>通过使用平台的默认字符集解码指定的字节数组来构造新的String 。 </p>
+<p>新的String的长度是字符集的函数，因此可能不等于字节数组的长度。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">byte</span>[] arr = &#123;<span class="number">65</span>,<span class="number">66</span>,<span class="number">67</span>,<span class="number">68</span>&#125;;</span><br><span class="line">String s = <span class="keyword">new</span> String(arr);</span><br><span class="line">结果：s = ABCD</span><br></pre></td></tr></table></figure>
+
+<p>数字相应转变为ASCII码中对应的字母。</p>
+<p>更多的构造函数可以查看API文件</p>
+<h2 id="3-常见功能-获取"><a href="#3-常见功能-获取" class="headerlink" title="3 常见功能-获取"></a>3 常见功能-获取</h2><p>1.获取</p>
+<p>1.1 获取字符串中字符的个数(长度)</p>
+<p>int length();</p>
+<p>这与数组获取长度不用，数组获取长度是用的属性，而字符串是函数。</p>
+<p>1.2 根据位置获取字符</p>
+<p>char charAt(int index);</p>
+<p>1.3 根据字符获取在字符串中第一次出现的位置即索引</p>
+<p>int indexOf(int ch);参数是int类型，因为它会转成ASCII码。如果该字符不在则返回为-1</p>
+<p>int indexOf(int ch,int fromIndex);从指定位置进行字符的查找，返回第一次出现的位置</p>
+<p>int indexOf(String str);返回字符串在此字符串中第一次出现的位置</p>
+<p>int indexOf(String str,int fromIndex);从指定位置进行字符串的查找，返回第一次出现的位置</p>
+<p>根据字符获取在字符串中最后一次出现的位置即索引</p>
+<p>int lastIndexOf(int ch);返回最后一次出现的位置</p>
+<p>int lastIndexOf(int ch,int fromIndex);</p>
+<p>int lastIndexOf(String str);</p>
+<p>int lastIndexOf(String str,int fromIndex);</p>
+<p>1.4 获取字符串中的一部分字符串，也叫子串</p>
+<p>String substring (int beginIndex ,int endIndex);包含开始不包含结束</p>
+<p>String substring (int beginIndex);</p>
+<h2 id="4-常见功能-转换"><a href="#4-常见功能-转换" class="headerlink" title="4 常见功能-转换"></a>4 常见功能-转换</h2><p>2.1 将字符串变成字符串数组（字符串的切割）</p>
+<p>String[ ] split(String regex);根据正则表达式的匹配拆分此字符串 </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String s = <span class="string">"张三,李四,王五"</span>;</span><br><span class="line">String[] arr = s.split(<span class="string">','</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.length; i++)&#123;</span><br><span class="line">    System.out.println(arr[i]);</span><br><span class="line">&#125;</span><br><span class="line">结果：张三</span><br><span class="line">     李四</span><br><span class="line">     王五</span><br></pre></td></tr></table></figure>
+
+<p>如果是.的话，就需要转义一下，因为在正则表达式中.具有特殊的意义。转义需要两条反斜线，因为\.在正则表达式中也有特殊意义。</p>
+<p>2.2 将字符串变成字符数组</p>
+<p>char[ ] toCharArray();</p>
+<p>2.3 将字符串转成字节数组</p>
+<p>byte[ ] getBytes();</p>
+<p>2.4 将字符串中的字母转成大小写</p>
+<p>String toUpperCase();大写</p>
+<p>String toLowerCase();小写</p>
+<p>2.5 将字符串中的内容进行替换</p>
+<p>String replace(char oldch,char newch);</p>
+<p>String replace(string s1,string s2);</p>
+<p>若要替换的字母在字符串中不存在，则该方法无效。然后两个引用变量的地址相同</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String s1 = <span class="string">"java"</span>;</span><br><span class="line">String s2 = s1.replace(<span class="string">'a'</span>,<span class="string">'o'</span>);</span><br><span class="line">System.out.prinyln(s2);</span><br><span class="line">System.out.prinyln(s1 == s2);</span><br><span class="line">结果：jovo</span><br><span class="line">     <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+
+<p>2.6 将字符串两端的空格去除</p>
+<p>String trim();</p>
+<p>2.7 将字符串进行连接</p>
+<p>Srting concat(String str);</p>
+<h2 id="5-常见功能-判断"><a href="#5-常见功能-判断" class="headerlink" title="5 常见功能-判断"></a>5 常见功能-判断</h2><p>3.1 两个字符串内容是否相同</p>
+<p>boolean equals(Object obj);</p>
+<p>boolean equalsIgnoreCase(String str);忽略大写比较字符串内容，原理就是全部转换成小写</p>
+<p>3.2 字符串当中是否包含指定字符串</p>
+<p>boolean contains(string str);</p>
+<p>3.3 字符串是否以指定字符串开头，是否以指定字符串结尾</p>
+<p>boolean startsWith(string str);</p>
+<p>boolean endsWith(string str);</p>
+<h2 id="6-常见功能-比较"><a href="#6-常见功能-比较" class="headerlink" title="6 常见功能-比较"></a>6 常见功能-比较</h2><p>对数值的比较用的是&lt;&gt;==等，如4&gt;1</p>
+<p>对对象的比较如字符串用的是函数方法，如 “a”.compareTo(“A”)</p>
+<p>字符串的比较是基于字符串中各个字符的Unicode值，按字典顺序将此String对象表示的字符序列与参数字符串所表示的字符序列进行比较</p>
+<p>如果参数字符串等于此字符串，则返回值0。如果此字符串按字典顺序小于字符串参数，则返回一个小于0的值，如果此字符串按字典顺序大于字符串参数，则返回一个大于0的值。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">System.out.prinln(<span class="string">"abc"</span>.compareTo(<span class="string">"aqw"</span>));</span><br><span class="line">结果：-<span class="number">15</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="7-intern方法"><a href="#7-intern方法" class="headerlink" title="7 intern方法"></a>7 intern方法</h2><p>返回字符串对象的规范表示，可以对字符串池进行操作。 </p>
+<p>最初为空的字符串池由类String私有地维护。 </p>
+<p>当调用intern方法时，如果池已经包含与equals(Object)方法确定的等于此String对象的字符串，则返回来自池的字符串。否则，此String对象将添加到池中，并返回对此String对象的引用。 </p>
+<p>它遵循以下规则，对于任何两个字符串s和t ，当且仅当s.equals(t)是true 时s.intern() == t.intern()是true。 </p>
+<p>结果 </p>
+<p>一个字符串与该字符串具有相同的内容，则保证来自一个唯一的字符串池。</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-线程通信</title>
+    <url>/2020/03/24/JavaSE-%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1/</url>
+    <content><![CDATA[<h1 id="线程通信"><a href="#线程通信" class="headerlink" title="线程通信"></a>线程通信</h1><h2 id="1-等待-唤醒机制"><a href="#1-等待-唤醒机制" class="headerlink" title="1 等待/唤醒机制"></a>1 等待/唤醒机制</h2><p>如何完成你输入一次我输出一次的操作。</p>
+<p>这里就涉及到等待/唤醒机制</p>
+<p>等待/唤醒机制</p>
+<p>涉及的方法：</p>
+<p>1.wait();</p>
+<p>让线程处于冻结状态</p>
+<p>被wait的线程会被存储到线程池中</p>
+<p>如果线程在r锁被wait了，就存储在r锁的线程池中</p>
+<p>就只能用r锁的notify来唤醒，锁就用来监视这个线程。</p>
+<a id="more"></a>
+
+<p>2.notify();</p>
+<p>唤醒线程池中的一个线程（任意的）</p>
+<p>3.notifyAll();</p>
+<p>唤醒线程池中的所有线程</p>
+<p>这些方法必须定义在同步中</p>
+<p>因为这些方法是用于操作线程状态的方法，必须要明确到底操作的是哪个锁上的线程</p>
+<p>为什么操作线程的方法定义在Object类中？</p>
+<p>因为这些方法是监视器的方法，监视器其实就是锁。</p>
+<p>锁可以是任意的对象，任意的对象调用的方法一定定义在Object当中。</p>
+<p>if判断标记，只有一次，会导致不该运行的线程运行了，出现了数据错误的情况</p>
+<p>while判断标记，解决了线程获取执行权后是否要运行！</p>
+<p>notify只能唤醒一个线程，如果本方唤醒了本方，没有意义。而且while判断标记+notify会导致死锁</p>
+<p>notifyAll解决了本方线程一定会唤醒对方线程。</p>
+<p>但是唤醒所有的线程后，cpu执行的又是不需要的线程，则又要进行判断，这样效率不高，所以需要新的方法。</p>
+<h2 id="2-JDK1-5新特性-Lock、Condition"><a href="#2-JDK1-5新特性-Lock、Condition" class="headerlink" title="2 JDK1.5新特性-Lock、Condition"></a>2 JDK1.5新特性-Lock、Condition</h2><p>1.5版本以后，有对同步进行技术更新              </p>
+<p>原来synchronized(obj)中锁的操作是隐式的</p>
+<p>1.5以后，引入lock 接口</p>
+<p>Lock实现提供比使用synchronized方法和语句可以获得的更广泛的锁定操作。 它们允许更灵活的结构化，可能具有完全不同的属性，并且可以支持多个相关联的对象Condition。</p>
+<p>思想：将同步和锁封装成了对象，并将操作锁的隐式方式定义到了该对象中，将隐式动作变成了显示动作。</p>
+<p>所以相应的代码转变为</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Object obj = <span class="keyword">new</span> Object();</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(obj)&#123;</span><br><span class="line">        code...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//转变为</span></span><br><span class="line">Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        lock.lock()<span class="comment">//获取锁</span></span><br><span class="line">    &#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">    	lock.unlock();<span class="comment">//释放锁</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>lock.unlock()放在finally中是因为万一执行代码出现异常，如果不放在这里，则不会执行解锁，但我们需要每步之后都要解锁。</p>
+<p>Condition将Object监视器方法（ wait，notify和notifyAll）分装成不同的对象，以便通过将这些对象与任意Lock实现组合使用，为每个对象提供多个等待set（wait-set）。其中，Lock替换synchronized方法和语句的使用，Condition取代了Object监视器方法的使用。</p>
+<p>即以前一个锁只有一组监视器方法，现在可以创建多个Condition对象，这样现在一个锁就可以有多个监视器方法</p>
+<p>转变如下</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Object</span></span>&#123;</span><br><span class="line">    wait();</span><br><span class="line">    notify();</span><br><span class="line">    notifyAll();</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> <span class="keyword">extends</span> <span class="title">Object</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">Demo d = <span class="keyword">new</span> Demo();</span><br><span class="line"><span class="keyword">synchronized</span>(d)&#123;</span><br><span class="line">    d.wait();</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Condition</span></span>&#123;</span><br><span class="line">    await();<span class="comment">//对标wait();</span></span><br><span class="line">    signal();<span class="comment">//对标notify();</span></span><br><span class="line">    signalAll();<span class="comment">//对标signalAll();</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//转变为</span></span><br><span class="line">Lock lock = <span class="keyword">new</span> reentrantLock();</span><br><span class="line">Condition c1 = lock.newCondition();</span><br><span class="line">Condition c2 = lock.newCondition();</span><br></pre></td></tr></table></figure>
+
+<p>Lock接口：出现替代了同步代码块或者同步函数，将同步的隐式锁操作变成现实锁操作</p>
+<p>同时更为灵活，可以一个锁上加上多组监视器</p>
+<p>lock();获取锁</p>
+<p>unlock();释放锁，通常需要定义在finally代码块中</p>
+<p>Conditon接口：出现替代了Object中的wait notify notifyAll方法</p>
+<p>​              将这些监视器方法单独进行了封装，变成Condition监视器对象</p>
+<p>​              可以任意锁进行组合</p>
+<p>await(); signal(); signalAll();</p>
+<h2 id="3-wait和sleep的区别"><a href="#3-wait和sleep的区别" class="headerlink" title="3  wait和sleep的区别"></a>3  wait和sleep的区别</h2><p>wait和sleep区别</p>
+<p>1.wait可以指定时间也可以不指定</p>
+<p> sleep必须指定时间</p>
+<p>2.在同步中是，对cpu的执行权和锁的处理不同</p>
+<p> wait：释放执行权，释放锁</p>
+<p> sleep：释放执行权，不释放锁</p>
+<p>同步中可以进入有多个线程，但是要执行只能拿到锁的才能执行。</p>
+<h2 id="4-停止线程的方式"><a href="#4-停止线程的方式" class="headerlink" title="4 停止线程的方式"></a>4 停止线程的方式</h2><p>第一种方式：定义标记</p>
+<p>1.stop方法，已过时，不建议使用</p>
+<p>2.run方法结束</p>
+<p>怎么控制线程的任务结束</p>
+<p>任务中都会有循环结构，只要控制住循环就可以结束任务。</p>
+<p>控制循环通常就用定义标记来完成</p>
+<p>第二种方式：Interrupt</p>
+<p>但是如果线程处于冻结状态，就无法读取标记</p>
+<p>可以使用interrupt();方法将线程从冻结状态强制恢复到运行状态中来，让线程具备cpu执行资格</p>
+<p>但是强制动作会发生InterruptedException，记得要处理</p>
+<h2 id="5-守护线程-setDaemon"><a href="#5-守护线程-setDaemon" class="headerlink" title="5 守护线程-setDaemon"></a>5 守护线程-setDaemon</h2><p>setDaemon();该方法将此线程标记为daemon线程或用户线程。</p>
+<p>当正在运行的线程都是守护进程线程时，Java虚拟机将退出。</p>
+<p>该方法必须在线程启动前调用。</p>
+<p>也可以称为联合线程，后台线程</p>
+<p>后台线程：它和前台线程都正常进行开启，运行也一样。结束时。前台线程结束需要手动结束，而后台线程如果所有前台都结束了，后台线程无论处于什么状态，都将结束。</p>
+<h2 id="6-其他方法"><a href="#6-其他方法" class="headerlink" title="6 其他方法"></a>6 其他方法</h2><p>join</p>
+<p>在进行线程运算时，希望临时加入一个线程进来进行运算，这是就要使用join方法。</p>
+<p>join方法：等待这个线程结束，会抛出InterruptedException</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JoinDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Demo d = <span class="keyword">new</span> Demo();</span><br><span class="line">        Thread t1 = <span class="keyword">new</span> <span class="function">Thread <span class="title">t1</span><span class="params">(d)</span></span>;</span><br><span class="line">        Thread t2 = <span class="keyword">new</span> <span class="function">Thread <span class="title">t2</span><span class="params">(d)</span></span>;</span><br><span class="line">        t1.start();</span><br><span class="line">        t1.join();</span><br><span class="line">        </span><br><span class="line">        t2.start();</span><br><span class="line">        t1.join();</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述示例中：</p>
+<p>第一个join方法：t1线程申请要加入进来，运行，然后主线程释放执行权和执行资格，主线程处于冻结状态。然后等待该线程运行结束才重新获得执行权</p>
+<p>第二个join方法：若join在这，则主线程释放执行权和执行资格，处于冻结状态，t1和t2争抢执行权。主线程只有等t1执行完之后才能够重新获得执行资格和执行权</p>
+<p>toString();返回此线程的字符串表示，包括线程的名称、优先级和线程组</p>
+<p>*.setPriority(Thread.MAX_PRIORITY);可以将其设置为最高优先级</p>
+<p>线程组</p>
+<p>表示一个线程的集合。此外，线程组也可以包含其他线程。线程组构成一颗树，在树中，除了初始线程组外，每个线程组都有一个父线程组。具体以后再说。</p>
+<p>yield();暂停当前正在执行的线程对象，并执行其他线程。</p>
+<p>即当线程执行该方法时，释放执行权。这样别的线程和该线程又开始同时竞争执行权</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-线程安全、同步、锁</title>
+    <url>/2020/03/23/JavaSE-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E3%80%81%E5%90%8C%E6%AD%A5%E3%80%81%E9%94%81/</url>
+    <content><![CDATA[<h1 id="线程安全、同步、锁"><a href="#线程安全、同步、锁" class="headerlink" title="线程安全、同步、锁"></a>线程安全、同步、锁</h1><h2 id="1-线程安全问题的现象、问题产生的原因"><a href="#1-线程安全问题的现象、问题产生的原因" class="headerlink" title="1 线程安全问题的现象、问题产生的原因"></a>1 线程安全问题的现象、问题产生的原因</h2><p>建立多线程进行买票操作时，可能会出现这样一种状况：假设当票数减到1时，cpu切到线程0运行，符合票数&gt;0的条件，线程0就具备执行资格，但这时cpu突然切换到线程1，同样这时票数还是为1，线程1也符合条件，具备执行资格，然后这时cpu又切换回线程0，执行输出语句，执行完，票数变为0，然后切到线程1，执行输出语句，这时票数输出为0，但这是不符合条件的，却又输出了。这就出现了线程安全问题。</p>
 <p><strong>线程安全问题产生的原因</strong>:</p>
 <p>1.多个线程在操作共享数据。</p>
 <p>2.操作共享数据的线程代码有多条</p>
@@ -72,9 +317,9 @@
       </tags>
   </entry>
   <entry>
-    <title>JavaSE-面向对象多线程</title>
-    <url>/2020/03/23/JavaSE-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="面向对象-多线程"><a href="#面向对象-多线程" class="headerlink" title="面向对象-多线程"></a>面向对象-多线程</h1><h2 id="1-多线程-概述"><a href="#1-多线程-概述" class="headerlink" title="1 多线程-概述"></a>1 多线程-概述</h2><p>进程：正在进行中的程序（直译）</p>
+    <title>JavaSE-多线程</title>
+    <url>/2020/03/23/JavaSE-%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h1><h2 id="1-多线程-概述"><a href="#1-多线程-概述" class="headerlink" title="1 多线程-概述"></a>1 多线程-概述</h2><p>进程：正在进行中的程序（直译）</p>
 <p>线程：就是进程中一个负责程序执行的控制单元（执行路径）</p>
 <p>一个进程中可以有多个执行路径，称之为多线程</p>
 <p>一个进程当中至少有个线程。</p>
