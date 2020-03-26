@@ -1,6 +1,293 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>JavaSE-其他对象API</title>
+    <url>/2020/03/26/JavaSE-%E5%85%B6%E4%BB%96%E5%AF%B9%E8%B1%A1API/</url>
+    <content><![CDATA[<h1 id="其他对象API"><a href="#其他对象API" class="headerlink" title="其他对象API"></a>其他对象API</h1><h2 id="1-System类"><a href="#1-System类" class="headerlink" title="1 System类"></a>1 <strong>System类</strong></h2><p>System类包含一些有用的类字段和方法，它不能被实例化，即构造函数不对外提供。</p>
+<p>System：类中的方法和属性都是静态的。</p>
+<p>字段有：out、in、err    </p>
+<p>常见方法：</p>
+<p>long currentTimeMillis();获取当前时间的毫秒值。</p>
+<a id="more"></a>
+
+<p><strong>Properties类</strong></p>
+<p>获取系统的属性信息，并存储到Properties集合中，Properties集合是map集合的子类</p>
+<p>Properties集合中存储都是String类型的键和值</p>
+<p>最好使用它自己的存储和取出的方法来完成元素的操作</p>
+<p>System.getProperties();可以获得系统属性信息Properties类对象</p>
+<p>由于<strong>不同系统的分隔符代码不同</strong>，所以需要定义一个字符串类型量来存储当前系统的分隔符符号。这样此程序就能适用于所有系统而不需要再此修改。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String LINE_SEPARATOR = System.getProperties(<span class="string">"line.seperator"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>给系统设置一些属性信息，这些信息是全局的，其他程序也可以使用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">System.setProperties(<span class="string">"mykey"</span>,<span class="string">"myvalue"</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Runtime类"><a href="#2-Runtime类" class="headerlink" title="2 Runtime类"></a><strong>2 Runtime类</strong></h2><p>每个Java程序都有一个Runtime实例，使应用程序能够与其运行的环境相连接可以通过getRuntime方法获取当前运行时应用程序不能创建自己的Runtime类实例。</p>
+<p>此类也没有对外提供构造函数，这时</p>
+<p><strong>注意：</strong>如果没有提供构造函数，那么意味着这个类不能创建对象，这个类的方法都是静态的。</p>
+<p>​    如果这个类有非静态的方法，则一定存在着至少一个方法是静态并返回构造对象。</p>
+<p>Runtime：没有构造方法摘要，说明该类不可以创建对象。又发现还有非静态的方法，说明应该提供静态的返回该类对象的方法。而且只有一个，说明Runtime类使用了<strong>单例设计模式</strong></p>
+<h2 id="3-Math类"><a href="#3-Math类" class="headerlink" title="3 Math类"></a>3 <strong>Math类</strong></h2><p>Math前面有final修饰，不能被继承，其包含用于执行基本数学运算的方法，如初等指数，对数，平方根和三角函数。都是静态方法</p>
+<p>常用方法：</p>
+<p>ceil();返回大于参数的最小整数。</p>
+<p>floor();返回小于参数的最大整数。</p>
+<p>round();返回四舍五入的整数</p>
+<p>pow(a,b);返回a的b次方</p>
+<p>random();返回0-1之间的伪随机数</p>
+<p>random还可以封装成对象，即random对象</p>
+<h2 id="4-Date类"><a href="#4-Date类" class="headerlink" title="4 Date类"></a>4 <strong>Date类</strong></h2><p>Date类表示特定的瞬间，精确到毫秒。</p>
+<p>Date类可以接受或返回年、月、日、小时、分钟和秒值的方法，<strong>表示形式</strong>为</p>
+<p>年份y由整数y-1900表示</p>
+<p>月份从0至11的整数表示，0代表1月，11代表12月</p>
+<p>日期从1至31的整数表示</p>
+<p>小时从0至23的整数表示</p>
+<p>秒从0至61的整数表示，60和61只对闰秒发生</p>
+<p>日期对象和毫秒值之间的转换</p>
+<p>毫秒值转成日期对象：</p>
+<p>1.通过Date对象的构造方法完成 new Date(timeMillis)；</p>
+<p>2.通过setTime(long time)设置</p>
+<p>因为可以通过Date对象的方法对该日期中的各个字段（年月日等）进行操作</p>
+<p>日期对象转成毫秒值：</p>
+<p>1.getTime方法</p>
+<p>因为可以通过具体的数值进行运算</p>
+<p><strong>日期对象转换成字符串</strong></p>
+<p>对日期对象进行格式化，需要用到<strong>日期格式对象</strong>，即<strong>DateFormat</strong>。</p>
+<p>将日期对象转成日期格式的字符串</p>
+<p>使用的是DateFormat类中的<strong>format</strong>方法。</p>
+<p>获取日期格式对象，具备系统默认的风格。也可以指定FULL LONG SHORT MEDIUM风格</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Date date = <span class="keyword">new</span> Date();</span><br><span class="line">DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);</span><br><span class="line">String str = dateFormat.format(date);</span><br></pre></td></tr></table></figure>
+
+<p>如果风格是自定义的如何解决？使用dateFormat的子类SimpleDateFormat</p>
+<p><strong>字符串转成日期对象</strong></p>
+<p>将日期格式的字符串转成日期对象</p>
+<p>使用的是DateFormat类中的parse()方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str_date = <span class="string">"2019-10-05"</span>;</span><br><span class="line">DateFormat dateFormat = DateFormat.getDateInstance();</span><br><span class="line">Date date = dateFormat.parse(str_date);</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-Calendar类"><a href="#5-Calendar类" class="headerlink" title="5 Calendar类"></a>5 <strong>Calendar类</strong></h2><p><strong>Calender类</strong>是一个<strong>抽象类</strong>，它为特定瞬间与一组诸如YEAR MONTH DAY_OF_MONTH HOUR等日历字段之间的转换提供了一些方法，并为操作日历字段提供了一些方法。</p>
+<p>练习：</p>
+<p>得出指定年份2月的天数</p>
+<p>基于08的演示再加上下面的代码</p>
+<p>思路：先将日期设置为指定那年的3月1日，在用偏移方法偏移一天即可得到结果。</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-常见对象API-集合框架4</title>
+    <url>/2020/03/26/JavaSE-%E5%B8%B8%E8%A7%81%E5%AF%B9%E8%B1%A1API-%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B64/</url>
+    <content><![CDATA[<h1 id="常见对象API-集合框架4"><a href="#常见对象API-集合框架4" class="headerlink" title="常见对象API-集合框架4"></a>常见对象API-集合框架4</h1><h2 id="集合-工具类-amp-JDK5-0特性"><a href="#集合-工具类-amp-JDK5-0特性" class="headerlink" title="集合-工具类&amp;JDK5.0特性"></a>集合-工具类&amp;JDK5.0特性</h2><h2 id="1-Collections"><a href="#1-Collections" class="headerlink" title="1 Collections"></a>1 Collections</h2><p>Collections:是集合框架的工具类，里面的方法都是静态的。</p>
+<p>排序：Collections.sort();</p>
+<p>调换位置顺序：Collections.swap();</p>
+<p>若要按照其它方式排序就要重写比较器的方法并传入。</p>
+<p>Collections.sort(List&lt;? extends T&gt; list, Comparator&lt;? Super T&gt; c);</p>
+<a id="more"></a>
+
+<p>用二分搜索法搜索指定列表，以获得指定对象，返回对象索引。</p>
+<p>static int binarySearch(List&lt;? extends Comparable&lt;? Super T&gt;&gt; list,T key)</p>
+<p>static int binarySearch(List&lt;? extends T&gt; list,T key,Comparator&lt;? Super T&gt; c)</p>
+<p>获取最大值</p>
+<p>max(Collection&lt;? extends T&gt; coll)</p>
+<p>max(Collection&lt;? extends T&gt; coll,Comparator&lt;? super T&gt; comp</p>
+<p>逆序</p>
+<p>reverseOrder();返回一个比较器，强行逆转了Comparable接口的对象collection的自然顺序</p>
+<p>reverseOrder(Comparator&lt;T&gt;,comp);返回一个比较器，强行逆转指定比较器的顺序</p>
+<p>reverse(List&lt;?&gt; list);反转指定列表中的元素。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">使用方法:</span><br><span class="line">TreeSet&lt;String&gt; ts = <span class="keyword">new</span> TreeSet&lt;String&gt;(Collections.reverseOder());</span><br><span class="line">相当于传入了一个跟之前比较器比较顺序相反的比较器。</span><br></pre></td></tr></table></figure>
+
+<p>替换</p>
+<p>static boolean ReplaceAll(List(T) list,T oldVal,T newVal);使用另一个值替换列表中出现的所有某一指定值。</p>
+<p>fill(List&lt;? super T&gt; list,T obj);使用指定元素替换列表中的所有元素</p>
+<p>其他方法</p>
+<p>shuffle(List&lt;?&gt; list);使用默认随机源对指定列表进行置换</p>
+<p>enumertion(Collection&lt;T&gt; coll);返回指定集合上的枚举。</p>
+<p>list(Enumeration&lt;T&gt; e);返回一个数组列表，它按返回顺序包含指定枚举返回的元素</p>
+<p><strong>toArray方法</strong></p>
+<p>toArray();返回包含此collection中所有元素的数组。</p>
+<p>toArray(T[ ] a);返回包含此collection中所有元素的数组；返回数组运行时类型与指定数组的运行时类型相同。</p>
+<p>集合转成数组</p>
+<p>使用的就是Colletion接口中的toArray方法。</p>
+<p>集合转成数组可以对集合中的元素操作的方法进行限定。不允许对其进行增删。</p>
+<p>toArray方法需要传入一个指定类型的数组</p>
+<p>​    如果长度小于集合的size，那么该方法会创建一个同类型并和集合相同size的数组</p>
+<p>​    如果长度大于集合的size，那么该该方法会使用指定的数组，存储集合中的元素，其他位置默认为null</p>
+<p>​    所以建议最后长度指定为集合的size。</p>
+<h2 id="2-将非同步集合转成同步集合的方法"><a href="#2-将非同步集合转成同步集合的方法" class="headerlink" title="2 将非同步集合转成同步集合的方法"></a>2 <strong>将非同步集合转成同步集合的方法</strong></h2><p>synchronizedCollection(Collection&lt;T&gt; coll);返回指定列表支持的同步（线程安全）集合。</p>
+<p>synchronizedList(List&lt;T&gt; list);返回指定列表支持的同步（线程安全）列表。</p>
+<p>synchronizedMap(Map&lt;K,V&gt; map);返回指定列表支持的同步（线程安全）映射。</p>
+<p>synchronizedSet(Set&lt;T&gt; set);返回指定列表支持的同步（线程安全）set。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List list = <span class="keyword">new</span> ArrayList();<span class="comment">//非同步list</span></span><br><span class="line">list = synchronizedList(list);<span class="comment">//返回一个同步的list</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-Arrays-方法介绍、asList方法"><a href="#3-Arrays-方法介绍、asList方法" class="headerlink" title="3  Arrays-方法介绍、asList方法"></a>3  <strong>Arrays-方法介绍、asList方法</strong></h2><p>Arrays:集合框架的工具类。里面的方法都是静态的</p>
+<p>重点：asList(T.. a);返回一个受指定数组支持的固定大小的列表。充当了基于数组的API与基于Collection的API之间的桥梁，<strong>将数组转成集合</strong></p>
+<p>好处：其实可以使用集合的方法操作数组中的元素</p>
+<p>1.数组的长度是固定的，所以对于集合的增删方法是不可以使用的。否则会发生UnsupportedOperationException异常。</p>
+<p>\2. 如果数组中的元素是对象，那么转成集合时，将数组中的元素作为集合中的元素进行集合存储。如果数组中的元素是基本类型数值，那么会将该数组作为集合中的元素进行存储。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span>[] arr = &#123;<span class="number">3</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">4</span>&#125;;</span><br><span class="line">List&lt;<span class="keyword">int</span>[]&gt; list = Arrays.asList(arr);</span><br><span class="line">System.out.println(list);</span><br><span class="line">结果：[I@<span class="number">139</span>a55]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-JDK5-0特性-ForEach循环"><a href="#4-JDK5-0特性-ForEach循环" class="headerlink" title="4 JDK5.0特性-ForEach循环"></a>4 <strong>JDK5.0特性-ForEach循环</strong></h2><p>foreach语句：</p>
+<p>​        格式：</p>
+<p>​        for(类型 变量:Collection集合或者数组)</p>
+<p>​        {</p>
+<p>​        </p>
+<p>​        }</p>
+<p>传统for循环和高级for循环的区别：</p>
+<p>​        传统for可以完成对语句执行很多次，因为可以定义控制循环的增量和条件。</p>
+<p>​        </p>
+<p>​        高级for是一种简化形式</p>
+<p>​        它必须有被遍历的目标。该目标要么是数组要么是Collection单列集合</p>
+<p>​        </p>
+<p>​        对于数组的遍历，如果仅仅是获取数组中的元素，可以使用高级for。</p>
+<p>​        如果要对数组的角标进行操作，建议使用传统for。</p>
+<p>不可以使用高级for遍历map集合，但是可以将map转成单列的set就可以用。</p>
+<h2 id="5-JDK5-0特性-函数可变参数"><a href="#5-JDK5-0特性-函数可变参数" class="headerlink" title="5 JDK5.0特性-函数可变参数"></a>5 <strong>JDK5.0特性-函数可变参数</strong></h2><p>函数的可变参数：就是方法的参数列表不确定有多少参数时可以用</p>
+<p>其实就是一个数组，但是接受的是数组的元素</p>
+<p>自动将这些元素封装成数组，简化了调用者的书写</p>
+<p><strong>注意：</strong>可变参数类型必须定义在参数列表的结尾处。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">newAdd</span><span class="params">(<span class="keyword">int</span> ... arr)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; arr.length; i++)&#123;</span><br><span class="line">        sum += arr[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> sum = newAdd(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line">System.out.println(sum);</span><br><span class="line">结果：<span class="number">15</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-JDK5-0特性-静态导入"><a href="#6-JDK5-0特性-静态导入" class="headerlink" title="6 JDK5.0特性-静态导入"></a>6 <strong>JDK5.0特性-静态导入</strong></h2><p>静态导入可以省略代码的缩写，可用可不用。</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-常见对象API-集合框架3</title>
+    <url>/2020/03/26/JavaSE-%E5%B8%B8%E8%A7%81%E5%AF%B9%E8%B1%A1API-%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B63/</url>
+    <content><![CDATA[<h1 id="常见对象API-集合框架3"><a href="#常见对象API-集合框架3" class="headerlink" title="常见对象API-集合框架3"></a>常见对象API-集合框架3</h1><h2 id="Map集合"><a href="#Map集合" class="headerlink" title="Map集合"></a>Map集合</h2><h2 id="1-Map集合特点-amp-常用方法、常用方法演示"><a href="#1-Map集合特点-amp-常用方法、常用方法演示" class="headerlink" title="1 Map集合特点&amp;常用方法、常用方法演示"></a><strong>1 Map集合特点&amp;常用方法、常用方法演示</strong></h2><p>Map：一次添加一对元素。Collection一次添加一个元素</p>
+<p>​    Map也称为双列集合，Collection集合称为单列集合</p>
+<p>​    其实map集合中存储的就<strong>键值对</strong></p>
+<p>​    map集合中必须保证<strong>键的唯一性</strong></p>
+<p>1.添加</p>
+<p>​    value put(key,value):返回前一个和key关联的值，如果没有则返回null</p>
+<p>2.删除</p>
+<p>​    void clear():清空map集合</p>
+<p>​    value remove(key):根据指定的key删除指定的键值对。</p>
+<p>3.判断</p>
+<p>​    boolean containsKey(key):是否包含该键</p>
+<p>​    boolean containsValue(value):是否包含该值</p>
+<p>​    boolean isEmpty():是否为空</p>
+<p>4.获取</p>
+<p>​    value get(key):通过键获取值，如果没有该键返回null。</p>
+<p>​                  当然可以通过返回null来判断是否包含指定键。</p>
+<p>​    int size():获取键值对的个数。</p>
+<h2 id="2-Map集合重点方法keySet演示"><a href="#2-Map集合重点方法keySet演示" class="headerlink" title="2 Map集合重点方法keySet演示"></a><strong>2 Map集合重点方法keySet演示</strong></h2><p>取出Map中的所有元素，这里就用到keySet方法</p>
+<p>Set keySet();返回此映射中的所有键的set集合</p>
+<p>原理：通过keySet方法获取所有的键所在的set集合，再通过set的迭代器获取到每一个键，再对每一个键通过get方法获取其对应的值即可</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;Integer,String&gt; map = <span class="keyword">new</span> HashMap&lt;Integer, String&gt;();</span><br><span class="line">map.put(<span class="number">8</span>,<span class="string">"aaa"</span>);</span><br><span class="line">map.put(<span class="number">1</span>,<span class="string">"qqq"</span>);</span><br><span class="line">map.put(<span class="number">5</span>,<span class="string">"sss"</span>);</span><br><span class="line"></span><br><span class="line">Set&lt;Integer&gt; keySet = map.keySet();</span><br><span class="line">Iterator&lt;Integer&gt; it = keySet.iterator();</span><br><span class="line"><span class="keyword">while</span>(it.hasNext())&#123;</span><br><span class="line">	<span class="keyword">int</span> key = it.next();</span><br><span class="line">    String value = map.get(key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-Map集合重点方法entrySet演示"><a href="#3-Map集合重点方法entrySet演示" class="headerlink" title="3 Map集合重点方法entrySet演示"></a><strong>3 Map集合重点方法entrySet演示</strong></h2><p>另一种取出Map中所有元素的方法，这里用到entrySet方法</p>
+<p>Map.Entry&lt;K,V&gt; entrySet();返回此映射的映射关系的set集合。</p>
+<p>这样通过entrySet方法Map就转成set，这样就可以迭代</p>
+<p>该方法将键和值的映射关系作为对象存储到了Set集合中，而这个映射关系的类型就是Map.Entry类型（类似于结婚证）。</p>
+<p>然后通过该类中的getKey和getValue方法得到Map中的元素。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Map&lt;Integer,String&gt; map = <span class="keyword">new</span> HashMap&lt;Integer, String&gt;();</span><br><span class="line">map.put(<span class="number">8</span>,<span class="string">"aaa"</span>);</span><br><span class="line">map.put(<span class="number">1</span>,<span class="string">"qqq"</span>);</span><br><span class="line">map.put(<span class="number">5</span>,<span class="string">"sss"</span>);</span><br><span class="line"></span><br><span class="line">Set&lt;Map.Entry&lt;Integer, String&gt;&gt; set = map.entrySet();</span><br><span class="line">Iterator&lt;Integer&gt; it = set.iterator();</span><br><span class="line"><span class="keyword">while</span>(it.hasNext())&#123;</span><br><span class="line">    Map.Entry&lt;Integer, String&gt; ME = it.next();</span><br><span class="line">	<span class="keyword">int</span> key = it.getKey();</span><br><span class="line">    String value = it.getValue();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Map.Entry是内部嵌套类</p>
+<p>Entry包含键和值的内容，只有先有Map映射，才存在着关系，而把关系封装成对象，关系要访问Map中的键和值，即外部规则含有内部规则，内部规则直接访问外部规则的内容。</p>
+<h2 id="4-方法Values演示"><a href="#4-方法Values演示" class="headerlink" title="4 方法Values演示"></a>4 <strong>方法Values演示</strong></h2><p>Colletion values();返回此映射中包含的值的Collection集合。</p>
+<p>返回值是Collection不是Set是因为值可以重复，键不能重复。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Collection&lt;String&gt; values = map.values();</span><br><span class="line">Iterator&lt;String&gt; it = values.iterator();</span><br><span class="line"><span class="keyword">while</span>(it.hasNext())&#123;</span><br><span class="line">	String str = it.next();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-常见子类"><a href="#5-常见子类" class="headerlink" title="5 常见子类"></a>5 常见子类</h2><p>Map常见的子类</p>
+<p>​    HashTable：内部结构是哈希表，是同步的。不允许null作为键，null作为值。</p>
+<p>​               子类Properties：用来存储键值对型的配置文件的信息，可以和IO技术相结合。</p>
+<p>​    HashMap：内部结构是哈希表，是不同步的。允许null作为键，null作为值。</p>
+<p>​    TreeMap：内部结构是二叉树，是不同步的。可以对Map集合中的键进行排序。</p>
+<p>​    ConcurrentHashMap：内部结构是哈希表，线程安全，CAS+同步锁，数组+链表+红黑                                              树，不允许null作为键，null作为值。</p>
+<h2 id="6-LinkedHashMap-amp-关联码"><a href="#6-LinkedHashMap-amp-关联码" class="headerlink" title="6 LinkedHashMap&amp;关联码"></a>6 <strong>LinkedHashMap&amp;关联码</strong></h2><p>LinkedHashMap存进去时，元素时按什么顺序存进去的就按什么顺序取出来。</p>
+<p>演示略</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-泛型</title>
+    <url>/2020/03/26/JavaSE-%E6%B3%9B%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h2><p>有时候编译程序会碰到如下问题：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ArrayList a = <span class="keyword">new</span> ArrayList();</span><br><span class="line">a.add(<span class="string">"abc"</span>);</span><br><span class="line">a.add(<span class="number">5</span>);</span><br><span class="line">编译不报错，运行时会报错</span><br></pre></td></tr></table></figure>
+
+<p>这是因为5这个元素加进来类型是Int，无法强转成String类型。但是在编译的过程中不会报错，在运行时才会出现异常，这就不是非常的安全。所以要改写成如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ArrayList&lt;String&gt; a &#x3D; new ArrayList&lt;String&gt;();</span><br><span class="line">a.add(&quot;abc&quot;);</span><br><span class="line">a.add(5);</span><br></pre></td></tr></table></figure>
+
+<p>这样在编译时就出现报错，提升了安全性。同时发现之前的黄色感叹号也消失了，然后在给str赋值时，也不用强转，因为在之前定义集合时就已经说明里面装的是String类型的元素。</p>
+<p><strong>尖括号里面的内容就是泛型。</strong></p>
+<a id="more"></a>
+
+<p>泛型：</p>
+<p>jdk1.5出现的安全机制。</p>
+<p>好处:</p>
+<p>​    1.将运行时期的问题ClassCastException转到了编译时期</p>
+<p>​    2.避免了强制转换的麻烦</p>
+<p>&lt;&gt;什么时候用？</p>
+<p>当操作的引用数据类型不确定的时候，就使用&lt;&gt;,将要操作的引用数据类型传入即可</p>
+<p>其实&lt;&gt;就是一个用于接收具体<strong>引用数据类型</strong>的参数范围，数值数据类型不能用。</p>
+<p>在程序中，只要用到了带有&lt;&gt;的类或者接口，就要明确传入的具体引用数据类型。</p>
+<h2 id="2-泛型-擦除-amp-补偿"><a href="#2-泛型-擦除-amp-补偿" class="headerlink" title="2 泛型-擦除&amp;补偿"></a>2 <strong>泛型-擦除&amp;补偿</strong></h2><p>泛型技术是给编译器使用的技术，用于编译时期。确保了类型的安全。</p>
+<p>运行时会将泛型去掉，生成的class文件中是不带泛型的，这个称为泛型的<strong>擦除</strong>。</p>
+<p>为什么擦除呢？</p>
+<p>因为为了兼容运行的类加载器。</p>
+<p>泛型的<strong>补偿</strong>：在运行时，通过获取元素的类型进行转换动作。不用使用者再强制转换了。</p>
+<p>集合使用与之前没有使用泛型进行比较，有不同。然后<strong>equals方法不能用泛型</strong>，因为这个方法来自于Object，Object没有定义泛型。这里是固定类型，想要比较就要强转。</p>
+<h2 id="3-泛型-泛型类"><a href="#3-泛型-泛型类" class="headerlink" title="3 泛型-泛型类"></a>3 <strong>泛型-泛型类</strong></h2><p>在jdk1.5后，使用泛型来接收类中要操作的引用数据类型</p>
+<p>泛型类：什么时候用？</p>
+<p>当类中的操作的引用数据类型不确定的时候，就使用泛型来表示。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Tool</span>&lt;<span class="title">QQ</span>&gt;</span>&#123;<span class="comment">//这就是泛型类</span></span><br><span class="line">    <span class="keyword">private</span> QQ q;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> QQ <span class="title">getObject</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> q;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setObject</span><span class="params">(QQ object)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.q = object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">    Tool&lt;Student&gt; tool = <span class="keyword">new</span> Tool&lt;Student&gt;;</span><br><span class="line">    tool.setObject(<span class="keyword">new</span> Student());</span><br><span class="line">    Student stu = tool.getObject();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//这样子使用泛型类，就不必再强转。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-泛型-泛型方法"><a href="#4-泛型-泛型方法" class="headerlink" title="4 泛型-泛型方法"></a>4 <strong>泛型-泛型方法</strong></h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;w&gt;<span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">(W str)</span></span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"str"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(QQ str)</span></span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"str"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>泛型定义在方法上，此时show方法中的参数类型跟着W走，而print方法中的参数类型跟着QQ走，即定义在类的泛型走。若W没有具体定义，那么就是Object。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">(QQ str)</span></span>&#123;<span class="comment">//这是不行的</span></span><br><span class="line">    System.out.println(<span class="string">"str"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;Y&gt;<span class="function"><span class="keyword">void</span> <span class="title">method</span><span class="params">(Y str)</span></span>&#123;<span class="comment">//这是可以的</span></span><br><span class="line">    System.out.println(<span class="string">"str"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当方法<strong>静态</strong>时，不能访问类上定义的泛型。如果静态方法使用泛型，只能将泛型定义在方法上。泛型只能定义在返回值的前面，修饰符的后面。使用的话就直接：类.方法。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> &lt;Y&gt;<span class="function"><span class="keyword">void</span> <span class="title">method</span><span class="params">(Y aaa)</span></span>&#123;</span><br><span class="line">    System.out.println(aaa.length());<span class="comment">//这是不行的</span></span><br><span class="line">    System.out.println(aaa.toString());<span class="comment">//这是可以的</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：不能直接在泛型方法内使用具体一个对象的方法，因为使用了泛型，就无法确定具体的类型是什么。但是可以使用Object方法，因为所有的对象都是Object类或子类。</p>
+<h2 id="5-泛型接口"><a href="#5-泛型接口" class="headerlink" title="5  泛型接口"></a>5  <strong>泛型接口</strong></h2><p>泛型接口：将泛型定义在接口上</p>
+<p>有两种方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//第一种</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Inter1</span>&lt;<span class="title">T</span>&gt;</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(T t)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InterImp1</span> <span class="keyword">implements</span> <span class="title">Inter</span>&lt;<span class="title">String</span>&gt;</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(String str)</span></span>&#123;</span><br><span class="line">        System.out.println(str);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//第二种</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">InterImp2</span>&lt;<span class="title">Q</span>&gt; <span class="keyword">implements</span> <span class="title">Inter</span>&lt;<span class="title">Q</span>&gt;</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(Q q)</span></span>&#123;</span><br><span class="line">        System.out.println(q);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6-泛型限定（上下限）"><a href="#6-泛型限定（上下限）" class="headerlink" title="6 泛型限定（上下限）"></a>6 <strong>泛型限定（上下限）</strong></h2><p>如果想要在方法中对所有的泛型都能使用，就要用到通配符，这里通配符就是问号?</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printCollection</span><span class="params">(Collection&lt;?&gt; a)</span></span>&#123;</span><br><span class="line">    Iterator&lt;?&gt; it = a.iterator();</span><br><span class="line">    <span class="keyword">while</span>(it.hasNext())&#123;</span><br><span class="line">        System.out.println(it.next());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里就是两个集合分别是装String和Integer类型，但是方法上想都能用，就用?。</p>
+<p>若方法只是能部分类型调用的，比如现在有Worker，Student和String类型的集合，但是只能前两者调用，前两者又是Person的子类，故可以使用<strong>泛型的限定</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printCollection</span><span class="params">(Collection&lt;? extends Person&gt; a)</span></span>&#123;</span><br><span class="line">    Iterator&lt;?&gt; it = a.iterator();</span><br><span class="line">    <span class="keyword">while</span>(it.hasNext())&#123;</span><br><span class="line">        Person p = it.next();</span><br><span class="line">        System.out.println(p);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里<strong>注意</strong>就是集合构建前后泛型要一致，否则失败</p>
+<p>Collection&lt;Person&gt;=new ArrayList&lt;Worker&gt;(); 不行</p>
+<p>Collection&lt;Worker&gt;=new ArrayList&lt;Person&gt;(); 不行</p>
+<p>Collection&lt;Person&gt;=new ArrayList&lt;Person&gt;(); 行</p>
+<p>泛型可以对类型进行限定</p>
+<p>上限：? extends E:接收E类型或者E的子类型对象。</p>
+<p>下限：? super E:接收E类型或者E的父类型</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printCollection</span><span class="params">(Collection&lt;? <span class="keyword">super</span> Student&gt; a)</span></span>&#123;</span><br><span class="line">    Iterator&lt;?&gt; it = a.iterator();</span><br><span class="line">    <span class="keyword">while</span>(it.hasNext())&#123;</span><br><span class="line">        Person p = it.next();</span><br><span class="line">        System.out.println(p);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码就只能接收Student和其父类Person，Worker不行。</p>
+<h2 id="7-泛型的限定（上下限的体现）"><a href="#7-泛型的限定（上下限的体现）" class="headerlink" title="7 泛型的限定（上下限的体现）"></a>7 <strong>泛型的限定（上下限的体现）</strong></h2><p>上限的体现：一般在<strong>存储元素的时候都是用上限</strong>，因为这样取出都是按照上限类型来运算的，不会出现类型安全隐患。</p>
+<p>API中，addAll(Collection&lt;? Extends Person&gt;);这就是上限的体现。</p>
+<p>下限的体现</p>
+<p>什么时候用下限？通常对<strong>集合中的元素进行取出操作时</strong>，<strong>可以使用下限</strong>。</p>
+<p>从集合中取出元素，用本身或者父类来取出，可以保证全部接收。</p>
+<p>TreeSet(Comparator&lt;? super E&gt; comp);下限的体现。</p>
+<h2 id="8-泛型限定（通配符的体现）"><a href="#8-泛型限定（通配符的体现）" class="headerlink" title="8 泛型限定（通配符的体现）"></a>8 <strong>泛型限定（通配符的体现）</strong></h2><p>containsAll(Collection&lt;?&gt; coll)</p>
+<p>包含的原理是用equals作判断，equals方法任何对象都具备，equals参数是Object。</p>
+<p>所以传进来的集合类型是随机的未知的，所以用通配符?。</p>
+<p>只要里面用的是Object方法，都用?。</p>
+<p>containsAll(Collection&lt;?&gt; coll);通配符的体现。</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaSE-常见对象API-集合框架2</title>
     <url>/2020/03/25/JavaSE-%E5%B8%B8%E8%A7%81%E5%AF%B9%E8%B1%A1API-%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B62/</url>
     <content><![CDATA[<h1 id="常见对象API-集合框架2"><a href="#常见对象API-集合框架2" class="headerlink" title="常见对象API-集合框架2"></a>常见对象API-集合框架2</h1><h2 id="list的子类与set"><a href="#list的子类与set" class="headerlink" title="list的子类与set"></a>list的子类与set</h2><h2 id="1-Vector集合"><a href="#1-Vector集合" class="headerlink" title="1 Vector集合"></a><strong>1 Vector集合</strong></h2><p>Vector集合中的方法基本都不太使用。都有ArrayList来取代了。下面例举一下其中几个方法，更多的可以去API中寻找，其中带element的都是原先Vector的方法。</p>

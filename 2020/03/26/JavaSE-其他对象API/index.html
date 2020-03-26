@@ -35,19 +35,20 @@
     var CONFIG = {"hostname":"ssssshift-96.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="创建新文章并部署到远端1.执行 hexo new[layout] 文章名 即可layout为布局，Hexo有三种默认布局：post、page和draft，默认为post，可以在_config.yml中的default_layout 参数来指定默认布局 2.文章写完后保存文件，执行 hexo generate 或 hexo g 生成静态文件 3.执行 hexo deploy 将文件部署到远端">
+  <meta name="description" content="其他对象API1 System类System类包含一些有用的类字段和方法，它不能被实例化，即构造函数不对外提供。 System：类中的方法和属性都是静态的。 字段有：out、in、err     常见方法： long currentTimeMillis();获取当前时间的毫秒值。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo的一些基本操作">
-<meta property="og:url" content="https://ssssshift-96.github.io/2020/03/06/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:title" content="JavaSE-其他对象API">
+<meta property="og:url" content="https://ssssshift-96.github.io/2020/03/26/JavaSE-%E5%85%B6%E4%BB%96%E5%AF%B9%E8%B1%A1API/index.html">
 <meta property="og:site_name" content="SsssshiFT-96">
-<meta property="og:description" content="创建新文章并部署到远端1.执行 hexo new[layout] 文章名 即可layout为布局，Hexo有三种默认布局：post、page和draft，默认为post，可以在_config.yml中的default_layout 参数来指定默认布局 2.文章写完后保存文件，执行 hexo generate 或 hexo g 生成静态文件 3.执行 hexo deploy 将文件部署到远端">
+<meta property="og:description" content="其他对象API1 System类System类包含一些有用的类字段和方法，它不能被实例化，即构造函数不对外提供。 System：类中的方法和属性都是静态的。 字段有：out、in、err     常见方法： long currentTimeMillis();获取当前时间的毫秒值。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-03-06T14:50:41.000Z">
-<meta property="article:modified_time" content="2020-03-06T14:57:04.655Z">
+<meta property="article:published_time" content="2020-03-26T13:48:55.000Z">
+<meta property="article:modified_time" content="2020-03-26T14:08:41.998Z">
 <meta property="article:author" content="詹智健">
+<meta property="article:tag" content="JavaSE">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ssssshift-96.github.io/2020/03/06/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
+<link rel="canonical" href="https://ssssshift-96.github.io/2020/03/26/JavaSE-%E5%85%B6%E4%BB%96%E5%AF%B9%E8%B1%A1API/">
 
 
 <script id="page-configurations">
@@ -59,7 +60,7 @@
   };
 </script>
 
-  <title>Hexo的一些基本操作 | SsssshiFT-96</title>
+  <title>JavaSE-其他对象API | SsssshiFT-96</title>
   
 
 
@@ -204,7 +205,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/06/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/26/JavaSE-%E5%85%B6%E4%BB%96%E5%AF%B9%E8%B1%A1API/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/A%20lemon.jpg">
@@ -217,7 +218,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hexo的一些基本操作
+          JavaSE-其他对象API
         </h1>
 
         <div class="post-meta">
@@ -228,7 +229,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-06 22:50:41 / 修改时间：22:57:04" itemprop="dateCreated datePublished" datetime="2020-03-06T22:50:41+08:00">2020-03-06</time>
+              <time title="创建时间：2020-03-26 21:48:55 / 修改时间：22:08:41" itemprop="dateCreated datePublished" datetime="2020-03-26T21:48:55+08:00">2020-03-26</time>
             </span>
 
           
@@ -249,9 +250,70 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="创建新文章并部署到远端"><a href="#创建新文章并部署到远端" class="headerlink" title="创建新文章并部署到远端"></a>创建新文章并部署到远端</h2><p>1.执行 hexo new[layout] 文章名 即可<br>layout为布局，Hexo有三种默认布局：post、page和draft，默认为post，可以在_config.yml中的default_layout 参数来指定默认布局</p>
-<p>2.文章写完后保存文件，执行 hexo generate 或 hexo g 生成静态文件</p>
-<p>3.执行 hexo deploy 将文件部署到远端</p>
+        <h1 id="其他对象API"><a href="#其他对象API" class="headerlink" title="其他对象API"></a>其他对象API</h1><h2 id="1-System类"><a href="#1-System类" class="headerlink" title="1 System类"></a>1 <strong>System类</strong></h2><p>System类包含一些有用的类字段和方法，它不能被实例化，即构造函数不对外提供。</p>
+<p>System：类中的方法和属性都是静态的。</p>
+<p>字段有：out、in、err    </p>
+<p>常见方法：</p>
+<p>long currentTimeMillis();获取当前时间的毫秒值。</p>
+<a id="more"></a>
+
+<p><strong>Properties类</strong></p>
+<p>获取系统的属性信息，并存储到Properties集合中，Properties集合是map集合的子类</p>
+<p>Properties集合中存储都是String类型的键和值</p>
+<p>最好使用它自己的存储和取出的方法来完成元素的操作</p>
+<p>System.getProperties();可以获得系统属性信息Properties类对象</p>
+<p>由于<strong>不同系统的分隔符代码不同</strong>，所以需要定义一个字符串类型量来存储当前系统的分隔符符号。这样此程序就能适用于所有系统而不需要再此修改。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String LINE_SEPARATOR = System.getProperties(<span class="string">"line.seperator"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>给系统设置一些属性信息，这些信息是全局的，其他程序也可以使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.setProperties(<span class="string">"mykey"</span>,<span class="string">"myvalue"</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Runtime类"><a href="#2-Runtime类" class="headerlink" title="2 Runtime类"></a><strong>2 Runtime类</strong></h2><p>每个Java程序都有一个Runtime实例，使应用程序能够与其运行的环境相连接可以通过getRuntime方法获取当前运行时应用程序不能创建自己的Runtime类实例。</p>
+<p>此类也没有对外提供构造函数，这时</p>
+<p><strong>注意：</strong>如果没有提供构造函数，那么意味着这个类不能创建对象，这个类的方法都是静态的。</p>
+<p>​    如果这个类有非静态的方法，则一定存在着至少一个方法是静态并返回构造对象。</p>
+<p>Runtime：没有构造方法摘要，说明该类不可以创建对象。又发现还有非静态的方法，说明应该提供静态的返回该类对象的方法。而且只有一个，说明Runtime类使用了<strong>单例设计模式</strong></p>
+<h2 id="3-Math类"><a href="#3-Math类" class="headerlink" title="3 Math类"></a>3 <strong>Math类</strong></h2><p>Math前面有final修饰，不能被继承，其包含用于执行基本数学运算的方法，如初等指数，对数，平方根和三角函数。都是静态方法</p>
+<p>常用方法：</p>
+<p>ceil();返回大于参数的最小整数。</p>
+<p>floor();返回小于参数的最大整数。</p>
+<p>round();返回四舍五入的整数</p>
+<p>pow(a,b);返回a的b次方</p>
+<p>random();返回0-1之间的伪随机数</p>
+<p>random还可以封装成对象，即random对象</p>
+<h2 id="4-Date类"><a href="#4-Date类" class="headerlink" title="4 Date类"></a>4 <strong>Date类</strong></h2><p>Date类表示特定的瞬间，精确到毫秒。</p>
+<p>Date类可以接受或返回年、月、日、小时、分钟和秒值的方法，<strong>表示形式</strong>为</p>
+<p>年份y由整数y-1900表示</p>
+<p>月份从0至11的整数表示，0代表1月，11代表12月</p>
+<p>日期从1至31的整数表示</p>
+<p>小时从0至23的整数表示</p>
+<p>秒从0至61的整数表示，60和61只对闰秒发生</p>
+<p>日期对象和毫秒值之间的转换</p>
+<p>毫秒值转成日期对象：</p>
+<p>1.通过Date对象的构造方法完成 new Date(timeMillis)；</p>
+<p>2.通过setTime(long time)设置</p>
+<p>因为可以通过Date对象的方法对该日期中的各个字段（年月日等）进行操作</p>
+<p>日期对象转成毫秒值：</p>
+<p>1.getTime方法</p>
+<p>因为可以通过具体的数值进行运算</p>
+<p><strong>日期对象转换成字符串</strong></p>
+<p>对日期对象进行格式化，需要用到<strong>日期格式对象</strong>，即<strong>DateFormat</strong>。</p>
+<p>将日期对象转成日期格式的字符串</p>
+<p>使用的是DateFormat类中的<strong>format</strong>方法。</p>
+<p>获取日期格式对象，具备系统默认的风格。也可以指定FULL LONG SHORT MEDIUM风格</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Date date = <span class="keyword">new</span> Date();</span><br><span class="line">DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);</span><br><span class="line">String str = dateFormat.format(date);</span><br></pre></td></tr></table></figure>
+
+<p>如果风格是自定义的如何解决？使用dateFormat的子类SimpleDateFormat</p>
+<p><strong>字符串转成日期对象</strong></p>
+<p>将日期格式的字符串转成日期对象</p>
+<p>使用的是DateFormat类中的parse()方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String str_date = <span class="string">"2019-10-05"</span>;</span><br><span class="line">DateFormat dateFormat = DateFormat.getDateInstance();</span><br><span class="line">Date date = dateFormat.parse(str_date);</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-Calendar类"><a href="#5-Calendar类" class="headerlink" title="5 Calendar类"></a>5 <strong>Calendar类</strong></h2><p><strong>Calender类</strong>是一个<strong>抽象类</strong>，它为特定瞬间与一组诸如YEAR MONTH DAY_OF_MONTH HOUR等日历字段之间的转换提供了一些方法，并为操作日历字段提供了一些方法。</p>
+<p>练习：</p>
+<p>得出指定年份2月的天数</p>
+<p>基于08的演示再加上下面的代码</p>
+<p>思路：先将日期设置为指定那年的3月1日，在用偏移方法偏移一天即可得到结果。</p>
 
     </div>
 
@@ -271,6 +333,9 @@
    </div>
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaSE/" rel="tag"># JavaSE</a>
+          </div>
 
         
 
@@ -278,13 +343,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/05/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" rel="prev" title="我的第一篇博客">
-      <i class="fa fa-chevron-left"></i> 我的第一篇博客
+    <a href="/2020/03/26/JavaSE-%E5%B8%B8%E8%A7%81%E5%AF%B9%E8%B1%A1API-%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B64/" rel="prev" title="JavaSE-常见对象API-集合框架4">
+      <i class="fa fa-chevron-left"></i> JavaSE-常见对象API-集合框架4
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/03/13/JavaSE-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" rel="next" title="JavaSE-语言基础">
-      JavaSE-语言基础 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -344,7 +406,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建新文章并部署到远端"><span class="nav-number">1.</span> <span class="nav-text">创建新文章并部署到远端</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#其他对象API"><span class="nav-number">1.</span> <span class="nav-text">其他对象API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-System类"><span class="nav-number">1.1.</span> <span class="nav-text">1 System类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Runtime类"><span class="nav-number">1.2.</span> <span class="nav-text">2 Runtime类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Math类"><span class="nav-number">1.3.</span> <span class="nav-text">3 Math类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Date类"><span class="nav-number">1.4.</span> <span class="nav-text">4 Date类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Calendar类"><span class="nav-number">1.5.</span> <span class="nav-text">5 Calendar类</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
