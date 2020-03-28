@@ -1,6 +1,472 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>JavaSE-IO流3</title>
+    <url>/2020/03/28/JavaSE-IO%E6%B5%813/</url>
+    <content><![CDATA[<h1 id="IO流3"><a href="#IO流3" class="headerlink" title="IO流3"></a>IO流3</h1><h2 id="打印流-PrintStream"><a href="#打印流-PrintStream" class="headerlink" title="打印流-PrintStream"></a><strong>打印流-PrintStream</strong></h2><p>PrintWriter与PrintStream：可以直接操作输入流和文件</p>
+<p>PrintStream：为其他输出流添加了功能，使它们能够方便地打印各种数据值表示形式。它还提供其他两项功能。与其他输出流不同</p>
+<p>永远不会抛出IOException</p>
+<p>它打印的所有字符都使用平台的默认字符编码转换为字节。在需要写入字符而不是写入字节的情况下，应该使用PrintWriter类。</p>
+<a id="more"></a>
+
+<p>PrintStream:</p>
+<p>1.提供了打印方法可以对多种数据类型值进行打印。并保持数据的表示形式</p>
+<p>2.它不抛IOException</p>
+<p>构造函数接收三种类型的值</p>
+<p>1.字符串路径</p>
+<p>2.File对象</p>
+<p>3.字节输出流</p>
+<p>write():只写入数据的最低8位。</p>
+<p>print():将输入的数据变成字符串保持原样将数据打印到目的地</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">PrintStream out = <span class="keyword">new</span> PrintStream(<span class="string">"print.txt"</span>);</span><br><span class="line">out.write(<span class="number">97</span>);<span class="comment">//只写最低8位</span></span><br><span class="line">out.write(<span class="number">609</span>);</span><br><span class="line">out.print(<span class="number">97</span>);<span class="comment">//将97先变成字符串保持原样将数据打印到目的地</span></span><br></pre></td></tr></table></figure>
+
+<p>PrintWriter:字符打印流</p>
+<p>   构造函数参数：</p>
+<p>   1.字符串路径</p>
+<p>   2.File对象</p>
+<p>   3.字节输出流</p>
+<p>   4.字符输出流</p>
+<h2 id="序列流-SequenceInputStream"><a href="#序列流-SequenceInputStream" class="headerlink" title="序列流-SequenceInputStream"></a><strong>序列流-SequenceInputStream</strong></h2><p>SequenceInputStream：表示其他输入流的逻辑串联。它从输入流的有序集合开始，并从第一个输入流开始读取，直到到达文件末尾，接着从第二个输入流读取，一次类推，直到到达包含最后一个输入流的文件末尾为止。</p>
+<p>需求：将1.txt 2.txt 3.txt文件中的数据合并到一个文件中。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Vector&lt;FileInputStream&gt; v = <span class="keyword">new</span> Vector&lt;&gt;();</span><br><span class="line">v.add(<span class="keyword">new</span> FileInputStream(<span class="string">"1.txt"</span>));</span><br><span class="line">v.add(<span class="keyword">new</span> FileInputStream(<span class="string">"2.txt"</span>));</span><br><span class="line">v.add(<span class="keyword">new</span> FileInputStream(<span class="string">"3.txt"</span>));</span><br><span class="line">Enumeration&lt;FileInputStream&gt; en = v.elements();</span><br><span class="line">SequenceInputStream sis = <span class="keyword">new</span> SequenceInputStream(en);</span><br><span class="line">FileOutoutStream fos = <span class="keyword">new</span> FileOutoutStream(<span class="string">"4.txt"</span>);</span><br><span class="line"><span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line"><span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>((len = sis.read(buf)) != -<span class="number">1</span>)&#123;</span><br><span class="line">    fos.write(buf, <span class="number">0</span>, len);</span><br><span class="line">&#125;</span><br><span class="line">fos.close();</span><br><span class="line">sis.close();</span><br></pre></td></tr></table></figure>
+
+<h2 id="序列流-SequenceInputStream-枚举和迭代"><a href="#序列流-SequenceInputStream-枚举和迭代" class="headerlink" title="序列流-SequenceInputStream-枚举和迭代"></a><strong>序列流-SequenceInputStream-枚举和迭代</strong></h2><p>Vector过时了，ArrayList是常用的集合对象，但是ArrayList没有枚举的方法。通过寻找工具类发现一个方法可以给一个List返回一个枚举类对象，故用这个方法也可实现上述功能。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//获取枚举类对象的代码为</span></span><br><span class="line">Enumeration&lt;FileInputStream&gt; en = Collections.enumeration(a);</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件切割"><a href="#文件切割" class="headerlink" title="文件切割"></a><strong>文件切割</strong></h2><p>将文件切成每份大小最高为固定值的碎片文件。</p>
+<p>固定一个final常量定义文件大小。然后每次读出该大小数据再通过输出流存到硬盘</p>
+<h2 id="文件合并"><a href="#文件合并" class="headerlink" title="文件合并"></a><strong>文件合并</strong></h2><p>序列流中演示过</p>
+<h2 id="文件切割合并-配置文件"><a href="#文件切割合并-配置文件" class="headerlink" title="文件切割合并+配置文件"></a><strong>文件切割合并+配置文件</strong></h2><p>实际切割或合并时，是不知道碎片个数以及文件类型，所以在切割时需要将这些信息存储起来。</p>
+<h2 id="ObjectOutputStream-对象的序列化"><a href="#ObjectOutputStream-对象的序列化" class="headerlink" title="ObjectOutputStream-对象的序列化"></a><strong>ObjectOutputStream-对象的序列化</strong></h2><p>ObjectOutputStream：将Java对象的基本数据类型和图形写入OutputStream，可以使用ObjectInputStream读取（重构）对象，通过在流中使用文件可以实现对象的持久存储。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">"obj.object"</span>));</span><br><span class="line">oos.writeObject(<span class="keyword">new</span> Person(<span class="string">"aaa"</span>,<span class="number">30</span>));</span><br><span class="line">oos.close();</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：对象序列化中，被序列化的对象必须实现Serializable接口。</p>
+<h2 id="ObjectInputStream-对象的反序列化"><a href="#ObjectInputStream-对象的反序列化" class="headerlink" title="ObjectInputStream-对象的反序列化"></a><strong>ObjectInputStream-对象的反序列化</strong></h2><p>ObjectInputStream对以前使用ObjectOutputStream写入的基本数据和对象进行反序列化。只能读取oos写入的对象。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">"obj.object"</span>));</span><br><span class="line">Person p = (Person)oos.readObject();</span><br><span class="line">ois.close();</span><br></pre></td></tr></table></figure>
+
+<p>这里会抛出的类不存在异常。因为对象的创立需要有其类文件的存在，如果只有object文件，那么是创立不了的。</p>
+<h2 id="序列化接口-Serializable"><a href="#序列化接口-Serializable" class="headerlink" title="序列化接口-Serializable"></a><strong>序列化接口-Serializable</strong></h2><p>类通过实现Serializable接口以启用其序列化功能。未实现此接口的类将无法使其任何状态序列化或反序列化。可序列化类的所有子类型本身都是可序列化的。序列化接口没有方法或者字段，仅用于标识可序列化的语义。</p>
+<p>Serializable：用于给序列化的类加入ID号，用于判断类和对象是否是同一个版本。版本号不一致会发生无效类异常。可序列化类可以通过声明名为“serialVersionUID”字段（该字段必须是静态的static，最终的final的long型字段）显式声明自己的serialVersionUID。</p>
+<p>ANY-ACCESS-MODIFIE static final long serialVersionUID=42l；</p>
+<p>如果可序列化类未显式声明，则序列化运行时会基于该类从各个方面进行计算默认ID值，所以建议自己显式声明。</p>
+<h2 id="关键字-transient"><a href="#关键字-transient" class="headerlink" title="关键字-transient"></a><strong>关键字-transient</strong></h2><p>writeObject将指定的对象写入ObjectOutputStream。对象的类，类的签名以及类及其所有超类型的<strong>非瞬态和非静态</strong>字段的值都将被写入。静态和瞬态的不会被写入。</p>
+<p>静态的数据在方法区内，公用的，不会随内存中的对象写入硬盘上。</p>
+<p><strong>transient：非静态（不是公用的）数据不想被序列化即不想将数据存到硬盘上可以使用这个关键字修饰。</strong></p>
+<h2 id="RandomAccessFile-写入"><a href="#RandomAccessFile-写入" class="headerlink" title="RandomAccessFile-写入"></a><strong>RandomAccessFile-写入</strong></h2><p>随机访问文件，自身具备读写功能</p>
+<p>RandomAccessFile</p>
+<p>   不是IO体系中的子类</p>
+<p>   特点：</p>
+<p>   1.该对象既能读取又能写入。</p>
+<p>   2.该对象内部维护了一个byte数组，并通过指针可以操作数组中的元素。</p>
+<p>   3.可以通过<strong>getFilePointer</strong>方法获取指针的位置，和通过<strong>seek</strong>方法设置指针的位置。</p>
+<p>   4.其实该对象就是将字节输入流和输出流进行了封装。</p>
+<p>   5.该对象的<strong>源或者目的只能是文件</strong>。通过构造函数就可以看出</p>
+<p>   构造函数RandomAccessFile(File file,String mode)</p>
+<p>   mode：参数指定用以打开文件的访问模式。只允许一下四个值</p>
+<p>   r：以只读方式打开，调用结果对象的任何write方法都将导致抛出IOException</p>
+<p>   rw：打开以便读取和写入。如果文件不存在则创建。</p>
+<p>   rws：打开以便读取和写入，对于”rw”,还要求对文件的内容或元数据的每个更新都同步写入到底层存储设备</p>
+<p>   rwd：打开以便读取和写入，对于”rw”,还要求对文件的内容的每个更新都同步写入到底层存储设备</p>
+<p><strong>演示写入</strong>：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">RandomAccessFile raf = <span class="keyword">new</span> RandomAccessFile(<span class="string">"aaa.txt"</span>,<span class="string">"rw"</span>);</span><br><span class="line">raf.write(<span class="string">"asdf"</span>.getBytes());</span><br><span class="line">raf.write(<span class="number">609</span>);<span class="comment">//只写了最低的字节</span></span><br><span class="line">raf.writeInt(<span class="number">609</span>);<span class="comment">//按四个字节写入该文件，先写高字节</span></span><br><span class="line">raf.close();</span><br></pre></td></tr></table></figure>
+
+<h2 id="RandomAccessFile-读取-amp-随机读取"><a href="#RandomAccessFile-读取-amp-随机读取" class="headerlink" title="RandomAccessFile-读取&amp;随机读取"></a><strong>RandomAccessFile-读取&amp;随机读取</strong></h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">RandomAccessFile raf = <span class="keyword">new</span> RandomAccessFile(<span class="string">"aaa.txt"</span>,<span class="string">"r"</span>);</span><br><span class="line"><span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span>];</span><br><span class="line">raf.read(buf);</span><br><span class="line">String name = <span class="keyword">new</span> String(buf);</span><br><span class="line"><span class="keyword">int</span> age = raf.readInt();<span class="comment">//一下读4个字节并转化成32位的整数</span></span><br><span class="line"></span><br><span class="line">raf.close();</span><br></pre></td></tr></table></figure>
+
+<p>若要指定任意位置读取，即随机读取，则先清楚byte数组中存储的情况</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//可以通过seek()设置指针的位置。</span></span><br><span class="line">raf.seek(<span class="number">1</span>*<span class="number">8</span>);<span class="comment">//1指针隔8个位置，即指针跳过8个位置</span></span><br><span class="line"><span class="comment">//可以用getFilePointer();来确定现在指针的位置</span></span><br><span class="line"><span class="keyword">int</span> pos = raf.getFilePointer();</span><br></pre></td></tr></table></figure>
+
+<h2 id="RandomAccessFile-随机写入-amp-细节"><a href="#RandomAccessFile-随机写入-amp-细节" class="headerlink" title="RandomAccessFile-随机写入&amp;细节"></a><strong>RandomAccessFile-随机写入&amp;细节</strong></h2><p>若在同指针位置写入数据，则会覆盖之前的数据，也就是该类可以进行修改。</p>
+<p>该方法可以告诉线程从哪个位置开始往文本中写入数据，意味着，可以多个线程同时向文本中写入数据。所以多线程写入的时候会使用到该对象。</p>
+<h2 id="PipedStream管道流"><a href="#PipedStream管道流" class="headerlink" title="PipedStream管道流"></a>PipedStream管道流</h2><p>管道输入流应该连接到管道输出流。管道输入流提供要写入管道输出流的所有数据字节。通常，数据由某个线程从PipedInputStream对象读取，并由其他线程将其写入到相应的PipedOutStream。<strong>不建议对这两个对象尝试使用单个线程。因为这样可能死锁线程。</strong></p>
+<p>这是结合多线程的流</p>
+<h2 id="操作基本数据类型的流对象-DataStream"><a href="#操作基本数据类型的流对象-DataStream" class="headerlink" title="操作基本数据类型的流对象-DataStream"></a><strong>操作基本数据类型的流对象-DataStream</strong></h2><p><strong>DataOutputStream</strong>：数据输出流允许应用程序以适当方式将基本Java数据类型写入输出流中，然后应用程序可以使用数据输入流将数据读入。以前的流写入int’数据只能写后8位，而用这个流则不存这个问题。</p>
+<h2 id="操作数组的流"><a href="#操作数组的流" class="headerlink" title="操作数组的流"></a><strong>操作数组的流</strong></h2><p>ByteArrayOutputStream：此类实现了一个输出流，其中的数据被写入一个byte数组即目的是内存。缓冲区会随着数据的不断写入而自动增长。可使用toByteArray()和toString()获取数据。</p>
+<p>关闭这个流无效，重点在于它是否有调用系统底层资源。这个对象本身操作的是内存，没有调用底层资源，只是在内存当中操作数据，此类中的方法在关闭后仍可被调用，而不会产生任何IO异常。</p>
+<p>ByteArrayInputStream：包含一个内部缓冲区，该缓冲区包含从流中读取的字节。内部计数器跟踪read方法要提供的下一个字节。同样关闭这个流无效。</p>
+<p>它new对象时必须要有源，即内存的数组。</p>
+<h2 id="编码表"><a href="#编码表" class="headerlink" title="编码表"></a><strong>编码表</strong></h2><p>计算机只能识别二进制数据，早起由来是电信号。为了方便应用计算机，让它可以识别各个国家的文字。就将各个国家的文字用数字来表示，并一一对应形成一张表，这就是编码表。</p>
+<p>常见的码表：</p>
+<p>ASCII：美国标准信息交换码。用一个字节的7位可以表示。</p>
+<p>ISO8859-1：拉丁码表，欧洲码表。用一个字节的8位表示。</p>
+<p>GB2312：中国的中文编码表。</p>
+<p>GBK：中国的中文编码表升级，融合了更多的中文文字字符号。</p>
+<p>Unicode：国际标准码，融合了多种文字。所有文字都用两个字节来表示，Java语言使用的就是unicode</p>
+<p>UTF-8：最多用三个字节表示一个字符。</p>
+<h2 id="简单编码解码"><a href="#简单编码解码" class="headerlink" title="简单编码解码"></a><strong>简单编码解码</strong></h2><p>字符串–&gt;字节数组：编码</p>
+<p>字节数组–&gt;字符串：解码</p>
+<p>你好：GBK：-60 -29 -70 -61</p>
+<p>你好：UTF-8：-28 -67 -96 -27 -91 -67</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//编码</span></span><br><span class="line">String str = <span class="string">"你好"</span>;</span><br><span class="line"><span class="keyword">byte</span>[] buf1 = str.getBytes(<span class="string">"UTF-8"</span>);</span><br><span class="line"><span class="comment">//解码</span></span><br><span class="line">String s1 = <span class="keyword">new</span> String(buf1, <span class="string">"GBK"</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="编码解码问题"><a href="#编码解码问题" class="headerlink" title="编码解码问题"></a><strong>编码解码问题</strong></h2><p>如果你编错了，解不出来</p>
+<p>如果编对了，解错了，有可能有解。</p>
+<p>比如在Tomcat服务器上，如果传进来“你好”字符串，在其服务器上是用iso8859-1来解码，这是解不出来的，然后需要我们自行的重新用iso8859-1编码得到源字节，然后用指定编码表比如gbk解码，得到正确的结果。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str = <span class="string">"你好"</span>;</span><br><span class="line"><span class="keyword">byte</span>[] buf1 = str.getBytes(<span class="string">"gbk"</span>);</span><br><span class="line">String s1 = <span class="keyword">new</span> String(buf1,<span class="string">"iso8859-1"</span>);<span class="comment">//这时是解不出来的。</span></span><br><span class="line"><span class="comment">//由于系统是默认用iso8859-1来解码，所以得手动重新用iso8859-1编码得到源字节，然后用指定编码表比如gbk解码，得到正确的结果</span></span><br><span class="line"><span class="keyword">byte</span>[] buf2 = s1.getBytes(<span class="string">"iso8859-1"</span>);</span><br><span class="line">String s2 = <span class="keyword">new</span> String(buf2,<span class="string">"gbk"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>上述情况也有可能最后解不出来，比如用UTF-8。再输入你好时，相应的字节UTF-8识别不出来就会都用？代替，？在UTF-8中的对应的编码是-17 -65 -67，这就将之前的信息修改了，所以最后还原不出来。</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-Properties</title>
+    <url>/2020/03/28/JavaSE-Properties/</url>
+    <content><![CDATA[<h1 id="Properties类"><a href="#Properties类" class="headerlink" title="Properties类"></a>Properties类</h1><h2 id="1-基本功能"><a href="#1-基本功能" class="headerlink" title="1 基本功能"></a>1 基本功能</h2><p>Properties类继承HashTable，表示了一个<strong>持久</strong>的属性集。<strong>其可以保存在流中或从流中加载</strong>。属性列表中每一个键及其对应值都是一个字符串。</p>
+<p>特点：</p>
+<p>1.该集合中的键和值都是字符串类型</p>
+<p>2.集合中的数据可以保存到流中或者从流中获取数据。</p>
+<p>通常该集合用于操作以键值对形式存在的配置文件。</p>
+<a id="more"></a>
+
+<p>存取功能</p>
+<p>取出所有元素的特有功能：Set&lt;String&gt;  stringPropertyNames();</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Properties prop = <span class="keyword">new</span> Properties();</span><br><span class="line"><span class="comment">//存储元素</span></span><br><span class="line">prop.setProperty(<span class="string">"aaa"</span>,<span class="string">"111"</span>);</span><br><span class="line">prop.setProperty(<span class="string">"bbb"</span>,<span class="string">"222"</span>);</span><br><span class="line">prop.setProperty(<span class="string">"ccc"</span>,<span class="string">"333"</span>);</span><br><span class="line"><span class="comment">//修改元素</span></span><br><span class="line">prop.setProperty(<span class="string">"bbb"</span>,<span class="string">"444"</span>);</span><br><span class="line"><span class="comment">//取出元素</span></span><br><span class="line">Set&lt;String&gt; names = prop.stringPropertyNames();</span><br><span class="line"><span class="keyword">for</span>(String name : names)&#123;</span><br><span class="line">    String value = prop.getProperty(name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>list方法</strong></p>
+<p>list(PrintStream out)：将属性列表输出到指定的输出流。此方法对调试很有用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Properties prop = <span class="keyword">new</span> Properties();</span><br><span class="line">prop.setProperty(<span class="string">"aaa"</span>,<span class="string">"111"</span>);</span><br><span class="line">prop.setProperty(<span class="string">"bbb"</span>,<span class="string">"222"</span>);</span><br><span class="line">prop.setProperty(<span class="string">"ccc"</span>,<span class="string">"333"</span>);</span><br><span class="line"></span><br><span class="line">prop.list(System.out);</span><br><span class="line">结果：aaa=<span class="number">111</span></span><br><span class="line">     bbb=<span class="number">222</span></span><br><span class="line">     ccc=<span class="number">333</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>store方法</strong></p>
+<p>void store(OutputStream out,String comments):用来存储。</p>
+<p>void store(Writer writer,String comments)</p>
+<p>参数：out：输出流 writer：输出字符流 comments：属性列表的描述。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Properties prop = <span class="keyword">new</span> Properties();</span><br><span class="line">prop.setProperty(<span class="string">"aaa"</span>,<span class="string">"111"</span>);</span><br><span class="line">prop.setProperty(<span class="string">"bbb"</span>,<span class="string">"222"</span>);</span><br><span class="line">prop.setProperty(<span class="string">"ccc"</span>,<span class="string">"333"</span>);</span><br><span class="line">FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="string">"info.txt"</span>);</span><br><span class="line">prop.store(fos,<span class="string">"name + age"</span>);</span><br><span class="line">fos.close();</span><br></pre></td></tr></table></figure>
+
+<p>注意：属性列表描述不要用中文输入，因为此方法使用ISO 8859-1字符编码写入该流，注释中不是Latin-1的字符针对其适当的十六进制值xxxx以\uxxxx的形式写入。</p>
+<p><strong>修改配置信息</strong></p>
+<p>void load(InputStream inStream):从输入流中读取属性列表（键和元素对）</p>
+<p>void load(Reader reader):按简单的面向行的格式从输入字符流中读取属性列表（键和元素对）</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Properties prop = <span class="keyword">new</span> Properties();</span><br><span class="line">FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">"info.txt"</span>);</span><br><span class="line">prop.load(fis);</span><br><span class="line">prop.list(System.out);</span><br></pre></td></tr></table></figure>
+
+<p>对已有的配置文件中的信息进行修改</p>
+<p>思路：读取这个文件</p>
+<p>​     并将这个文件中的键值数据存储到集合中</p>
+<p>​     再通过集合对数据进行修改</p>
+<p>​     再通过流将修改后的数据存储到文件中</p>
+<p><strong>练习</strong></p>
+<p>定义功能：获取一个应用程序运行的次数，如果超过5次，给出使用次数已到请注册的提示。并不要再运行程序</p>
+<p> 思路：</p>
+<p> 1.应该有计数器</p>
+<p> 每次程序启动都需要计数一次，并且是在原有的次数上进行计数。</p>
+<p> 2.计数器就是一个变量。程序启动时，进行计数，计数器必须存在于内存中进行运算。</p>
+<p> 可是程序一结束，计数器消失。那么再次启动该程序，计数器又重新被初始化。</p>
+<p> 而我们需要多次启动同一个程序，使用的是同一个计数器</p>
+<p> 这就需要计数器的生命周期变长，从内存存储到硬盘文件中</p>
+<p> 3.如何使用计数器</p>
+<p> 首先，程序启动时应该先读取这个用于记录计数器信息的配置文件。</p>
+<p> 获取上一次计数次数，并进行试用次数的判断</p>
+<p> 其次，对该次数进行自增，并将自增后的次数重新存储到配置文件中</p>
+<p> 4.文件中的信息该如何进行存储并体现</p>
+<p> 直接存储次数值可以，但是不明确该数据的含义。所以起名字就变得很重要</p>
+<p> 这就有了名字和值的对应，所以可以使用键值对</p>
+<p> 可以用映射关系的map集合，又需要读取硬盘上的数据，所以map+io=Properties</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-IO流2</title>
+    <url>/2020/03/27/JavaSE-IO%E6%B5%812/</url>
+    <content><![CDATA[<h1 id="IO流2"><a href="#IO流2" class="headerlink" title="IO流2"></a>IO流2</h1><h2 id="1-File对象-构造函数-amp-字段"><a href="#1-File对象-构造函数-amp-字段" class="headerlink" title="1 File对象-构造函数&amp;字段"></a>1 <strong>File对象-构造函数&amp;字段</strong></h2><p>File类：用来将文件或者文件夹封装成对象</p>
+<p>方便对文件与文件夹的属性信息进行操作</p>
+<p>File对象可以作为参数传递给流的构造函数</p>
+<p>构造方法：</p>
+<p>File file1=new File(“a.txt”);</p>
+<p>File file2=new File(“c:\“,”a.txt”);</p>
+<p>File file=new File(“c:\“);//将路径封装成对象。</p>
+<p>File file3=new File(file,”a.txt”);</p>
+<a id="more"></a>
+
+<p>字段摘要：</p>
+<p>separator：与系统有关的默认名称分隔符，为了方便它被表示为一个字符串</p>
+<p>pathSeparator：与系统有关的路径分隔符</p>
+<p>separatorChar：与系统有关的默认名称分隔符</p>
+<p>pathSeparatoChar：与系统有关的路径分隔符</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">File f4 = <span class="keyword">new</span> File(<span class="string">"c:"</span> + File.separator + <span class="string">"abc"</span> + File.separator + <span class="string">"a.txt"</span>);</span><br><span class="line">System.out.println(f4);</span><br><span class="line">结果：c:\abc\a.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-File对象-常见功能-获取"><a href="#2-File对象-常见功能-获取" class="headerlink" title="2 File对象-常见功能-获取"></a>2 <strong>File对象-常见功能-获取</strong></h2><p>获取文件名称</p>
+<p>String getName();</p>
+<p>获取文件路径</p>
+<p>String getAbsolutePath();获取绝对路径</p>
+<p>String getPath();构造函数中路径怎么写就获取什么</p>
+<p>获取文件大小</p>
+<p> long length();</p>
+<p>获取文件修改时间</p>
+<p> long lastModified();</p>
+<h2 id="3-File对象-常见功能"><a href="#3-File对象-常见功能" class="headerlink" title="3 File对象-常见功能"></a>3 <strong>File对象-常见功能</strong></h2><p>文件创建</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">File file = <span class="keyword">new</span> File(<span class="string">"a.txt"</span>);</span><br><span class="line"><span class="keyword">boolean</span> b = file.createNewFile();<span class="comment">//文件不存在则创建，存在则不创建。与输出流不同</span></span><br></pre></td></tr></table></figure>
+
+<p>文件删除</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">boolean</span> b = file.delete();</span><br></pre></td></tr></table></figure>
+
+<p>文件夹创建删除</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">File dir = <span class="keyword">new</span> File(<span class="string">"abc"</span>);</span><br><span class="line"><span class="keyword">boolean</span> b = dir.mkdir();</span><br><span class="line"><span class="keyword">boolean</span> b1 = dir.delete();</span><br></pre></td></tr></table></figure>
+
+<p>创建多级目录</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">File dir = <span class="keyword">new</span> File(<span class="string">"abc\\w\\e\\q\\d"</span>);</span><br><span class="line"><span class="keyword">boolean</span> b = dir.mkdirs();</span><br></pre></td></tr></table></figure>
+
+<p>判断文件是否存在、判断是否为文件、是否是路径</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">File f = <span class="keyword">new</span> File(<span class="string">"abc.txt"</span>);</span><br><span class="line"><span class="keyword">boolean</span> b = f.exists();</span><br><span class="line"><span class="keyword">boolean</span> b1 = f.isFile();</span><br><span class="line"><span class="keyword">boolean</span> b2 = f.isDirectory();</span><br></pre></td></tr></table></figure>
+
+<p>重命名</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">File f1 = <span class="keyword">new</span> File(<span class="string">"c:\\1.txt"</span>);</span><br><span class="line">File f2 = <span class="keyword">new</span> File(<span class="string">"c:\\2.txt"</span>);</span><br><span class="line">File f3 = <span class="keyword">new</span> File(<span class="string">"d:\\aa.txt"</span>);</span><br><span class="line">f1.renameTo(f2);<span class="comment">//将c盘中1.txt文件重命名为2</span></span><br><span class="line">f1.renameTo(f3);<span class="comment">//将c盘中1.txt文件剪切到d盘并重命名为aa</span></span><br></pre></td></tr></table></figure>
+
+<p>系统根目录和容量获取</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">File[] files = File.listRoots();<span class="comment">//系统根目录获取</span></span><br><span class="line"><span class="keyword">for</span>(File file : files)&#123;</span><br><span class="line">    System.out.print(file);</span><br><span class="line">	file.getFreeSpace();<span class="comment">//获取可用空间量</span></span><br><span class="line">    file.getTotalSpace();<span class="comment">//获取总空间量</span></span><br><span class="line">    file.getUsableSpace();<span class="comment">//获取已用空间量</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>获取目录内容</p>
+<p>获取当前目录下的文件以及文件夹的名称，包含隐藏文件</p>
+<p>要用list方法时，file对象中封装的必须是目录，否则会发生空指针异常。</p>
+<p>如果访问的系统级目录，也会发生空指针异常</p>
+<p>如果目录存在，但是没有内容，会返回一个数组，但是长度为0.</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">File file = <span class="keyword">new</span> File(<span class="string">"e:\\"</span>);</span><br><span class="line">String[] names = file.list();</span><br><span class="line"><span class="keyword">for</span>(String name : names)&#123;</span><br><span class="line">    System.out.println(name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>过滤器</p>
+<p>选择d盘AppStore文件夹中.exe文件，用到FilenameFilter接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">File dir = <span class="keyword">new</span> File(<span class="string">"d:\\AppStore"</span>);</span><br><span class="line">String[] names = dir.list(<span class="keyword">new</span> FilterByJava());</span><br><span class="line"><span class="keyword">for</span>(String name : names)&#123;</span><br><span class="line">    System.out.println(name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterByJava</span> <span class="keyword">implements</span> <span class="title">FilenameFilter</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">accept</span><span class="params">(File dir, String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name.endWith(<span class="string">".exe"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>过滤隐藏文件，这时用到FileFilter接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">File dir = <span class="keyword">new</span> File(<span class="string">"d:\\AppStore"</span>);</span><br><span class="line">File[] files = dir.listFiles(<span class="keyword">new</span> FilterByHidden());</span><br><span class="line"><span class="keyword">for</span>(File file : files)&#123;</span><br><span class="line">    System.out.println(file);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FilterByHidden</span> <span class="keyword">implements</span> <span class="title">FileFilter</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">accept</span><span class="params">(File pathname)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> !pathname.isHidden();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>选择任意后缀文件</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">File dir = <span class="keyword">new</span> File(<span class="string">"d:\\AppStore"</span>);</span><br><span class="line">String[] names = dir.list(<span class="keyword">new</span> SuffixFilter(<span class="string">".doc"</span>));</span><br><span class="line"><span class="keyword">for</span>(String name : names)&#123;</span><br><span class="line">    System.out.println(name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SuffixFilter</span> <span class="keyword">implements</span> <span class="title">FilenameFilter</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String = suffix;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SuffixFilter</span><span class="params">(String suffix)</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">this</span>.suffix = suffix;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">accept</span><span class="params">(File dir, String name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name.endWith(suffix);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-IO流</title>
+    <url>/2020/03/27/JavaSE-IO%E6%B5%81/</url>
+    <content><![CDATA[<h2 id="IO流"><a href="#IO流" class="headerlink" title="IO流"></a>IO流</h2><h2 id="1-输入流-amp-输出流"><a href="#1-输入流-amp-输出流" class="headerlink" title="1 输入流&amp;输出流"></a><strong>1 输入流&amp;输出流</strong></h2><p>IO流用来处理设备之间的数据传输</p>
+<p>Java对数据的操作是通过流的方式</p>
+<p>Java用于操作流的对象都在IO包中</p>
+<p>流按操作数据分为两种：字节流与字符流</p>
+<p>流按流向分为：输入流，输出流</p>
+<p>输入流和输出流相对于内容设备而言</p>
+<p>将外设中的数据读取到内存中：输入</p>
+<p>将内存的数据写入到外设中：输出</p>
+ <a id="more"></a>
+
+<h2 id="2-字节流-amp-字符流"><a href="#2-字节流-amp-字符流" class="headerlink" title="2 字节流&amp;字符流"></a><strong>2 字节流&amp;字符流</strong></h2><p>字符流的由来：</p>
+<p>字节流读取文字字节数据后，不直接操作而是先查指定的编码表，获取对应的文字</p>
+<p>再对这个文字进行操作，简单说就是字节流+编码表</p>
+<h2 id="3-字符流-FileWriter"><a href="#3-字符流-FileWriter" class="headerlink" title="3 字符流-FileWriter"></a><strong>3 字符流-FileWriter</strong></h2><p>字节流的两个顶层父类：</p>
+<p>1.InputStream 2.OutputStream</p>
+<p>字符流的两个顶层父类：</p>
+<p>1.Reader 2.Writer</p>
+<p>这些体系的子类基本以父类名作为后缀</p>
+<p>而子类名的前缀就是该对象的功能</p>
+<p><strong>从熟悉的文字开始，即字符流:</strong></p>
+<p>需求：将一些文字存储到硬盘一个文件中。</p>
+<p><strong>记住</strong>：如果要操作文字数据，建议优先考虑字符流。</p>
+<p>而且要将数据从内存写到硬盘上，要使用字符流中的输出流：<strong>Writer</strong>。</p>
+<p>硬盘的数据基本体现是文件，希望找到一个可以操作文件的Writer。</p>
+<p>找到了<strong>FileWriter</strong>。</p>
+<p>1.创建一个可以往文件中写入字符数据的字符输出流对象</p>
+<p>既然是往一个文件中写入文字数据，创建对象时，就必须明确该文件（用于存储数据的目的地）。</p>
+<p>如果文件不存在，则会自动创建</p>
+<p>如果文件存在，则会被覆盖</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"demo.txt"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>2.调用Writer对象中的write(string)方法，写入数据。</p>
+<p>数据首先是写入到了临时存储（流）缓冲区中。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">fw.write(<span class="string">"aaa"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>3.进行刷新，将数据直接写到目的地中。</p>
+<p>也可以使用关闭流。</p>
+<p>关闭流，关闭资源，但关闭前会先调用flush刷新缓冲中数据到目的地。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">fw.flush();</span><br><span class="line">或</span><br><span class="line">fw.close();</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-字符流-FileWriter-细节（换行和续写）"><a href="#4-字符流-FileWriter-细节（换行和续写）" class="headerlink" title="4 字符流-FileWriter-细节（换行和续写）"></a><strong>4 字符流-FileWriter-细节（换行和续写）</strong></h2><p>换行</p>
+<p>换行不能直接输入转义字符，如\r\n，因为这只是在windows系统下才能换行，换成别的系统则不行，故需要创建一个常量，来获取系统定义的换行。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String LINE_SEPARATOR = System.getProperty(<span class="string">"line.separator"</span>);</span><br><span class="line">fw.write(<span class="string">"aaaa"</span> + LINE_SEPARATO + <span class="string">"AAAA"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>续写</p>
+<p>在构造函数中加入true，可以实现对文件进行续写。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"demo.txt"</span>,<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-字符流-FileWriter-IO异常处理"><a href="#5-字符流-FileWriter-IO异常处理" class="headerlink" title="5 字符流-FileWriter-IO异常处理"></a><strong>5 字符流-FileWriter-IO异常处理</strong></h2><p>注意：最后要finally，将流关闭</p>
+<h2 id="6-字符流-FileReader-读取方式一"><a href="#6-字符流-FileReader-读取方式一" class="headerlink" title="6 字符流-FileReader-读取方式一"></a><strong>6 字符流-FileReader-读取方式一</strong></h2><p>需求2：读取一个文本文件，将读取到的字符打印到控制台</p>
+<p>找到了<strong>FileReader</strong></p>
+<p>创建读取字符数据的流对象</p>
+<p>在创建读取流对象时，必须要明确被读取的文件，一定要确定该文件是存在的。</p>
+<p>用一个读取流关联一个已存在文件</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FileReader fr = <span class="keyword">new</span> FileReader(<span class="string">"demo.txt"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>用Reader中的read方法读取字符，返回的是int类型数据。当没有字符可读时返回-1</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">假如读的是一个a</span><br><span class="line"><span class="keyword">int</span> ch = fr.read();</span><br><span class="line">System.out.println(ch);</span><br><span class="line">System.out.println((<span class="keyword">char</span>)ch);</span><br><span class="line">结果：<span class="number">97</span></span><br><span class="line">     a</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-字符流-FileReader-读取方式二"><a href="#7-字符流-FileReader-读取方式二" class="headerlink" title="7 字符流-FileReader-读取方式二"></a><strong>7 字符流-FileReader-读取方式二</strong></h2><p>使用read(char[ ]) 读取文本文件数据至数组中,并返回读取字符的个数</p>
+<p>先创建字符数组。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">char</span>[] buf = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">3</span>];</span><br><span class="line"><span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>((len = fr.read(buf)) != -<span class="number">1</span>)&#123;</span><br><span class="line">    System.out.println(<span class="keyword">new</span> String(buf, <span class="number">0</span>, len));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-字符流-练习复制文本文件"><a href="#8-字符流-练习复制文本文件" class="headerlink" title="8  字符流-练习复制文本文件"></a>8  <strong>字符流-练习复制文本文件</strong></h2><p>需求：将c盘的一个文本文件复制到d盘</p>
+<p>复制原理：</p>
+<p>分析：读取c盘文件中的数据</p>
+<p>将这些数据写入到d盘当中</p>
+<p>连读带写</p>
+<p>思路：</p>
+<p>1.需要读取源</p>
+<p>2.将读到的源数据写入到目的地</p>
+<p>3.既然是操作文本数据，使用字符流</p>
+<p>代码略</p>
+<h2 id="9-字符流-缓冲区-解释"><a href="#9-字符流-缓冲区-解释" class="headerlink" title="9 字符流-缓冲区-解释"></a><strong>9 字符流-缓冲区-解释</strong></h2><p>缓冲区的出现提高了对数据的读写效率</p>
+<p>对应类</p>
+<p>BufferedWriter</p>
+<p>BufferedReader</p>
+<p>缓冲区要结合流才可以使用</p>
+<p>举例：</p>
+<p>缓冲区可以看做是超市里的推车或者框，可以先将想要的东西放入到里面，最后再一次就算。</p>
+<h2 id="10-字符流-缓冲区-BufferedWriter"><a href="#10-字符流-缓冲区-BufferedWriter" class="headerlink" title="10 字符流-缓冲区-BufferedWriter"></a>10 <strong>字符流-缓冲区-BufferedWriter</strong></h2><p>将文本写入字符输出流，缓冲各个字符，从而提供单字符、数组和字符串的高效写入。</p>
+<p>可以指定缓冲区的大小，或者接受默认的大小，在大多数情况下，默认值足够大了。</p>
+<p>该类提供了<strong>newLine()方法</strong>，它使用平台自己的行分隔符概念，此概念由系统属性line_separator定义。</p>
+<p>有了这个缓冲区之后，写的操作就可以由这个类的对象进行操作</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"demo.txt"</span>);</span><br><span class="line"><span class="comment">//创建写缓冲区，并与fw绑定</span></span><br><span class="line">BufferedWriter bufw = <span class="keyword">new</span> BufferedWriter(fw);</span><br><span class="line"><span class="comment">//写的操作就可以由这个类的对象进行操作</span></span><br><span class="line">bufw.write(<span class="string">"aaa"</span>);</span><br><span class="line">bufw.newline();<span class="comment">//换行</span></span><br><span class="line">bufw.write(<span class="string">"nnn"</span>);</span><br><span class="line">bufw.flush();</span><br><span class="line">bufw.close();</span><br></pre></td></tr></table></figure>
+
+<h2 id="11-字符流-缓冲区-BufferedReader"><a href="#11-字符流-缓冲区-BufferedReader" class="headerlink" title="11 字符流-缓冲区-BufferedReader"></a>11 <strong>字符流-缓冲区-BufferedReader</strong></h2><p>用法与BufferedWriter一样，创建该对象与FileReader的对象绑定，然后读的操作就由BufferedReader类对象操作。</p>
+<p><strong>BufferedReader中的readLine();可以进行读一行操作，返回字符串类型。</strong></p>
+<p>readLine()方法原理：使用了读取缓冲区的read方法，将读取到的字符进行缓冲，并判断换行标记。将标记前的缓存数据变成字符串返回。上述临时容器可以是StringBulider，因为最终返回的是字符串。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">FileReader fr = <span class="keyword">new</span> FileReader(<span class="string">"demo.txt"</span>);</span><br><span class="line">BufferedWriter bufr = <span class="keyword">new</span> BufferedReader(fr);</span><br><span class="line"><span class="keyword">int</span> ch = bufr.read();</span><br><span class="line">String line = bufr.readline();</span><br></pre></td></tr></table></figure>
+
+<h2 id="12-字符流-缓冲区-装饰设计模式"><a href="#12-字符流-缓冲区-装饰设计模式" class="headerlink" title="12 字符流-缓冲区-装饰设计模式"></a>12 <strong>字符流-缓冲区-装饰设计模式</strong></h2><p>装饰设计模式：</p>
+<p>  对一组对象的功能进行增强时，就可以使用该模式进行问题解决。</p>
+<p>装饰设计模式和继承的区别</p>
+<p>装饰和继承都能实现一样的特点：进行功能的扩展增强</p>
+<p>有什么区别呢？</p>
+<p>首先有一个继承体系</p>
+<p>Writer</p>
+<p>​    TextWriter:用于操作文本</p>
+<p>​    MediaWriter:用于操作媒体</p>
+<p>想要对操作的动作进行效率的提高</p>
+<p>按照面向对象，可以通过继承对具体的进行功能的扩展。</p>
+<p>效率提高需要加入缓冲技术</p>
+<p>Writer</p>
+<p>​    TextWriter:用于操作文本</p>
+<p>​       BufferedTextWriter:加入了缓冲技术的操作文本的对象</p>
+<p>​    MediaWriter:用于操作媒体</p>
+<p>​       BufferedMediaWriter:加入了缓冲技术的操作媒体的对象</p>
+<p>​       </p>
+<p>但是这样做好像并不理想</p>
+<p>如果这个体系进行功能扩展，有多个流对象</p>
+<p>那么这个流要提高效率，是不是也要产生子类呢？是，这时就会发现只为提高功能，进行的继承，导致体系越来越臃肿，不够灵活。</p>
+<p>重新思考这个问题</p>
+<p>既然加入的都是同一种技术–缓冲</p>
+<p>前一种是让缓冲和具体的对象相结合。</p>
+<p>可不可以将缓冲进行单独的封装，哪个对象需要缓冲，就将哪个对象和缓冲关联。</p>
+<p>class Buffer{</p>
+<p>​    Buffer(TextWriter w)</p>
+<p>​    {}</p>
+<p>​    Buffer(MediaWriter w)</p>
+<p>​    {}</p>
+<p>}</p>
+<p>class BufferWriter extends Writer{</p>
+<p>​    BufferWriter(Writer w)</p>
+<p>​    {</p>
+<p>​    }</p>
+<p>}</p>
+<p>Writer</p>
+<p>​    TextWriter:用于操作文本</p>
+<p>​    MediaWriter:用于操作媒体</p>
+<p>​    BufferWrter:用于提高效率</p>
+<p>所以装饰比继承更为灵活</p>
+<p>装饰特点：装饰类和被装饰类都必须所属同一个接口或者父类</p>
+<h2 id="13-字符流-缓冲区-LineNumberReader"><a href="#13-字符流-缓冲区-LineNumberReader" class="headerlink" title="13 字符流-缓冲区-LineNumberReader"></a>13 <strong>字符流-缓冲区-LineNumberReader</strong></h2><p>LineNumberReader:跟踪行号的缓冲字符输入流。可以设置和获取当前行号。</p>
+<p>setLineNumber();设置当前行号</p>
+<p>getlineNumber();获取当前行号</p>
+<h2 id="14-字节流-操作文本基本演示"><a href="#14-字节流-操作文本基本演示" class="headerlink" title="14 字节流-操作文本基本演示"></a>14 <strong>字节流-操作文本基本演示</strong></h2><p>基本操作与字符流类相同，操作的是字节</p>
+<p>但它不仅可以操作字符，还可以操作其他媒体文件</p>
+<p>读字节流</p>
+<p>FileInputStream();有可以获取文件大小的方法：available();</p>
+<p>写字节流</p>
+<p>FileOutputStream();</p>
+<p>字节流缓冲区</p>
+<p>BufferedInputStream</p>
+<p>BufferedOutputStream</p>
+<p><strong>不要尝试用字符流去复制媒体如视频，图片文件</strong>。因为字符流自动会将读到的字节通过码表转换为字符，但是媒体和图片文件没有这种对应的码表，所以有些字节就会随机对应一个未知的字符，这有可能导致文件大小都会不一样。</p>
+<h2 id="15-演示键盘录入"><a href="#15-演示键盘录入" class="headerlink" title="15 演示键盘录入"></a>15 <strong>演示键盘录入</strong></h2><p>需求：读取一个键盘录入的数据，并打印在控制台上。</p>
+<p>键盘本身就是一个标准的输入设备</p>
+<p>对于java而言，对于这种输入设备，都有对应的对象。</p>
+<p><strong>InputStream in:</strong>标准输入流，此流已打开并准备提供输入数据，通常，此流对应于键盘输入或者主机环境或用户指定的另一个输入源。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">InputStream in = System.in;</span><br><span class="line"><span class="keyword">int</span> ch1 = in.read();</span><br><span class="line">System.out.println(ch1);</span><br><span class="line"><span class="keyword">int</span> ch2 = in.read();</span><br><span class="line">System.out.println(ch2);</span><br><span class="line"><span class="keyword">int</span> ch3 = in.read();</span><br><span class="line">System.out.println(ch3);</span><br><span class="line">输入：a</span><br><span class="line">结果：<span class="number">97</span></span><br><span class="line">     <span class="number">13</span></span><br><span class="line">     <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>说明：运行时，首先在显示台上可以输入字符。造成这种等待的原因是in.read()。然后按下回车，开始读取字符。一个read方法读一个。结果是三个数字是因为后面两个是Windows中回车(\r\n)的ASCII码。</p>
+<p><strong>注意：</strong>对于使用系统默认的输入输出流，一般不主动关闭流。因为该流在系统中只有一个。关闭后就不能再开启，所以最好让其随着系统的关闭而关闭。</p>
+<h2 id="16-转换流"><a href="#16-转换流" class="headerlink" title="16 转换流"></a>16 <strong>转换流</strong></h2><p><strong>InputStreamReader类</strong> 是字节流通向字符流的桥梁，它使用指定的chatset读取字节并将其解码为字符。被称之为转换流，它是带着编码表。</p>
+<p>用此方法转成字符流，就可以使用字符流中的readLine方法实现一些功能。</p>
+<p><strong>OutStreamWriter类</strong> 是字符流通向字节流的桥梁，可使用指定的charset将要写入流中的字符编码成字节。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//输入字节流，输出转换成字符流</span></span><br><span class="line">InputStream in = System.in;</span><br><span class="line">InputStreamReader isr = <span class="keyword">new</span> InputStreamReader(in);</span><br><span class="line">BufferedReader bufr = <span class="keyword">new</span> BufferedReader(isr);</span><br><span class="line"></span><br><span class="line"><span class="comment">//输入字符流，输出转换成字节流</span></span><br><span class="line">OutputStream out = System.out;</span><br><span class="line">OutputStreamWriter osw = <span class="keyword">new</span> OutputStreamWriter(out);</span><br><span class="line">BufferedWriter bufw = <span class="keyword">new</span> BufferedWriter(osw);</span><br></pre></td></tr></table></figure>
+
+<p>可以简写成下面形式，<strong>需要记住</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">BufferedReader bufr = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in);</span><br><span class="line">BufferedWriter bufw = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(System.out);</span><br></pre></td></tr></table></figure>
+
+<h2 id="17-流的操作基本规律"><a href="#17-流的操作基本规律" class="headerlink" title="17 流的操作基本规律"></a>17 <strong>流的操作基本规律</strong></h2><p>流的操作规律：</p>
+<p>之所以要弄清楚这个规律，是因为流对象太多，开发时不知道用哪个对象合适</p>
+<p>想要知道开发时用到哪些对象，只要通过四个明确即可。</p>
+<p>1.明确源和目的（汇）</p>
+<p>  源：InputStream Reader</p>
+<p>  目的：OutputStream Writer</p>
+<p>2.明确数据是否是纯文本数据</p>
+<p>  源：是纯文本：Reader</p>
+<p>​    否：InputStream</p>
+<p>  目的：是纯文本：Writer</p>
+<p>​      否：OutputStream</p>
+<p>到这里就可以明确需求中具体要使用哪个体系</p>
+<p>3.明确具体的设备。</p>
+<p>  源设备：</p>
+<p>​    硬盘：File</p>
+<p>​    键盘：System.in</p>
+<p>​    内存：数组</p>
+<p>​    网络：Socket流</p>
+<p>  目的设备：</p>
+<p>​    硬盘：File</p>
+<p>​    控制台：System.out</p>
+<p>​    内存：数组</p>
+<p>​    网络：Socket流</p>
+<p>4.是否需要其他额外功能</p>
+<p>  1.是否需要高效（缓冲区）：</p>
+<p>​    是，就加上buffer</p>
+<h2 id="18-转换流的编码解码"><a href="#18-转换流的编码解码" class="headerlink" title="18 转换流的编码解码"></a>18 <strong>转换流的编码解码</strong></h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">OutputStreamWriter osw = <span class="keyword">new</span> OutputStreamWriter(<span class="keyword">new</span> FileOutputStream(<span class="string">"demo.txt"</span>, <span class="string">"GBK"</span>);</span><br><span class="line">FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"demo.txt"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这两句代码的功能是等同的</p>
+<p>FileWriter：其实就是转换流指定了本机默认码表的体现，而且这个转换流的子类对象可以方便操作文本文件。</p>
+<p>简单说：操作文件的字节流+本机默认的编码表</p>
+<p>这是按照默认码表来操作文件的便捷类</p>
+<p>如果操作文本文件需要明确具体的编码，FileWriter就不行了，必须用转换流。</p>
+<p>用指定的编码表：</p>
+<p>OutputStreamReader(“文件名”,”码表名”);</p>
+<p>同样的，读取也是，如果不是默认的码表就要用</p>
+<p>InputStreamReader(“文件名”,”码表名”);</p>
+<p>若用一个码表来解码由另一个码表编译的文件则会出现乱码。</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaSE-其他对象API</title>
     <url>/2020/03/26/JavaSE-%E5%85%B6%E4%BB%96%E5%AF%B9%E8%B1%A1API/</url>
     <content><![CDATA[<h1 id="其他对象API"><a href="#其他对象API" class="headerlink" title="其他对象API"></a>其他对象API</h1><h2 id="1-System类"><a href="#1-System类" class="headerlink" title="1 System类"></a>1 <strong>System类</strong></h2><p>System类包含一些有用的类字段和方法，它不能被实例化，即构造函数不对外提供。</p>

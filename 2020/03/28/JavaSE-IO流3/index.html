@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*��������ɫ*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*��Ӱ��ɫ*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*�ϱ߿���ɫ*/
+        border-left-color: #1E92FB;    /*��߿���ɫ*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Z_Letter.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Z_Letter.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ssssshift-96.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="IO流3打印流-PrintStreamPrintWriter与PrintStream：可以直接操作输入流和文件 PrintStream：为其他输出流添加了功能，使它们能够方便地打印各种数据值表示形式。它还提供其他两项功能。与其他输出流不同 永远不会抛出IOException 它打印的所有字符都使用平台的默认字符编码转换为字节。在需要写入字符而不是写入字节的情况下，应该使用PrintWriter类。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaSE-IO流3">
+<meta property="og:url" content="https://ssssshift-96.github.io/2020/03/28/JavaSE-IO%E6%B5%813/index.html">
+<meta property="og:site_name" content="SsssshiFT-96">
+<meta property="og:description" content="IO流3打印流-PrintStreamPrintWriter与PrintStream：可以直接操作输入流和文件 PrintStream：为其他输出流添加了功能，使它们能够方便地打印各种数据值表示形式。它还提供其他两项功能。与其他输出流不同 永远不会抛出IOException 它打印的所有字符都使用平台的默认字符编码转换为字节。在需要写入字符而不是写入字节的情况下，应该使用PrintWriter类。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-28T13:03:51.000Z">
+<meta property="article:modified_time" content="2020-03-28T14:14:23.902Z">
+<meta property="article:author" content="詹智健">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ssssshift-96.github.io/2020/03/28/JavaSE-IO%E6%B5%813/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>JavaSE-IO流3 | SsssshiFT-96</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SsssshiFT-96</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">34</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/28/JavaSE-IO%E6%B5%813/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaSE-IO流3
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-28 21:03:51 / 修改时间：22:14:23" itemprop="dateCreated datePublished" datetime="2020-03-28T21:03:51+08:00">2020-03-28</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="IO流3"><a href="#IO流3" class="headerlink" title="IO流3"></a>IO流3</h1><h2 id="打印流-PrintStream"><a href="#打印流-PrintStream" class="headerlink" title="打印流-PrintStream"></a><strong>打印流-PrintStream</strong></h2><p>PrintWriter与PrintStream：可以直接操作输入流和文件</p>
+<p>PrintStream：为其他输出流添加了功能，使它们能够方便地打印各种数据值表示形式。它还提供其他两项功能。与其他输出流不同</p>
+<p>永远不会抛出IOException</p>
+<p>它打印的所有字符都使用平台的默认字符编码转换为字节。在需要写入字符而不是写入字节的情况下，应该使用PrintWriter类。</p>
+<a id="more"></a>
+
+<p>PrintStream:</p>
+<p>1.提供了打印方法可以对多种数据类型值进行打印。并保持数据的表示形式</p>
+<p>2.它不抛IOException</p>
+<p>构造函数接收三种类型的值</p>
+<p>1.字符串路径</p>
+<p>2.File对象</p>
+<p>3.字节输出流</p>
+<p>write():只写入数据的最低8位。</p>
+<p>print():将输入的数据变成字符串保持原样将数据打印到目的地</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PrintStream out = <span class="keyword">new</span> PrintStream(<span class="string">"print.txt"</span>);</span><br><span class="line">out.write(<span class="number">97</span>);<span class="comment">//只写最低8位</span></span><br><span class="line">out.write(<span class="number">609</span>);</span><br><span class="line">out.print(<span class="number">97</span>);<span class="comment">//将97先变成字符串保持原样将数据打印到目的地</span></span><br></pre></td></tr></table></figure>
+
+<p>PrintWriter:字符打印流</p>
+<p>   构造函数参数：</p>
+<p>   1.字符串路径</p>
+<p>   2.File对象</p>
+<p>   3.字节输出流</p>
+<p>   4.字符输出流</p>
+<h2 id="序列流-SequenceInputStream"><a href="#序列流-SequenceInputStream" class="headerlink" title="序列流-SequenceInputStream"></a><strong>序列流-SequenceInputStream</strong></h2><p>SequenceInputStream：表示其他输入流的逻辑串联。它从输入流的有序集合开始，并从第一个输入流开始读取，直到到达文件末尾，接着从第二个输入流读取，一次类推，直到到达包含最后一个输入流的文件末尾为止。</p>
+<p>需求：将1.txt 2.txt 3.txt文件中的数据合并到一个文件中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Vector&lt;FileInputStream&gt; v = <span class="keyword">new</span> Vector&lt;&gt;();</span><br><span class="line">v.add(<span class="keyword">new</span> FileInputStream(<span class="string">"1.txt"</span>));</span><br><span class="line">v.add(<span class="keyword">new</span> FileInputStream(<span class="string">"2.txt"</span>));</span><br><span class="line">v.add(<span class="keyword">new</span> FileInputStream(<span class="string">"3.txt"</span>));</span><br><span class="line">Enumeration&lt;FileInputStream&gt; en = v.elements();</span><br><span class="line">SequenceInputStream sis = <span class="keyword">new</span> SequenceInputStream(en);</span><br><span class="line">FileOutoutStream fos = <span class="keyword">new</span> FileOutoutStream(<span class="string">"4.txt"</span>);</span><br><span class="line"><span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line"><span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>((len = sis.read(buf)) != -<span class="number">1</span>)&#123;</span><br><span class="line">    fos.write(buf, <span class="number">0</span>, len);</span><br><span class="line">&#125;</span><br><span class="line">fos.close();</span><br><span class="line">sis.close();</span><br></pre></td></tr></table></figure>
+
+<h2 id="序列流-SequenceInputStream-枚举和迭代"><a href="#序列流-SequenceInputStream-枚举和迭代" class="headerlink" title="序列流-SequenceInputStream-枚举和迭代"></a><strong>序列流-SequenceInputStream-枚举和迭代</strong></h2><p>Vector过时了，ArrayList是常用的集合对象，但是ArrayList没有枚举的方法。通过寻找工具类发现一个方法可以给一个List返回一个枚举类对象，故用这个方法也可实现上述功能。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取枚举类对象的代码为</span></span><br><span class="line">Enumeration&lt;FileInputStream&gt; en = Collections.enumeration(a);</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件切割"><a href="#文件切割" class="headerlink" title="文件切割"></a><strong>文件切割</strong></h2><p>将文件切成每份大小最高为固定值的碎片文件。</p>
+<p>固定一个final常量定义文件大小。然后每次读出该大小数据再通过输出流存到硬盘</p>
+<h2 id="文件合并"><a href="#文件合并" class="headerlink" title="文件合并"></a><strong>文件合并</strong></h2><p>序列流中演示过</p>
+<h2 id="文件切割合并-配置文件"><a href="#文件切割合并-配置文件" class="headerlink" title="文件切割合并+配置文件"></a><strong>文件切割合并+配置文件</strong></h2><p>实际切割或合并时，是不知道碎片个数以及文件类型，所以在切割时需要将这些信息存储起来。</p>
+<h2 id="ObjectOutputStream-对象的序列化"><a href="#ObjectOutputStream-对象的序列化" class="headerlink" title="ObjectOutputStream-对象的序列化"></a><strong>ObjectOutputStream-对象的序列化</strong></h2><p>ObjectOutputStream：将Java对象的基本数据类型和图形写入OutputStream，可以使用ObjectInputStream读取（重构）对象，通过在流中使用文件可以实现对象的持久存储。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ObjectOutputStream oos = <span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">"obj.object"</span>));</span><br><span class="line">oos.writeObject(<span class="keyword">new</span> Person(<span class="string">"aaa"</span>,<span class="number">30</span>));</span><br><span class="line">oos.close();</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：对象序列化中，被序列化的对象必须实现Serializable接口。</p>
+<h2 id="ObjectInputStream-对象的反序列化"><a href="#ObjectInputStream-对象的反序列化" class="headerlink" title="ObjectInputStream-对象的反序列化"></a><strong>ObjectInputStream-对象的反序列化</strong></h2><p>ObjectInputStream对以前使用ObjectOutputStream写入的基本数据和对象进行反序列化。只能读取oos写入的对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectInputStream ois = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(<span class="string">"obj.object"</span>));</span><br><span class="line">Person p = (Person)oos.readObject();</span><br><span class="line">ois.close();</span><br></pre></td></tr></table></figure>
+
+<p>这里会抛出的类不存在异常。因为对象的创立需要有其类文件的存在，如果只有object文件，那么是创立不了的。</p>
+<h2 id="序列化接口-Serializable"><a href="#序列化接口-Serializable" class="headerlink" title="序列化接口-Serializable"></a><strong>序列化接口-Serializable</strong></h2><p>类通过实现Serializable接口以启用其序列化功能。未实现此接口的类将无法使其任何状态序列化或反序列化。可序列化类的所有子类型本身都是可序列化的。序列化接口没有方法或者字段，仅用于标识可序列化的语义。</p>
+<p>Serializable：用于给序列化的类加入ID号，用于判断类和对象是否是同一个版本。版本号不一致会发生无效类异常。可序列化类可以通过声明名为“serialVersionUID”字段（该字段必须是静态的static，最终的final的long型字段）显式声明自己的serialVersionUID。</p>
+<p>ANY-ACCESS-MODIFIE static final long serialVersionUID=42l；</p>
+<p>如果可序列化类未显式声明，则序列化运行时会基于该类从各个方面进行计算默认ID值，所以建议自己显式声明。</p>
+<h2 id="关键字-transient"><a href="#关键字-transient" class="headerlink" title="关键字-transient"></a><strong>关键字-transient</strong></h2><p>writeObject将指定的对象写入ObjectOutputStream。对象的类，类的签名以及类及其所有超类型的<strong>非瞬态和非静态</strong>字段的值都将被写入。静态和瞬态的不会被写入。</p>
+<p>静态的数据在方法区内，公用的，不会随内存中的对象写入硬盘上。</p>
+<p><strong>transient：非静态（不是公用的）数据不想被序列化即不想将数据存到硬盘上可以使用这个关键字修饰。</strong></p>
+<h2 id="RandomAccessFile-写入"><a href="#RandomAccessFile-写入" class="headerlink" title="RandomAccessFile-写入"></a><strong>RandomAccessFile-写入</strong></h2><p>随机访问文件，自身具备读写功能</p>
+<p>RandomAccessFile</p>
+<p>   不是IO体系中的子类</p>
+<p>   特点：</p>
+<p>   1.该对象既能读取又能写入。</p>
+<p>   2.该对象内部维护了一个byte数组，并通过指针可以操作数组中的元素。</p>
+<p>   3.可以通过<strong>getFilePointer</strong>方法获取指针的位置，和通过<strong>seek</strong>方法设置指针的位置。</p>
+<p>   4.其实该对象就是将字节输入流和输出流进行了封装。</p>
+<p>   5.该对象的<strong>源或者目的只能是文件</strong>。通过构造函数就可以看出</p>
+<p>   构造函数RandomAccessFile(File file,String mode)</p>
+<p>   mode：参数指定用以打开文件的访问模式。只允许一下四个值</p>
+<p>   r：以只读方式打开，调用结果对象的任何write方法都将导致抛出IOException</p>
+<p>   rw：打开以便读取和写入。如果文件不存在则创建。</p>
+<p>   rws：打开以便读取和写入，对于”rw”,还要求对文件的内容或元数据的每个更新都同步写入到底层存储设备</p>
+<p>   rwd：打开以便读取和写入，对于”rw”,还要求对文件的内容的每个更新都同步写入到底层存储设备</p>
+<p><strong>演示写入</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RandomAccessFile raf = <span class="keyword">new</span> RandomAccessFile(<span class="string">"aaa.txt"</span>,<span class="string">"rw"</span>);</span><br><span class="line">raf.write(<span class="string">"asdf"</span>.getBytes());</span><br><span class="line">raf.write(<span class="number">609</span>);<span class="comment">//只写了最低的字节</span></span><br><span class="line">raf.writeInt(<span class="number">609</span>);<span class="comment">//按四个字节写入该文件，先写高字节</span></span><br><span class="line">raf.close();</span><br></pre></td></tr></table></figure>
+
+<h2 id="RandomAccessFile-读取-amp-随机读取"><a href="#RandomAccessFile-读取-amp-随机读取" class="headerlink" title="RandomAccessFile-读取&amp;随机读取"></a><strong>RandomAccessFile-读取&amp;随机读取</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">RandomAccessFile raf = <span class="keyword">new</span> RandomAccessFile(<span class="string">"aaa.txt"</span>,<span class="string">"r"</span>);</span><br><span class="line"><span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">4</span>];</span><br><span class="line">raf.read(buf);</span><br><span class="line">String name = <span class="keyword">new</span> String(buf);</span><br><span class="line"><span class="keyword">int</span> age = raf.readInt();<span class="comment">//一下读4个字节并转化成32位的整数</span></span><br><span class="line"></span><br><span class="line">raf.close();</span><br></pre></td></tr></table></figure>
+
+<p>若要指定任意位置读取，即随机读取，则先清楚byte数组中存储的情况</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//可以通过seek()设置指针的位置。</span></span><br><span class="line">raf.seek(<span class="number">1</span>*<span class="number">8</span>);<span class="comment">//1指针隔8个位置，即指针跳过8个位置</span></span><br><span class="line"><span class="comment">//可以用getFilePointer();来确定现在指针的位置</span></span><br><span class="line"><span class="keyword">int</span> pos = raf.getFilePointer();</span><br></pre></td></tr></table></figure>
+
+<h2 id="RandomAccessFile-随机写入-amp-细节"><a href="#RandomAccessFile-随机写入-amp-细节" class="headerlink" title="RandomAccessFile-随机写入&amp;细节"></a><strong>RandomAccessFile-随机写入&amp;细节</strong></h2><p>若在同指针位置写入数据，则会覆盖之前的数据，也就是该类可以进行修改。</p>
+<p>该方法可以告诉线程从哪个位置开始往文本中写入数据，意味着，可以多个线程同时向文本中写入数据。所以多线程写入的时候会使用到该对象。</p>
+<h2 id="PipedStream管道流"><a href="#PipedStream管道流" class="headerlink" title="PipedStream管道流"></a>PipedStream管道流</h2><p>管道输入流应该连接到管道输出流。管道输入流提供要写入管道输出流的所有数据字节。通常，数据由某个线程从PipedInputStream对象读取，并由其他线程将其写入到相应的PipedOutStream。<strong>不建议对这两个对象尝试使用单个线程。因为这样可能死锁线程。</strong></p>
+<p>这是结合多线程的流</p>
+<h2 id="操作基本数据类型的流对象-DataStream"><a href="#操作基本数据类型的流对象-DataStream" class="headerlink" title="操作基本数据类型的流对象-DataStream"></a><strong>操作基本数据类型的流对象-DataStream</strong></h2><p><strong>DataOutputStream</strong>：数据输出流允许应用程序以适当方式将基本Java数据类型写入输出流中，然后应用程序可以使用数据输入流将数据读入。以前的流写入int’数据只能写后8位，而用这个流则不存这个问题。</p>
+<h2 id="操作数组的流"><a href="#操作数组的流" class="headerlink" title="操作数组的流"></a><strong>操作数组的流</strong></h2><p>ByteArrayOutputStream：此类实现了一个输出流，其中的数据被写入一个byte数组即目的是内存。缓冲区会随着数据的不断写入而自动增长。可使用toByteArray()和toString()获取数据。</p>
+<p>关闭这个流无效，重点在于它是否有调用系统底层资源。这个对象本身操作的是内存，没有调用底层资源，只是在内存当中操作数据，此类中的方法在关闭后仍可被调用，而不会产生任何IO异常。</p>
+<p>ByteArrayInputStream：包含一个内部缓冲区，该缓冲区包含从流中读取的字节。内部计数器跟踪read方法要提供的下一个字节。同样关闭这个流无效。</p>
+<p>它new对象时必须要有源，即内存的数组。</p>
+<h2 id="编码表"><a href="#编码表" class="headerlink" title="编码表"></a><strong>编码表</strong></h2><p>计算机只能识别二进制数据，早起由来是电信号。为了方便应用计算机，让它可以识别各个国家的文字。就将各个国家的文字用数字来表示，并一一对应形成一张表，这就是编码表。</p>
+<p>常见的码表：</p>
+<p>ASCII：美国标准信息交换码。用一个字节的7位可以表示。</p>
+<p>ISO8859-1：拉丁码表，欧洲码表。用一个字节的8位表示。</p>
+<p>GB2312：中国的中文编码表。</p>
+<p>GBK：中国的中文编码表升级，融合了更多的中文文字字符号。</p>
+<p>Unicode：国际标准码，融合了多种文字。所有文字都用两个字节来表示，Java语言使用的就是unicode</p>
+<p>UTF-8：最多用三个字节表示一个字符。</p>
+<h2 id="简单编码解码"><a href="#简单编码解码" class="headerlink" title="简单编码解码"></a><strong>简单编码解码</strong></h2><p>字符串–&gt;字节数组：编码</p>
+<p>字节数组–&gt;字符串：解码</p>
+<p>你好：GBK：-60 -29 -70 -61</p>
+<p>你好：UTF-8：-28 -67 -96 -27 -91 -67</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//编码</span></span><br><span class="line">String str = <span class="string">"你好"</span>;</span><br><span class="line"><span class="keyword">byte</span>[] buf1 = str.getBytes(<span class="string">"UTF-8"</span>);</span><br><span class="line"><span class="comment">//解码</span></span><br><span class="line">String s1 = <span class="keyword">new</span> String(buf1, <span class="string">"GBK"</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="编码解码问题"><a href="#编码解码问题" class="headerlink" title="编码解码问题"></a><strong>编码解码问题</strong></h2><p>如果你编错了，解不出来</p>
+<p>如果编对了，解错了，有可能有解。</p>
+<p>比如在Tomcat服务器上，如果传进来“你好”字符串，在其服务器上是用iso8859-1来解码，这是解不出来的，然后需要我们自行的重新用iso8859-1编码得到源字节，然后用指定编码表比如gbk解码，得到正确的结果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"你好"</span>;</span><br><span class="line"><span class="keyword">byte</span>[] buf1 = str.getBytes(<span class="string">"gbk"</span>);</span><br><span class="line">String s1 = <span class="keyword">new</span> String(buf1,<span class="string">"iso8859-1"</span>);<span class="comment">//这时是解不出来的。</span></span><br><span class="line"><span class="comment">//由于系统是默认用iso8859-1来解码，所以得手动重新用iso8859-1编码得到源字节，然后用指定编码表比如gbk解码，得到正确的结果</span></span><br><span class="line"><span class="keyword">byte</span>[] buf2 = s1.getBytes(<span class="string">"iso8859-1"</span>);</span><br><span class="line">String s2 = <span class="keyword">new</span> String(buf2,<span class="string">"gbk"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>上述情况也有可能最后解不出来，比如用UTF-8。再输入你好时，相应的字节UTF-8识别不出来就会都用？代替，？在UTF-8中的对应的编码是-17 -65 -67，这就将之前的信息修改了，所以最后还原不出来。</p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+	  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	
+   </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaSE/" rel="tag"># JavaSE</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/28/JavaSE-Properties/" rel="prev" title="JavaSE-Properties">
+      <i class="fa fa-chevron-left"></i> JavaSE-Properties
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#IO流3"><span class="nav-number">1.</span> <span class="nav-text">IO流3</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#打印流-PrintStream"><span class="nav-number">1.1.</span> <span class="nav-text">打印流-PrintStream</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列流-SequenceInputStream"><span class="nav-number">1.2.</span> <span class="nav-text">序列流-SequenceInputStream</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列流-SequenceInputStream-枚举和迭代"><span class="nav-number">1.3.</span> <span class="nav-text">序列流-SequenceInputStream-枚举和迭代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件切割"><span class="nav-number">1.4.</span> <span class="nav-text">文件切割</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件合并"><span class="nav-number">1.5.</span> <span class="nav-text">文件合并</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件切割合并-配置文件"><span class="nav-number">1.6.</span> <span class="nav-text">文件切割合并+配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ObjectOutputStream-对象的序列化"><span class="nav-number">1.7.</span> <span class="nav-text">ObjectOutputStream-对象的序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ObjectInputStream-对象的反序列化"><span class="nav-number">1.8.</span> <span class="nav-text">ObjectInputStream-对象的反序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化接口-Serializable"><span class="nav-number">1.9.</span> <span class="nav-text">序列化接口-Serializable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键字-transient"><span class="nav-number">1.10.</span> <span class="nav-text">关键字-transient</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RandomAccessFile-写入"><span class="nav-number">1.11.</span> <span class="nav-text">RandomAccessFile-写入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RandomAccessFile-读取-amp-随机读取"><span class="nav-number">1.12.</span> <span class="nav-text">RandomAccessFile-读取&amp;随机读取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RandomAccessFile-随机写入-amp-细节"><span class="nav-number">1.13.</span> <span class="nav-text">RandomAccessFile-随机写入&amp;细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PipedStream管道流"><span class="nav-number">1.14.</span> <span class="nav-text">PipedStream管道流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作基本数据类型的流对象-DataStream"><span class="nav-number">1.15.</span> <span class="nav-text">操作基本数据类型的流对象-DataStream</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作数组的流"><span class="nav-number">1.16.</span> <span class="nav-text">操作数组的流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编码表"><span class="nav-number">1.17.</span> <span class="nav-text">编码表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单编码解码"><span class="nav-number">1.18.</span> <span class="nav-text">简单编码解码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编码解码问题"><span class="nav-number">1.19.</span> <span class="nav-text">编码解码问题</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="詹智健"
+      src="/images/A%20lemon.jpg">
+  <p class="site-author-name" itemprop="name">詹智健</p>
+  <div class="site-description" itemprop="description">今天也是很多个开心日子里开心的一天呀</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SsssshiFT-96" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SsssshiFT-96" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">詹智健</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共45.2k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

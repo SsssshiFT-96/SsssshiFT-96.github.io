@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*��������ɫ*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*��Ӱ��ɫ*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*�ϱ߿���ɫ*/
+        border-left-color: #1E92FB;    /*��߿���ɫ*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Z_Letter.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Z_Letter.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ssssshift-96.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="IO流1 输入流&amp;输出流IO流用来处理设备之间的数据传输 Java对数据的操作是通过流的方式 Java用于操作流的对象都在IO包中 流按操作数据分为两种：字节流与字符流 流按流向分为：输入流，输出流 输入流和输出流相对于内容设备而言 将外设中的数据读取到内存中：输入 将内存的数据写入到外设中：输出">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaSE-IO流">
+<meta property="og:url" content="https://ssssshift-96.github.io/2020/03/27/JavaSE-IO%E6%B5%81/index.html">
+<meta property="og:site_name" content="SsssshiFT-96">
+<meta property="og:description" content="IO流1 输入流&amp;输出流IO流用来处理设备之间的数据传输 Java对数据的操作是通过流的方式 Java用于操作流的对象都在IO包中 流按操作数据分为两种：字节流与字符流 流按流向分为：输入流，输出流 输入流和输出流相对于内容设备而言 将外设中的数据读取到内存中：输入 将内存的数据写入到外设中：输出">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-27T11:57:02.000Z">
+<meta property="article:modified_time" content="2020-03-27T13:46:36.305Z">
+<meta property="article:author" content="詹智健">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ssssshift-96.github.io/2020/03/27/JavaSE-IO%E6%B5%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>JavaSE-IO流 | SsssshiFT-96</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SsssshiFT-96</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">2</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">34</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/27/JavaSE-IO%E6%B5%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaSE-IO流
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-27 19:57:02 / 修改时间：21:46:36" itemprop="dateCreated datePublished" datetime="2020-03-27T19:57:02+08:00">2020-03-27</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="IO流"><a href="#IO流" class="headerlink" title="IO流"></a>IO流</h2><h2 id="1-输入流-amp-输出流"><a href="#1-输入流-amp-输出流" class="headerlink" title="1 输入流&amp;输出流"></a><strong>1 输入流&amp;输出流</strong></h2><p>IO流用来处理设备之间的数据传输</p>
+<p>Java对数据的操作是通过流的方式</p>
+<p>Java用于操作流的对象都在IO包中</p>
+<p>流按操作数据分为两种：字节流与字符流</p>
+<p>流按流向分为：输入流，输出流</p>
+<p>输入流和输出流相对于内容设备而言</p>
+<p>将外设中的数据读取到内存中：输入</p>
+<p>将内存的数据写入到外设中：输出</p>
+ <a id="more"></a>
+
+<h2 id="2-字节流-amp-字符流"><a href="#2-字节流-amp-字符流" class="headerlink" title="2 字节流&amp;字符流"></a><strong>2 字节流&amp;字符流</strong></h2><p>字符流的由来：</p>
+<p>字节流读取文字字节数据后，不直接操作而是先查指定的编码表，获取对应的文字</p>
+<p>再对这个文字进行操作，简单说就是字节流+编码表</p>
+<h2 id="3-字符流-FileWriter"><a href="#3-字符流-FileWriter" class="headerlink" title="3 字符流-FileWriter"></a><strong>3 字符流-FileWriter</strong></h2><p>字节流的两个顶层父类：</p>
+<p>1.InputStream 2.OutputStream</p>
+<p>字符流的两个顶层父类：</p>
+<p>1.Reader 2.Writer</p>
+<p>这些体系的子类基本以父类名作为后缀</p>
+<p>而子类名的前缀就是该对象的功能</p>
+<p><strong>从熟悉的文字开始，即字符流:</strong></p>
+<p>需求：将一些文字存储到硬盘一个文件中。</p>
+<p><strong>记住</strong>：如果要操作文字数据，建议优先考虑字符流。</p>
+<p>而且要将数据从内存写到硬盘上，要使用字符流中的输出流：<strong>Writer</strong>。</p>
+<p>硬盘的数据基本体现是文件，希望找到一个可以操作文件的Writer。</p>
+<p>找到了<strong>FileWriter</strong>。</p>
+<p>1.创建一个可以往文件中写入字符数据的字符输出流对象</p>
+<p>既然是往一个文件中写入文字数据，创建对象时，就必须明确该文件（用于存储数据的目的地）。</p>
+<p>如果文件不存在，则会自动创建</p>
+<p>如果文件存在，则会被覆盖</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"demo.txt"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>2.调用Writer对象中的write(string)方法，写入数据。</p>
+<p>数据首先是写入到了临时存储（流）缓冲区中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fw.write(<span class="string">"aaa"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>3.进行刷新，将数据直接写到目的地中。</p>
+<p>也可以使用关闭流。</p>
+<p>关闭流，关闭资源，但关闭前会先调用flush刷新缓冲中数据到目的地。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fw.flush();</span><br><span class="line">或</span><br><span class="line">fw.close();</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-字符流-FileWriter-细节（换行和续写）"><a href="#4-字符流-FileWriter-细节（换行和续写）" class="headerlink" title="4 字符流-FileWriter-细节（换行和续写）"></a><strong>4 字符流-FileWriter-细节（换行和续写）</strong></h2><p>换行</p>
+<p>换行不能直接输入转义字符，如\r\n，因为这只是在windows系统下才能换行，换成别的系统则不行，故需要创建一个常量，来获取系统定义的换行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String LINE_SEPARATOR = System.getProperty(<span class="string">"line.separator"</span>);</span><br><span class="line">fw.write(<span class="string">"aaaa"</span> + LINE_SEPARATO + <span class="string">"AAAA"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>续写</p>
+<p>在构造函数中加入true，可以实现对文件进行续写。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"demo.txt"</span>,<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-字符流-FileWriter-IO异常处理"><a href="#5-字符流-FileWriter-IO异常处理" class="headerlink" title="5 字符流-FileWriter-IO异常处理"></a><strong>5 字符流-FileWriter-IO异常处理</strong></h2><p>注意：最后要finally，将流关闭</p>
+<h2 id="6-字符流-FileReader-读取方式一"><a href="#6-字符流-FileReader-读取方式一" class="headerlink" title="6 字符流-FileReader-读取方式一"></a><strong>6 字符流-FileReader-读取方式一</strong></h2><p>需求2：读取一个文本文件，将读取到的字符打印到控制台</p>
+<p>找到了<strong>FileReader</strong></p>
+<p>创建读取字符数据的流对象</p>
+<p>在创建读取流对象时，必须要明确被读取的文件，一定要确定该文件是存在的。</p>
+<p>用一个读取流关联一个已存在文件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FileReader fr = <span class="keyword">new</span> FileReader(<span class="string">"demo.txt"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>用Reader中的read方法读取字符，返回的是int类型数据。当没有字符可读时返回-1</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">假如读的是一个a</span><br><span class="line"><span class="keyword">int</span> ch = fr.read();</span><br><span class="line">System.out.println(ch);</span><br><span class="line">System.out.println((<span class="keyword">char</span>)ch);</span><br><span class="line">结果：<span class="number">97</span></span><br><span class="line">     a</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-字符流-FileReader-读取方式二"><a href="#7-字符流-FileReader-读取方式二" class="headerlink" title="7 字符流-FileReader-读取方式二"></a><strong>7 字符流-FileReader-读取方式二</strong></h2><p>使用read(char[ ]) 读取文本文件数据至数组中,并返回读取字符的个数</p>
+<p>先创建字符数组。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>[] buf = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">3</span>];</span><br><span class="line"><span class="keyword">int</span> len = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>((len = fr.read(buf)) != -<span class="number">1</span>)&#123;</span><br><span class="line">    System.out.println(<span class="keyword">new</span> String(buf, <span class="number">0</span>, len));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-字符流-练习复制文本文件"><a href="#8-字符流-练习复制文本文件" class="headerlink" title="8  字符流-练习复制文本文件"></a>8  <strong>字符流-练习复制文本文件</strong></h2><p>需求：将c盘的一个文本文件复制到d盘</p>
+<p>复制原理：</p>
+<p>分析：读取c盘文件中的数据</p>
+<p>将这些数据写入到d盘当中</p>
+<p>连读带写</p>
+<p>思路：</p>
+<p>1.需要读取源</p>
+<p>2.将读到的源数据写入到目的地</p>
+<p>3.既然是操作文本数据，使用字符流</p>
+<p>代码略</p>
+<h2 id="9-字符流-缓冲区-解释"><a href="#9-字符流-缓冲区-解释" class="headerlink" title="9 字符流-缓冲区-解释"></a><strong>9 字符流-缓冲区-解释</strong></h2><p>缓冲区的出现提高了对数据的读写效率</p>
+<p>对应类</p>
+<p>BufferedWriter</p>
+<p>BufferedReader</p>
+<p>缓冲区要结合流才可以使用</p>
+<p>举例：</p>
+<p>缓冲区可以看做是超市里的推车或者框，可以先将想要的东西放入到里面，最后再一次就算。</p>
+<h2 id="10-字符流-缓冲区-BufferedWriter"><a href="#10-字符流-缓冲区-BufferedWriter" class="headerlink" title="10 字符流-缓冲区-BufferedWriter"></a>10 <strong>字符流-缓冲区-BufferedWriter</strong></h2><p>将文本写入字符输出流，缓冲各个字符，从而提供单字符、数组和字符串的高效写入。</p>
+<p>可以指定缓冲区的大小，或者接受默认的大小，在大多数情况下，默认值足够大了。</p>
+<p>该类提供了<strong>newLine()方法</strong>，它使用平台自己的行分隔符概念，此概念由系统属性line_separator定义。</p>
+<p>有了这个缓冲区之后，写的操作就可以由这个类的对象进行操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"demo.txt"</span>);</span><br><span class="line"><span class="comment">//创建写缓冲区，并与fw绑定</span></span><br><span class="line">BufferedWriter bufw = <span class="keyword">new</span> BufferedWriter(fw);</span><br><span class="line"><span class="comment">//写的操作就可以由这个类的对象进行操作</span></span><br><span class="line">bufw.write(<span class="string">"aaa"</span>);</span><br><span class="line">bufw.newline();<span class="comment">//换行</span></span><br><span class="line">bufw.write(<span class="string">"nnn"</span>);</span><br><span class="line">bufw.flush();</span><br><span class="line">bufw.close();</span><br></pre></td></tr></table></figure>
+
+<h2 id="11-字符流-缓冲区-BufferedReader"><a href="#11-字符流-缓冲区-BufferedReader" class="headerlink" title="11 字符流-缓冲区-BufferedReader"></a>11 <strong>字符流-缓冲区-BufferedReader</strong></h2><p>用法与BufferedWriter一样，创建该对象与FileReader的对象绑定，然后读的操作就由BufferedReader类对象操作。</p>
+<p><strong>BufferedReader中的readLine();可以进行读一行操作，返回字符串类型。</strong></p>
+<p>readLine()方法原理：使用了读取缓冲区的read方法，将读取到的字符进行缓冲，并判断换行标记。将标记前的缓存数据变成字符串返回。上述临时容器可以是StringBulider，因为最终返回的是字符串。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FileReader fr = <span class="keyword">new</span> FileReader(<span class="string">"demo.txt"</span>);</span><br><span class="line">BufferedWriter bufr = <span class="keyword">new</span> BufferedReader(fr);</span><br><span class="line"><span class="keyword">int</span> ch = bufr.read();</span><br><span class="line">String line = bufr.readline();</span><br></pre></td></tr></table></figure>
+
+<h2 id="12-字符流-缓冲区-装饰设计模式"><a href="#12-字符流-缓冲区-装饰设计模式" class="headerlink" title="12 字符流-缓冲区-装饰设计模式"></a>12 <strong>字符流-缓冲区-装饰设计模式</strong></h2><p>装饰设计模式：</p>
+<p>  对一组对象的功能进行增强时，就可以使用该模式进行问题解决。</p>
+<p>装饰设计模式和继承的区别</p>
+<p>装饰和继承都能实现一样的特点：进行功能的扩展增强</p>
+<p>有什么区别呢？</p>
+<p>首先有一个继承体系</p>
+<p>Writer</p>
+<p>​    TextWriter:用于操作文本</p>
+<p>​    MediaWriter:用于操作媒体</p>
+<p>想要对操作的动作进行效率的提高</p>
+<p>按照面向对象，可以通过继承对具体的进行功能的扩展。</p>
+<p>效率提高需要加入缓冲技术</p>
+<p>Writer</p>
+<p>​    TextWriter:用于操作文本</p>
+<p>​       BufferedTextWriter:加入了缓冲技术的操作文本的对象</p>
+<p>​    MediaWriter:用于操作媒体</p>
+<p>​       BufferedMediaWriter:加入了缓冲技术的操作媒体的对象</p>
+<p>​       </p>
+<p>但是这样做好像并不理想</p>
+<p>如果这个体系进行功能扩展，有多个流对象</p>
+<p>那么这个流要提高效率，是不是也要产生子类呢？是，这时就会发现只为提高功能，进行的继承，导致体系越来越臃肿，不够灵活。</p>
+<p>重新思考这个问题</p>
+<p>既然加入的都是同一种技术–缓冲</p>
+<p>前一种是让缓冲和具体的对象相结合。</p>
+<p>可不可以将缓冲进行单独的封装，哪个对象需要缓冲，就将哪个对象和缓冲关联。</p>
+<p>class Buffer{</p>
+<p>​    Buffer(TextWriter w)</p>
+<p>​    {}</p>
+<p>​    Buffer(MediaWriter w)</p>
+<p>​    {}</p>
+<p>}</p>
+<p>class BufferWriter extends Writer{</p>
+<p>​    BufferWriter(Writer w)</p>
+<p>​    {</p>
+<p>​    }</p>
+<p>}</p>
+<p>Writer</p>
+<p>​    TextWriter:用于操作文本</p>
+<p>​    MediaWriter:用于操作媒体</p>
+<p>​    BufferWrter:用于提高效率</p>
+<p>所以装饰比继承更为灵活</p>
+<p>装饰特点：装饰类和被装饰类都必须所属同一个接口或者父类</p>
+<h2 id="13-字符流-缓冲区-LineNumberReader"><a href="#13-字符流-缓冲区-LineNumberReader" class="headerlink" title="13 字符流-缓冲区-LineNumberReader"></a>13 <strong>字符流-缓冲区-LineNumberReader</strong></h2><p>LineNumberReader:跟踪行号的缓冲字符输入流。可以设置和获取当前行号。</p>
+<p>setLineNumber();设置当前行号</p>
+<p>getlineNumber();获取当前行号</p>
+<h2 id="14-字节流-操作文本基本演示"><a href="#14-字节流-操作文本基本演示" class="headerlink" title="14 字节流-操作文本基本演示"></a>14 <strong>字节流-操作文本基本演示</strong></h2><p>基本操作与字符流类相同，操作的是字节</p>
+<p>但它不仅可以操作字符，还可以操作其他媒体文件</p>
+<p>读字节流</p>
+<p>FileInputStream();有可以获取文件大小的方法：available();</p>
+<p>写字节流</p>
+<p>FileOutputStream();</p>
+<p>字节流缓冲区</p>
+<p>BufferedInputStream</p>
+<p>BufferedOutputStream</p>
+<p><strong>不要尝试用字符流去复制媒体如视频，图片文件</strong>。因为字符流自动会将读到的字节通过码表转换为字符，但是媒体和图片文件没有这种对应的码表，所以有些字节就会随机对应一个未知的字符，这有可能导致文件大小都会不一样。</p>
+<h2 id="15-演示键盘录入"><a href="#15-演示键盘录入" class="headerlink" title="15 演示键盘录入"></a>15 <strong>演示键盘录入</strong></h2><p>需求：读取一个键盘录入的数据，并打印在控制台上。</p>
+<p>键盘本身就是一个标准的输入设备</p>
+<p>对于java而言，对于这种输入设备，都有对应的对象。</p>
+<p><strong>InputStream in:</strong>标准输入流，此流已打开并准备提供输入数据，通常，此流对应于键盘输入或者主机环境或用户指定的另一个输入源。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">InputStream in = System.in;</span><br><span class="line"><span class="keyword">int</span> ch1 = in.read();</span><br><span class="line">System.out.println(ch1);</span><br><span class="line"><span class="keyword">int</span> ch2 = in.read();</span><br><span class="line">System.out.println(ch2);</span><br><span class="line"><span class="keyword">int</span> ch3 = in.read();</span><br><span class="line">System.out.println(ch3);</span><br><span class="line">输入：a</span><br><span class="line">结果：<span class="number">97</span></span><br><span class="line">     <span class="number">13</span></span><br><span class="line">     <span class="number">10</span></span><br></pre></td></tr></table></figure>
+
+<p>说明：运行时，首先在显示台上可以输入字符。造成这种等待的原因是in.read()。然后按下回车，开始读取字符。一个read方法读一个。结果是三个数字是因为后面两个是Windows中回车(\r\n)的ASCII码。</p>
+<p><strong>注意：</strong>对于使用系统默认的输入输出流，一般不主动关闭流。因为该流在系统中只有一个。关闭后就不能再开启，所以最好让其随着系统的关闭而关闭。</p>
+<h2 id="16-转换流"><a href="#16-转换流" class="headerlink" title="16 转换流"></a>16 <strong>转换流</strong></h2><p><strong>InputStreamReader类</strong> 是字节流通向字符流的桥梁，它使用指定的chatset读取字节并将其解码为字符。被称之为转换流，它是带着编码表。</p>
+<p>用此方法转成字符流，就可以使用字符流中的readLine方法实现一些功能。</p>
+<p><strong>OutStreamWriter类</strong> 是字符流通向字节流的桥梁，可使用指定的charset将要写入流中的字符编码成字节。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输入字节流，输出转换成字符流</span></span><br><span class="line">InputStream in = System.in;</span><br><span class="line">InputStreamReader isr = <span class="keyword">new</span> InputStreamReader(in);</span><br><span class="line">BufferedReader bufr = <span class="keyword">new</span> BufferedReader(isr);</span><br><span class="line"></span><br><span class="line"><span class="comment">//输入字符流，输出转换成字节流</span></span><br><span class="line">OutputStream out = System.out;</span><br><span class="line">OutputStreamWriter osw = <span class="keyword">new</span> OutputStreamWriter(out);</span><br><span class="line">BufferedWriter bufw = <span class="keyword">new</span> BufferedWriter(osw);</span><br></pre></td></tr></table></figure>
+
+<p>可以简写成下面形式，<strong>需要记住</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BufferedReader bufr = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in);</span><br><span class="line">BufferedWriter bufw = <span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(System.out);</span><br></pre></td></tr></table></figure>
+
+<h2 id="17-流的操作基本规律"><a href="#17-流的操作基本规律" class="headerlink" title="17 流的操作基本规律"></a>17 <strong>流的操作基本规律</strong></h2><p>流的操作规律：</p>
+<p>之所以要弄清楚这个规律，是因为流对象太多，开发时不知道用哪个对象合适</p>
+<p>想要知道开发时用到哪些对象，只要通过四个明确即可。</p>
+<p>1.明确源和目的（汇）</p>
+<p>  源：InputStream Reader</p>
+<p>  目的：OutputStream Writer</p>
+<p>2.明确数据是否是纯文本数据</p>
+<p>  源：是纯文本：Reader</p>
+<p>​    否：InputStream</p>
+<p>  目的：是纯文本：Writer</p>
+<p>​      否：OutputStream</p>
+<p>到这里就可以明确需求中具体要使用哪个体系</p>
+<p>3.明确具体的设备。</p>
+<p>  源设备：</p>
+<p>​    硬盘：File</p>
+<p>​    键盘：System.in</p>
+<p>​    内存：数组</p>
+<p>​    网络：Socket流</p>
+<p>  目的设备：</p>
+<p>​    硬盘：File</p>
+<p>​    控制台：System.out</p>
+<p>​    内存：数组</p>
+<p>​    网络：Socket流</p>
+<p>4.是否需要其他额外功能</p>
+<p>  1.是否需要高效（缓冲区）：</p>
+<p>​    是，就加上buffer</p>
+<h2 id="18-转换流的编码解码"><a href="#18-转换流的编码解码" class="headerlink" title="18 转换流的编码解码"></a>18 <strong>转换流的编码解码</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">OutputStreamWriter osw = <span class="keyword">new</span> OutputStreamWriter(<span class="keyword">new</span> FileOutputStream(<span class="string">"demo.txt"</span>, <span class="string">"GBK"</span>);</span><br><span class="line">FileWriter fw = <span class="keyword">new</span> FileWriter(<span class="string">"demo.txt"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这两句代码的功能是等同的</p>
+<p>FileWriter：其实就是转换流指定了本机默认码表的体现，而且这个转换流的子类对象可以方便操作文本文件。</p>
+<p>简单说：操作文件的字节流+本机默认的编码表</p>
+<p>这是按照默认码表来操作文件的便捷类</p>
+<p>如果操作文本文件需要明确具体的编码，FileWriter就不行了，必须用转换流。</p>
+<p>用指定的编码表：</p>
+<p>OutputStreamReader(“文件名”,”码表名”);</p>
+<p>同样的，读取也是，如果不是默认的码表就要用</p>
+<p>InputStreamReader(“文件名”,”码表名”);</p>
+<p>若用一个码表来解码由另一个码表编译的文件则会出现乱码。</p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+	  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	
+   </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaSE/" rel="tag"># JavaSE</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/26/JavaSE-%E5%85%B6%E4%BB%96%E5%AF%B9%E8%B1%A1API/" rel="prev" title="JavaSE-其他对象API">
+      <i class="fa fa-chevron-left"></i> JavaSE-其他对象API
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/27/JavaSE-IO%E6%B5%812/" rel="next" title="JavaSE-IO流2">
+      JavaSE-IO流2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IO流"><span class="nav-number">1.</span> <span class="nav-text">IO流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-输入流-amp-输出流"><span class="nav-number">2.</span> <span class="nav-text">1 输入流&amp;输出流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-字节流-amp-字符流"><span class="nav-number">3.</span> <span class="nav-text">2 字节流&amp;字符流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-字符流-FileWriter"><span class="nav-number">4.</span> <span class="nav-text">3 字符流-FileWriter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-字符流-FileWriter-细节（换行和续写）"><span class="nav-number">5.</span> <span class="nav-text">4 字符流-FileWriter-细节（换行和续写）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-字符流-FileWriter-IO异常处理"><span class="nav-number">6.</span> <span class="nav-text">5 字符流-FileWriter-IO异常处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-字符流-FileReader-读取方式一"><span class="nav-number">7.</span> <span class="nav-text">6 字符流-FileReader-读取方式一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-字符流-FileReader-读取方式二"><span class="nav-number">8.</span> <span class="nav-text">7 字符流-FileReader-读取方式二</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-字符流-练习复制文本文件"><span class="nav-number">9.</span> <span class="nav-text">8  字符流-练习复制文本文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-字符流-缓冲区-解释"><span class="nav-number">10.</span> <span class="nav-text">9 字符流-缓冲区-解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-字符流-缓冲区-BufferedWriter"><span class="nav-number">11.</span> <span class="nav-text">10 字符流-缓冲区-BufferedWriter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-字符流-缓冲区-BufferedReader"><span class="nav-number">12.</span> <span class="nav-text">11 字符流-缓冲区-BufferedReader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-字符流-缓冲区-装饰设计模式"><span class="nav-number">13.</span> <span class="nav-text">12 字符流-缓冲区-装饰设计模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-字符流-缓冲区-LineNumberReader"><span class="nav-number">14.</span> <span class="nav-text">13 字符流-缓冲区-LineNumberReader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-字节流-操作文本基本演示"><span class="nav-number">15.</span> <span class="nav-text">14 字节流-操作文本基本演示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-演示键盘录入"><span class="nav-number">16.</span> <span class="nav-text">15 演示键盘录入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-转换流"><span class="nav-number">17.</span> <span class="nav-text">16 转换流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17-流的操作基本规律"><span class="nav-number">18.</span> <span class="nav-text">17 流的操作基本规律</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18-转换流的编码解码"><span class="nav-number">19.</span> <span class="nav-text">18 转换流的编码解码</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="詹智健"
+      src="/images/A%20lemon.jpg">
+  <p class="site-author-name" itemprop="name">詹智健</p>
+  <div class="site-description" itemprop="description">今天也是很多个开心日子里开心的一天呀</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SsssshiFT-96" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SsssshiFT-96" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">詹智健</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共45.2k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
