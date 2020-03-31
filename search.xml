@@ -1,6 +1,366 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>JavaSE-正则表达式</title>
+    <url>/2020/03/31/JavaSE-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h2><p>正则表达式</p>
+<p>正则表达式用于操作<strong>字符串</strong>数据</p>
+<p> 通过一些特定的<strong>符号</strong>来体现</p>
+<p> 所以我们为了掌握正则表达式，必须要学习一些<strong>符号</strong>。</p>
+<p> 虽然<strong>简化</strong>了，但是<strong>阅读性变差</strong>了。</p>
+<p>举例</p>
+<p>需求：定义一个功能对qq号进行校验</p>
+<p>要求：长度5-15位，只能是数字，0不能开头</p>
+<a id="more"></a>
+
+<p>举例</p>
+<p>需求：定义一个功能对qq号进行校验</p>
+<p>要求：长度5-15位，只能是数字，0不能开头</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String qq = <span class="string">"215212489"</span>;</span><br><span class="line">String regex = <span class="string">"[1-9][0-9]&#123;4,14&#125;"</span>;</span><br><span class="line"><span class="keyword">boolean</span> b = qq.matches(regex);</span><br><span class="line">System.out.println(b);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-常见的规则"><a href="#2-常见的规则" class="headerlink" title="2 常见的规则"></a>2 常见的规则</h2><p>字符：</p>
+<p>​           x 字符 x。举例：’a’表示字符a</p>
+<p>​           \ 反斜线字符。</p>
+<p>​           \n 新行（换行）符 (‘\u000A’) </p>
+<p>​           \r 回车符 (‘\u000D’)</p>
+<p>​       字符类：</p>
+<p>​           [abc] a、b 或 c（简单类） </p>
+<p>​           [^abc] 任何字符，除了 a、b 或 c</p>
+<p>​           [a-zA-Z] a到 z 或 A到 Z，两头的字母包括在内 </p>
+<p>​           [0-9] 0到9的字符都包括</p>
+<p>​       预定义字符类：</p>
+<p>​           . 任何字符。.本身用 .表示</p>
+<p>​           \d 数字：[0-9]</p>
+<p>​           \w 单词字符：[a-zA-Z_0-9]</p>
+<p>​              在正则表达式里面组成单词的东西必须有这些东西组成</p>
+<p>​       边界匹配器：</p>
+<p>​           ^ 行的开头 </p>
+<p>​           $ 行的结尾 </p>
+<p>​           \b 单词边界</p>
+<p>​              就是不是单词字符的地方。</p>
+<p>​              举例：hello world?haha;xixi </p>
+<p>​       数量词： </p>
+<p>​           X? X，一次或一次也没有</p>
+<p>​           X* X，零次或多次</p>
+<p>​           X+ X，一次或多次</p>
+<p>​           X{n} X，恰好 n 次 </p>
+<p>​           X{n,} X，至少 n 次 </p>
+<p>​           X{n,m} X，至少 n 次，但是不超过 m 次</p>
+<h2 id="3-常见的功能-匹配"><a href="#3-常见的功能-匹配" class="headerlink" title="3 常见的功能-匹配"></a><strong>3 常见的功能-匹配</strong></h2><p>匹配</p>
+<p>其实就是String类中的matches方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//匹配手机号码是否正确</span></span><br><span class="line">String tel = <span class="string">"15800001111"</span>;</span><br><span class="line">String regex = <span class="string">"1[358][0-9]&#123;9&#125;"</span>;</span><br><span class="line">String regex2 = <span class="string">"1[358]\\d&#123;9&#125;"</span>;<span class="comment">//这两个意思一样</span></span><br></pre></td></tr></table></figure>
+
+<p>第二种写法中用两个\，是因为\在字符串当中自动对后面字母进行转义，所以要再加一个\使得字母前的\为一般的\。</p>
+<h2 id="4-常见的功能-切割"><a href="#4-常见的功能-切割" class="headerlink" title="4 常见的功能-切割"></a><strong>4 常见的功能-切割</strong></h2><p>切割</p>
+<p>其实就是String类中的split方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str = <span class="string">"zhangsan    xiaoqiang   zhaoliu"</span>;</span><br><span class="line">String str3 = <span class="string">"zhangsan.xiaoqiang.zhaoliu"</span>;</span><br><span class="line">String str3 = <span class="string">"zhangsantttxiaoqiangmmmmzhaoliu"</span>;</span><br><span class="line">String[] names = str.split(<span class="string">" +"</span>);<span class="comment">//表示至少一个空格</span></span><br><span class="line">String[] names2 = str.split(<span class="string">"\\."</span>);<span class="comment">//单个.表示任意字符，所以需要转义</span></span><br><span class="line">String[] names3 = str.split(<span class="string">"(.)\\1+"</span>);<span class="comment">//正则规则中用于封装的形式是小括号。为了能使用没有名字但有编号，称之为组。"(.)\\1+"表示在使用第一组的内容，且后面的内用都与第一个内容相同</span></span><br></pre></td></tr></table></figure>
+
+<p>组：捕获组可以通过从左到右计算其开括号来编号。例如在表达式中((A)(B(C))存在四个组</p>
+<ol>
+<li>((A)(B(C)) 2.\A 3. (B(C)) 4. (C)</li>
+</ol>
+<p>组零始终代表整个表达式</p>
+<h2 id="5-常见的功能-替换"><a href="#5-常见的功能-替换" class="headerlink" title="5 常见的功能-替换"></a><strong>5 常见的功能-替换</strong></h2><p>替换</p>
+<p>其实就是String类中的replaceAll方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str=<span class="string">"zhangsantttxiaoqiangmmmmmmzhaoliu"</span>;</span><br><span class="line">String str1=str.replaceAll(<span class="string">"(.)\\1+"</span>, <span class="string">"#"</span>);</span><br><span class="line">String str2=str.replaceAll(<span class="string">"(.)\\1+"</span>, <span class="string">"$1"</span>);<span class="comment">//美元符号可以对前一个正则表达式中规则进行获取</span></span><br><span class="line">System.out.println(str1);</span><br><span class="line">System.out.println(str2);</span><br><span class="line">String tel=<span class="string">"15832132122"</span>;</span><br><span class="line">tel=tel.replaceAll(<span class="string">"(\\d&#123;3&#125;)\\d&#123;4&#125;(\\d&#123;4&#125;)"</span>, <span class="string">"$1****$2"</span>);</span><br><span class="line">System.out.println(tel);</span><br><span class="line">结果：zhangsan#xiaoqiang#zhaoliu</span><br><span class="line">	 zhangsantxiaoqiangmzhaoliu</span><br><span class="line">	 <span class="number">158</span>****<span class="number">2122</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-常见的功能-获取"><a href="#6-常见的功能-获取" class="headerlink" title="6 常见的功能-获取"></a><strong>6 常见的功能-获取</strong></h2><p>这里要用到一个类：Pattern</p>
+<p>​     此类为正则表达式的编译表示形式</p>
+<p>​     指定为字符串的正则表达式必须首先被编译为此类的实例。然后，可将得到的模式用于创建Matcher对象，依照正则表达式，该对象可以与任意字符序列匹配。执行匹配所涉及的所有状态都驻留在匹配器中，所以多个匹配器可以共享同一模式</p>
+<p>​     调用顺序</p>
+<p>​     将正则规则进行对象的封装</p>
+<p>​     Pattern p=Pattern.compile(“a*b”);</p>
+<p>​     通过正则对象的matcher方法和字符串关联，获取要对字符串操作的匹配器对象Matcher</p>
+<p>​     Matcher m=p.matcher(“aaaaa”);</p>
+<p>​     通过Matcher匹配器对象的方法对字符串进行操作</p>
+<p>​     boolean b=m.matched();</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String str = <span class="string">"da jia hao,ming tian bu fang jia!"</span>;</span><br><span class="line">String regex = <span class="string">"\\b[a-z]&#123;3&#125;\\b"</span>;<span class="comment">//\\b表示单词边界</span></span><br><span class="line"><span class="comment">//1.将正则封装成对象</span></span><br><span class="line">Pattern p = Pattern.compile(regex);</span><br><span class="line"><span class="comment">//2.通过正则对象获取匹配器对象</span></span><br><span class="line">Matcher m = p.matcher(str);</span><br><span class="line"><span class="comment">//3.使用Matcher对象的方法对字符串操作</span></span><br><span class="line"><span class="comment">//既然要获取三个字符组成的单词，就查找：boolean find();</span></span><br><span class="line"><span class="keyword">while</span>(m.find())&#123;</span><br><span class="line">    System.out.println(m.group());<span class="comment">//获取匹配的子序列</span></span><br><span class="line">    System.out.println(m.start() + <span class="string">":"</span> + m.end());<span class="comment">//拿到字母在之前字符串中的位置</span></span><br><span class="line">&#125;</span><br><span class="line">结果：</span><br><span class="line">    jia</span><br><span class="line">    <span class="number">3</span>:<span class="number">6</span></span><br><span class="line">    hao</span><br><span class="line">    <span class="number">7</span>:<span class="number">10</span></span><br><span class="line">    jia</span><br><span class="line">    <span class="number">29</span>:<span class="number">32</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>JaveSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-</title>
+    <url>/2020/03/30/JavaSE-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h1 id="反射机制"><a href="#反射机制" class="headerlink" title="反射机制"></a>反射机制</h1><h2 id="1-概述-amp-应用场景"><a href="#1-概述-amp-应用场景" class="headerlink" title="1 概述&amp;应用场景"></a><strong>1 概述&amp;应用场景</strong></h2><p>Java反射机制是在运行状态中，对于任意一个类（class文件），都能够知道这个类的所有属性和方法；</p>
+<p>对于任意一个对象，都能够调用它的任意一个方法和属性；</p>
+<p>这种动态获取的信息以及动态调用对象的方法的功能称为<strong>java语言的反射机制。</strong></p>
+<a id="more"></a>
+
+<p>动态获取类中信息，就是java反射</p>
+<p>可以理解为对类的解剖。</p>
+<p>提高了程序的扩展性</p>
+<p>可以直接面对配置文件即可开发</p>
+<p>应用场景：当有一个写好的应用程序，想要往里面传入新对象并使用其方法功能时，以前在知道程序源码时可以直接在new一个对象。但现在不知道其源码时，就使用到了反射方法，让类继承程序的接口，相当于可以直接给程序一个类，让其找到对应的配置文件。<strong>反射方法可以使程序对指定名称的字节码文件进行加载并获取其中内容并调用。</strong></p>
+<p>Tomcat提供了处理请求和应答方式，因为具体的处理动作不同，所以对外提供了接口，有开发者来实现具体请求和应答处理。这个接口为Servlet。</p>
+<p><strong>反射机制要素</strong>：接口、配置文件</p>
+<h2 id="2-细节-amp-class对象"><a href="#2-细节-amp-class对象" class="headerlink" title="2 细节&amp;class对象"></a><strong>2 细节&amp;class对象</strong></h2><p>如何可以得到一个类的字节码文件内的信息？</p>
+<p>每个字节码文件都是属于Class对象。该对象内有提供获取字节码文件中的内容（名称、字段、构造函数、一般函数）。改就就可以获取字节码文件中的所有内容。所以反射是依靠该类完成。</p>
+<p>想要对一个类文件进行解剖，只要获取该类的字节码文件对象即可，</p>
+<h2 id="3-获取class对象的三种方式"><a href="#3-获取class对象的三种方式" class="headerlink" title="3 获取class对象的三种方式"></a><strong>3 获取class对象的三种方式</strong></h2><p>获取字节码对象的方式：</p>
+<p>1.Object类中的getClass()方法</p>
+<p>想要用这种方式，必须要明确具体的类，并创建对象。</p>
+<p>麻烦</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Person p = <span class="keyword">new</span> Person();</span><br><span class="line">Class clazz = p.getClass();</span><br><span class="line">Person p1 = <span class="keyword">new</span> Perosn();</span><br><span class="line">Class clazz1 = p1.getClass();</span><br></pre></td></tr></table></figure>
+
+<p>2.任何数据类型都具备一个静态的属性，class来获取其对应的class对象。</p>
+<p> 相对简单，但是还是要明确用到类中的静态成员</p>
+<p> 还是不够扩展</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class clazz = Person<span class="class">.<span class="keyword">class</span></span>;</span><br><span class="line">Class clazz1 = Person<span class="class">.<span class="keyword">class</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>3.只要通过给定的类的字符串名称就可以获取该类，更为扩展</p>
+<p> 可以使用Class类中的方法完成。</p>
+<p> 该方法为forName(String className);返回与带有给定字符串名的类或接口相关联的class对象。参数要带上包名。</p>
+<p> 这种方式只要有名称即可，更为方便，扩展性更强</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String className = <span class="string">"cn.it.cast.bean.Person"</span>;</span><br><span class="line">Class clazz = Class.forName(className);</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-获取Class中的构造函数"><a href="#4-获取Class中的构造函数" class="headerlink" title="4 获取Class中的构造函数"></a><strong>4 获取Class中的构造函数</strong></h2><p>早期：new的时候，先根据被new的名称找寻该类的字节码文件，并加载进内存，并创建该字节码文件对象，并接着创建该字节码文件的对应的Person对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">cn.it.cast.bean.Person p = <span class="keyword">new</span> cn.it.cast.bean.Person();</span><br></pre></td></tr></table></figure>
+
+<p>现在：找寻该名称类文件，并加载内存，并产生Class对象。使用<strong>newInstance();</strong>创建此class对象所表示类的一个新实例。如同用一个带有空参数列表的new表达式实例化该类。如果该类尚未初始化，则初始化该类。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String className = <span class="string">"cn.it.cast.bean.Person"</span>;</span><br><span class="line">Class clazz = Class.forName(className);</span><br><span class="line">Object obj = clazz.newInstance();</span><br></pre></td></tr></table></figure>
+
+<p>第一种方法需要自己手动new一个，而第二种方法可以封装成方法，只要给一个类的名字的窗口，在这个窗口输入类的名字，程序就能自动帮new一个对象。</p>
+<p>当要获取指定名称对应类中的所体现的对象时，而该对象初始化不使用空参数构造该怎么办呢？</p>
+<p>早期</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">cn.it.cast.bean.Person p = <span class="keyword">new</span> cn.it.cast.bean.Person(<span class="string">"aaa"</span>,<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+<p>现在：</p>
+<p>既然是通过指定的构造函数进行对象的初始化，所以应该先获取到该构造函数。通过字节码文件对象即可完成</p>
+<p>该方法是：<br>getConstructors();返回一个包含某些构造函数对象的数组，这些对象反映此Class对象所表示的类的<strong>所有公共</strong>构造方法</p>
+<p>getConstructors(paramTpyes);返回一个Constructor对象，它反映此Class对象所表示的类的<strong>指定公共</strong>构造方法。</p>
+<p>getDeclaredConstructors()；返回一个包含某些构造函数对象的数组，这些对象反映此Class对象所表示的类的<strong>所有</strong>构造方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String className = <span class="string">"cn.it.cast.bean.Person"</span>;</span><br><span class="line">Class clazz = Class.forName(className);</span><br><span class="line">Constructor constructor = clazz.getConstructors(String<span class="class">.<span class="keyword">class</span>, <span class="title">int</span>.<span class="title">class</span>)</span>;</span><br><span class="line">Object obj = constructor.newInstance(<span class="string">"aaa"</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-获取Class中的字段"><a href="#5-获取Class中的字段" class="headerlink" title="5 获取Class中的字段"></a><strong>5 获取Class中的字段</strong></h2><p>获取字节码文件中的字段</p>
+<p> getField();返回一个Field对象，反映此Class对象所表示的类或接口的<strong>指定公共</strong>成员字段</p>
+<p> getFields();返回一个Field对象数组，反映此Class对象所表示的类或接口的<strong>所有可访问公共</strong>成员字段</p>
+<p> getDeclaredField();返回一个Field对象，反映此Class对象所表示的类或接口的<strong>指定字段</strong></p>
+<p> getDeclaredFields();返回一个Field对象数组，反映此Class对象所表示的类或接口的<strong>所有字段</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class clazz = Class.forName(<span class="string">"cn.it.cast.bean.Person"</span>);</span><br><span class="line">Field field = <span class="keyword">null</span>;</span><br><span class="line">field = clazz.getDeclaredField(<span class="string">"age"</span>);</span><br><span class="line"><span class="comment">//对私有字段的访问取消权限检查。暴力访问</span></span><br><span class="line">field.setAccessible(<span class="keyword">true</span>);<span class="comment">//原先是没有权限访问私有字段</span></span><br><span class="line">Object obj = clazz.newInstance();</span><br><span class="line">field.set(obj,<span class="number">55</span>);<span class="comment">//对字段设置值</span></span><br><span class="line">Object o = field.get(obj);<span class="comment">//操作字段就需要有对象，没有对象操作字段是没有意义的。</span></span><br><span class="line">System.out.println(o);</span><br><span class="line">结果：<span class="number">55</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6-获取Class中的方法"><a href="#6-获取Class中的方法" class="headerlink" title="6 获取Class中的方法"></a><strong>6 获取Class中的方法</strong></h2><p>获取指定class中的函数   </p>
+<p> getMethod();返回一个Method对象，反映此Class对象所表示的类或接口的指定<strong>公共方法</strong></p>
+<p> getMethods();返回一个Field对象数组，反映此Class对象所表示的类或接口的<strong>所有可访问公共方法</strong></p>
+<p> getDeclaredMethod();返回一个Field对象，反映此Class对象所表示的类或接口的<strong>指定方法</strong></p>
+<p> getDeclaredMethods();返回一个Field对象数组，反映此Class对象所表示的类或接口的<strong>所有方法</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class clazz = Class.forName(<span class="string">"cn.it.cast.bean.Person"</span>);</span><br><span class="line">Method[] methods = clazz.getMethods();<span class="comment">//获取的都是公有方法</span></span><br><span class="line">Method[] methods2 = clazz.getDeclaredMethods();<span class="comment">//获取本类中所有方法，包含私有。</span></span><br></pre></td></tr></table></figure>
+
+<p>空参方法获取</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class clazz = Class.forName(<span class="string">"cn.it.cast.bean.Person"</span>);</span><br><span class="line">Method method = clazz.getMethod(<span class="string">"show"</span>, <span class="keyword">null</span>);<span class="comment">//获取空参数一般方法</span></span><br><span class="line">Constructor constructor = <span class="class"><span class="keyword">class</span>.<span class="title">getConstructor</span>(<span class="title">String</span>.<span class="title">class</span>, <span class="title">int</span>.<span class="title">class</span>)</span>;</span><br><span class="line">Object obj = constructor.newInstance(<span class="string">"aaa"</span>, <span class="number">5</span>);</span><br><span class="line">method.invoke(obj, <span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
+
+<p>非空参方法获取</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class clazz = Class.forName(<span class="string">"cn.it.cast.bean.Person"</span>);</span><br><span class="line">Method method = clazz.getMethod(<span class="string">"paraMethod"</span>, String<span class="class">.<span class="keyword">class</span>, <span class="title">int</span>.<span class="title">class</span>)</span>;</span><br><span class="line">Object obj = clazz.newInstance(<span class="string">"aaa"</span>, <span class="number">5</span>);</span><br><span class="line">method.invoke(obj, <span class="string">"aaa"</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>JaveSE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaSE-网络编程</title>
+    <url>/2020/03/29/JavaSE-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h1><h2 id="1-网络模型概述"><a href="#1-网络模型概述" class="headerlink" title="1 网络模型概述"></a><strong>1 网络模型概述</strong></h2><p>网络编程（具体内容看计算机网络）</p>
+<p>OSI（Open System Interconncetion开放系统互连）参考模型</p>
+<p>TCP/IP参考模型</p>
+<p>OSI七层协议模型</p>
+<a id="more"></a>
+
+<p>1层物理层：主要定义物理设备标准，如网线的接口类型、光纤的接口类型、各种传输介质的传输速率等。它的主要作用是传输比特流（就是由1、0转化为电流强弱来进行传输,到达目的地后在转化为1、0，也就是我们常说的数模转换与模数转换），这一层的数据叫做比特。</p>
+<p>2层数据链路层：主要将从物理层接收的数据进行MAC地址（网卡地址）的封装与解封装。常把这一层叫做帧。在这一层工作的设备是交换机，数据通过交换机来传输。</p>
+<p>3层网络层：主要将从下层接收的数据进行IP地址的封装与解封装。在这一层工作的设备是路由器，常把这一层的数据叫做数据包。</p>
+<p>4层传输层：定义了一些传输数据的协议和端口号（WWW端口80等），如：TCP（传输控制协议，传输效率低，可靠性强，用于传输可靠性大，数据量大的数据），UDP（用户数据包协议，与TCP特性恰恰相反，用于传输可靠性要求不高，数据量小的数据，如QQ聊天数据就是通过这种方式传输的）。主要是将从下层数据接收的数据进行分段和传输，到达目的地址后在进行重组。常常把这一层数据叫做段。</p>
+<p>5层会话层：通过传输层（端口号：传输段与接收端）建立数据传输的通路。主要在你的系统之间发起会话或者接收会话请求（设备之间需要互相认识可以是IP也可以是MAC或者是主机名）。</p>
+<p>6层表示层：主要是进行对接收的数据进行解释、加密与解密、压缩与解压缩等（也就是把计算机能够识别的东西转换成人能够识别的东西，如图片、声音等）。</p>
+<p>7层应用层：主要是一些终端的应用，比如说FTD（各种文件下载）、WEB（IE浏览）、QQ之类的（可以把它理解成我们在电脑屏幕上可以看到的东西，就是终端应用）。</p>
+<p>TCP/IP模型将上述7层简化成4层。</p>
+<p>应用层、传输层、网际层、主机至网络层</p>
+<h2 id="2-网络要素-IP地址"><a href="#2-网络要素-IP地址" class="headerlink" title="2 网络要素-IP地址"></a><strong>2 网络要素-IP地址</strong></h2><p>网络通讯要素：IP地址、端口号、传输协议</p>
+<p>IP地址：InetAddress</p>
+<p>网络中设备的标识</p>
+<p>不易记忆，可用主机名</p>
+<p>本地回环地址：127.0.0.1 用来测试网卡，只能访问本地 主机名：localhost</p>
+<h2 id="3-网络要素-端口"><a href="#3-网络要素-端口" class="headerlink" title="3 网络要素-端口"></a><strong>3 网络要素-端口</strong></h2><p>端口号：用于标识进程的逻辑地址，不同进程的标识</p>
+<p>有效端口：0<del>65535，其中0</del>1024系统使用或保留端口（尽量不要用，系统本身会使用很多这部分的端口，不要与系统冲突）。</p>
+<p>比如QQ，若要向另一个主机传送信息，则会识别端口，可以得到是QQ传输的信息</p>
+<p>防火墙的原理就是禁用了相关的端口导致信息传递接收失败</p>
+<h2 id="4-网络要素-传输协议"><a href="#4-网络要素-传输协议" class="headerlink" title="4 网络要素-传输协议"></a><strong>4 网络要素-传输协议</strong></h2><p>传输协议：通讯的规则</p>
+<p>常见协议：TCP,UDP</p>
+<p>UDP</p>
+<p>将数据及源和目的封装成数据包中，将数据包扔出，不需要建立连接，即对方不在也可以发出数据</p>
+<p>每个数据包的大小在限制在64k内，但可以进行大数据量传输</p>
+<p>因无连接，是不可靠协议</p>
+<p>不需要建立连接，速度快</p>
+<p>比如qq发信息，视频通话，对讲机</p>
+<p>TCP</p>
+<p>建立连接，形成传输数据的通道，即必须对方在才能发出数据，通过三次握手来判断对方是否在线。</p>
+<p>在连接中进行大数据量传输</p>
+<p>通过三次握手完成连接，是可靠协议</p>
+<p>必须建立连接，效率会稍低</p>
+<p>比如打电话。</p>
+<h2 id="5-IP对象-InetAddress"><a href="#5-IP对象-InetAddress" class="headerlink" title="5  IP对象-InetAddress"></a><strong>5  IP对象-InetAddress</strong></h2><p>InetAddress:此类表示互联网协议地址，处于网际层。</p>
+<p>无构造函数，所以存在一个方法能够返回该对象。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//获取本地主机ip地址对象</span></span><br><span class="line">InetAddress ip = InetAddress.getLocalHost();</span><br><span class="line">ip.getHostAddress();<span class="comment">//获得本地ip地址</span></span><br><span class="line">ip.getHostName();<span class="comment">//获取本地主机名</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取其他主机ip地址对象</span></span><br><span class="line">ip = InetAddress.getByName(<span class="string">"主机名或ip地址"</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-域名解析"><a href="#6-域名解析" class="headerlink" title="6 域名解析"></a><strong>6 域名解析</strong></h2><p>域名解析是把域名指向网站空间IP，让人们通过注册的域名可以方便地访问到网站的一种服务。IP地址是网络上标识站点的数字地址，为了方便记忆，采用域名来代替IP地址标识站点地址。<strong>域名解析就是域名到IP地址的转换过程。域名的解析工作由DNS服务器完成</strong></p>
+<p>例如：<a href="http://www.sina.com.cn" target="_blank" rel="noopener">www.sina.com.cn</a></p>
+<p>www为主机名字、sina为域名名称、com为商业化组织代号、cn代表所属国家。</p>
+<p>回车时，该网址就是指向指定的ip地址，但并不是直接转向。在中间存在一个主机存放一些列表，里面有ip地址与名称的对应。这个主机叫做域名解析服务器，这个过程叫域名解析。所以过程就是输入网址后，先通过DNS找到对应的ip地址，再转到该ip地址对应的网页。DNS可以用国内的，国外的，不同运营商的。</p>
+<p>提高解析速度可以使用本地解析。在本机里面有一张域名解析列表</p>
+<p>在C:\Windows\System\drivers\etc\hosts中</p>
+<p>里面可以指定ip地址对应的主机。</p>
+<p>该方法可以屏蔽一些网站，只要在自己匹配域名地址和ip地址就行</p>
+<p><strong>这也说明在解析当中，先进行本地解析</strong>。</p>
+<h2 id="7-UDP协议-发送端"><a href="#7-UDP协议-发送端" class="headerlink" title="7 UDP协议-发送端"></a><strong>7 UDP协议-发送端</strong></h2><p>Socket:为网络服务提供的一种机制。</p>
+<p>通信两端都有Socket，网络通信其实就是Socket间的通信，数据在两个Socket间通过IO传输。</p>
+<p>UDP传输</p>
+<p>DatagramSocket：用来发送和接收数据报包的<strong>套接字</strong>，是包投递服务的发送或接收点。</p>
+<p>DatagramPacket：表示数据报包，用来实现无连接包投递服务。每条报文仅根据该包中包含的信息从一台机器路由到另一台机器。从一台机器发送到另一台机器的多个包可能选择不同的路由，也可能按不同的顺序到达。不对包投递做出保证。其方法中凡是带有地址参数的均是投递用的方法。</p>
+<p>创建UDP传输的发送端</p>
+<p>思路：</p>
+<p>1.建立UDP的Socket服务。</p>
+<p>2.将要发送的数据封装到包中。</p>
+<p>3.通过UDP的Socket服务将数据包发送出去。</p>
+<p>4.关闭Socket服务。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1.</span></span><br><span class="line">DatagramSocket ds = <span class="keyword">new</span> DatagramSocket();</span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line">String str = <span class="string">"udp传输演示0"</span>;</span><br><span class="line"><span class="keyword">byte</span>[] buf = str.getBytes();</span><br><span class="line">DatagramPacket dp = <span class="keyword">new</span> DatagramPacket(buf, buf.length, InetAddress.getByName(<span class="string">"ip地址"</span>), <span class="number">10000</span>);<span class="comment">//参数分别是：数组、数组长度、地址名称、端口名</span></span><br><span class="line"><span class="comment">//3.</span></span><br><span class="line">ds.send(dp);</span><br><span class="line"><span class="comment">//4.</span></span><br><span class="line">ds.close();</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-UDP协议-接收端"><a href="#8-UDP协议-接收端" class="headerlink" title="8  UDP协议-接收端"></a><strong>8  UDP协议-接收端</strong></h2><p>建立UDP接收端的思路</p>
+<p>思路：</p>
+<p>1.建立UDP Socket服务,因为是要接收数据，必须要明确一个端口号</p>
+<p>2.创建数据包，用于存储接收到的数据。方便用数据包对象的方法解析这些数据</p>
+<p>3.使用Socket服务的receive方法将接收的数据存储到数据包中。</p>
+<p>4.通过数据包的方法解析数据包中的数据。</p>
+<p>5.关闭数据。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1.</span></span><br><span class="line">DatagramSocket ds = <span class="keyword">new</span> DatagramSocket(<span class="number">10000</span>);</span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line"><span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">DatagramPacket dp = <span class="keyword">new</span> DatagramPacket(buf, buf.length);</span><br><span class="line"><span class="comment">//3.</span></span><br><span class="line">ds.recieve(dp);</span><br><span class="line"><span class="comment">//4.</span></span><br><span class="line">String ip = dp.getAddress().getHostAddress();</span><br><span class="line"><span class="keyword">int</span> port = dp.getPort();</span><br><span class="line">String text = <span class="keyword">new</span> String(dp.getData(), <span class="number">0</span>, dp.getLength());</span><br><span class="line">System.out.println(ip + <span class="string">":"</span> + port + text);</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-UDP协议-聊天程序"><a href="#9-UDP协议-聊天程序" class="headerlink" title="9  UDP协议-聊天程序"></a><strong>9  UDP协议-聊天程序</strong></h2><p>这要用到多线程，一个用来发送一个用来接收。</p>
+<p>若想要群发，就将发送地址改写为192.168.1.255。0是网络位，不能用。1-254是有效ip地址。255是广播地址，即若将地址写为255，则能发送到该广播地址所有网段存活的机器上。</p>
+<h2 id="10-TCP协议-客户端"><a href="#10-TCP协议-客户端" class="headerlink" title="10  TCP协议-客户端"></a><strong>10  TCP协议-客户端</strong></h2><p>TCP传输分为两个端点，分别是客户端和服务端</p>
+<p><strong>需要用到Socket和ServerSocket对象</strong>。</p>
+<p>客户端发数据到服务端</p>
+<p> 即TCP传输：客户端建立的过程。</p>
+<p> 1.创建tcp客户端socket服务。使用的是Socket对象</p>
+<p>   建议该对象一创建就明确目的地，要连接的主机</p>
+<p> 2.如果连接建立成功，说明数据传输通道已建立。</p>
+<p>   该通道就是Socket流，其是底层建立好的。既然是流，说明这里既有输入又有输出</p>
+<p>   想要输入或者输出流对象，可以找Socket对象来获取。</p>
+<p>   可以通过getOutputStream()和getInputStream()来获取两个字节源</p>
+<p> 3.使用输出流，将数据写出。</p>
+<p> 4.关闭资源。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1.</span></span><br><span class="line">Socket socket = <span class="keyword">new</span> Socket(<span class="string">"ip地址"</span>, <span class="number">10002</span><span class="comment">/*端口号*/</span>);</span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line">OutputStream out = socket.getOutputStream();</span><br><span class="line"><span class="comment">//3.</span></span><br><span class="line">out.write(<span class="string">"tcp演示"</span>.getBytes());</span><br><span class="line"><span class="comment">//4.</span></span><br><span class="line">sockcet.close();</span><br></pre></td></tr></table></figure>
+
+<p><strong>11 TCP协议-服务端</strong></p>
+<p>服务端接收客户端发来的数据并打印在控制台上</p>
+<p> 建立tcp服务端的思路：</p>
+<p> 1.创建服务端socket服务。通过ServerSocket对象</p>
+<p> 2.服务端必须对外提供一个端口，否则客户端无法连接</p>
+<p> 3.获取连接过来的客户端对象。这样就能实现服务端对指定客户端的数据传输</p>
+<p> 4.通过客户端对象获取socket流读取客户端发来的数据，并打印在控制台上。</p>
+<p> 5.关闭资源。关客户端，关服务端。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1.</span></span><br><span class="line">ServerSocket ss = <span class="keyword">new</span> ServerSocket(<span class="number">10002</span>);</span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line">Socket s = ss.accept();<span class="comment">//该方法可以获取客户端对象</span></span><br><span class="line">String ip = s.getInetAddress().getHostAddress();</span><br><span class="line"><span class="comment">//3.</span></span><br><span class="line">InputStream in = s.getInputStream();</span><br><span class="line"><span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line"><span class="keyword">int</span> len = in.read(buf);</span><br><span class="line">String text = <span class="keyword">new</span> String(buf, <span class="number">0</span> ,len);</span><br><span class="line">System.out.println(text);</span><br><span class="line">s.close();</span><br><span class="line">ss.close();</span><br></pre></td></tr></table></figure>
+
+<p>获取客户端对象是阻塞式。</p>
+<p>注意：要先开服务端。</p>
+<h2 id="12-TCP协议-服务端和客户端交互"><a href="#12-TCP协议-服务端和客户端交互" class="headerlink" title="12 TCP协议-服务端和客户端交互"></a><strong>12 TCP协议-服务端和客户端交互</strong></h2><p>如果服务端发出数据，客户端来接收，同样也是使用socket流</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//使用客户端socket对象输出流给客户端返回数据</span></span><br><span class="line">OutputStream out = s.getOutputStream();</span><br><span class="line">out.write(<span class="string">"收到"</span>.getBytes());</span><br><span class="line"></span><br><span class="line"><span class="comment">//读取服务端返回的数据，使用socket读取流</span></span><br><span class="line">InputStream in = socket.getInputStream();</span><br><span class="line"><span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line"><span class="keyword">int</span> len = in.read(buf);</span><br><span class="line">String text = <span class="keyword">new</span> String(buf, <span class="number">0</span>, len);</span><br></pre></td></tr></table></figure>
+
+<h2 id="13-TCP协议-练习-服务端多线程技术"><a href="#13-TCP协议-练习-服务端多线程技术" class="headerlink" title="13 TCP协议-练习-服务端多线程技术"></a><strong>13 TCP协议-练习-服务端多线程技术</strong></h2><p>上述程序存在一个问题，因为一直是一个线程运作，所以当有人占用服务端时，其他人就必须排队，所以要使用多线程。当有人要使用服务器时，服务端接收到客户端后，产生新的线程对象，用来运行该客户端发来的数据或任务。主线程重新回到等待接收客户端状态。也就是<strong>服务器原理</strong>。</p>
+<h2 id="14-常见客户端和服务端"><a href="#14-常见客户端和服务端" class="headerlink" title="14 常见客户端和服务端"></a><strong>14 常见客户端和服务端</strong></h2><p>最常见的客户端：</p>
+<p>​    浏览器：IE</p>
+<p>最常见的服务端：</p>
+<p>​    服务器：Tomcat</p>
+<p>Interface Servlet是接口，写在服务器上面的程序，功能都要实现这一接口才能使用</p>
+<p>其余部分详见视频或自查资料。</p>
+<h2 id="15-了解客户端和服务器端原理"><a href="#15-了解客户端和服务器端原理" class="headerlink" title="15 了解客户端和服务器端原理"></a><strong>15 了解客户端和服务器端原理</strong></h2><p>为了了解其原理：</p>
+<p>1.</p>
+<p>自定义服务器</p>
+<p>使用已有的客户端IE，了解一下客户端给服务端发送了什么请求</p>
+<p>编写程序</p>
+<p>然后打开浏览器，在网页输入ip地址＋端口</p>
+<p>将接收到的信息复制粘贴过来</p>
+<p>GET / HTTP/1.1  <strong>请求行</strong>，遵从了http协议而来：请求方式/请求的资源路径/http协议版本</p>
+<p><strong>请求消息头</strong> 属性名：属性值（即支持的东西，比如支持html格式的text文件）</p>
+<p>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,<em>/</em>;q=0.8</p>
+<p>Accept-Language: zh-CN</p>
+<p>Upgrade-Insecure-Requests: 1</p>
+<p>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.18362</p>
+<p>Accept-Encoding: gzip, deflate 支持的压缩方式（网页压缩方式）</p>
+<p>Host: 192.168.1.105:9099</p>
+<p>Connection: Keep-Alive</p>
+<p>//<strong>空行</strong></p>
+<p>//<strong>请求体</strong>：指定的自定义信息。请求体和请求头之间要有空行。</p>
+<h2 id="16-URL-amp-URLConnection"><a href="#16-URL-amp-URLConnection" class="headerlink" title="16 URL&amp;URLConnection"></a><strong>16 URL&amp;URLConnection</strong></h2><p>从服务器端回来的数据需要解析，java中的URL对象提供了方法。</p>
+<p><strong>URL代表一个统一资源定位符</strong>，它是指向互联网“资源”的指针。资源可以是简单的文件或目录，也可以是对更复杂对象的引用，例如对数据库或搜索引擎的查询。</p>
+<p><a href="http://192.168.1.105:9099/" target="_blank" rel="noopener">http://192.168.1.105:9099/</a> 这一个就是URL</p>
+<p>URI是统一资源标识符。</p>
+<p>笼统地说每个URL都是URI，但不一定每个URI都是URL。因为URI还包括一个子类，即统一资源名称（URN），它命名资源但不指定如何定位资源。</p>
+<p>使用URL的方法可以得到该定位符里具体的信息</p>
+<p>代码演示略</p>
+<p>使用URL中的openStream()方法可以打开此URL的连接并返回一个用于从该连接读入的InputStream，再读取流中内容就可以得到服务器传来的信息。</p>
+<p>代码演示略</p>
+<p>openStream（）方法的原理是URL使用openConnection方法得到一个<strong>URLConnection</strong>对象，即获取url对象的url连接器对象，将连接封装成了对象：java中内置的可以解析的具体协议的对象+socket。</p>
+<p>然后再使用连接器对象中getInputStream方法可以得到相同的结果。</p>
+<p>代码演示略</p>
+<h2 id="17-常见网络架构"><a href="#17-常见网络架构" class="headerlink" title="17 常见网络架构"></a>17 常见网络架构</h2><p>网络结构：</p>
+<p>1.C/S client/server</p>
+<p>​    特点：</p>
+<p>​       该结构的软件，客户端和服务端都需要编写。</p>
+<p>​       开发成本较高，维护较为麻烦</p>
+<p>​    好处：</p>
+<p>​       客户端在本地可以分担一部分运算。</p>
+<p>2.B/S browser/server</p>
+<p>​    特点：</p>
+<p>​       该结构的软件，只开发服务器，不开发客户端，因为客户端直接由浏览器取代</p>
+<p>​       开发成本相对低，维护更为简单。</p>
+<p>​    缺点：所有运算都要在服务器端完成</p>
+]]></content>
+      <tags>
+        <tag>JavaSE</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JavaSE-IO流3</title>
     <url>/2020/03/28/JavaSE-IO%E6%B5%813/</url>
     <content><![CDATA[<h1 id="IO流3"><a href="#IO流3" class="headerlink" title="IO流3"></a>IO流3</h1><h2 id="打印流-PrintStream"><a href="#打印流-PrintStream" class="headerlink" title="打印流-PrintStream"></a><strong>打印流-PrintStream</strong></h2><p>PrintWriter与PrintStream：可以直接操作输入流和文件</p>

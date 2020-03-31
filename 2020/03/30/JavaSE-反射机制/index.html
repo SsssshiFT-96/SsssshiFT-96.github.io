@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*��������ɫ*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*��Ӱ��ɫ*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*�ϱ߿���ɫ*/
+        border-left-color: #1E92FB;    /*��߿���ɫ*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Z_Letter.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Z_Letter.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ssssshift-96.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="反射机制1 概述&amp;应用场景Java反射机制是在运行状态中，对于任意一个类（class文件），都能够知道这个类的所有属性和方法； 对于任意一个对象，都能够调用它的任意一个方法和属性； 这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaSE-">
+<meta property="og:url" content="https://ssssshift-96.github.io/2020/03/30/JavaSE-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="SsssshiFT-96">
+<meta property="og:description" content="反射机制1 概述&amp;应用场景Java反射机制是在运行状态中，对于任意一个类（class文件），都能够知道这个类的所有属性和方法； 对于任意一个对象，都能够调用它的任意一个方法和属性； 这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-30T12:37:54.000Z">
+<meta property="article:modified_time" content="2020-03-30T14:13:57.238Z">
+<meta property="article:author" content="詹智健">
+<meta property="article:tag" content="JaveSE">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ssssshift-96.github.io/2020/03/30/JavaSE-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>JavaSE- | SsssshiFT-96</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SsssshiFT-96</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">37</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/30/JavaSE-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaSE-
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-30 20:37:54 / 修改时间：22:13:57" itemprop="dateCreated datePublished" datetime="2020-03-30T20:37:54+08:00">2020-03-30</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="反射机制"><a href="#反射机制" class="headerlink" title="反射机制"></a>反射机制</h1><h2 id="1-概述-amp-应用场景"><a href="#1-概述-amp-应用场景" class="headerlink" title="1 概述&amp;应用场景"></a><strong>1 概述&amp;应用场景</strong></h2><p>Java反射机制是在运行状态中，对于任意一个类（class文件），都能够知道这个类的所有属性和方法；</p>
+<p>对于任意一个对象，都能够调用它的任意一个方法和属性；</p>
+<p>这种动态获取的信息以及动态调用对象的方法的功能称为<strong>java语言的反射机制。</strong></p>
+<a id="more"></a>
+
+<p>动态获取类中信息，就是java反射</p>
+<p>可以理解为对类的解剖。</p>
+<p>提高了程序的扩展性</p>
+<p>可以直接面对配置文件即可开发</p>
+<p>应用场景：当有一个写好的应用程序，想要往里面传入新对象并使用其方法功能时，以前在知道程序源码时可以直接在new一个对象。但现在不知道其源码时，就使用到了反射方法，让类继承程序的接口，相当于可以直接给程序一个类，让其找到对应的配置文件。<strong>反射方法可以使程序对指定名称的字节码文件进行加载并获取其中内容并调用。</strong></p>
+<p>Tomcat提供了处理请求和应答方式，因为具体的处理动作不同，所以对外提供了接口，有开发者来实现具体请求和应答处理。这个接口为Servlet。</p>
+<p><strong>反射机制要素</strong>：接口、配置文件</p>
+<h2 id="2-细节-amp-class对象"><a href="#2-细节-amp-class对象" class="headerlink" title="2 细节&amp;class对象"></a><strong>2 细节&amp;class对象</strong></h2><p>如何可以得到一个类的字节码文件内的信息？</p>
+<p>每个字节码文件都是属于Class对象。该对象内有提供获取字节码文件中的内容（名称、字段、构造函数、一般函数）。改就就可以获取字节码文件中的所有内容。所以反射是依靠该类完成。</p>
+<p>想要对一个类文件进行解剖，只要获取该类的字节码文件对象即可，</p>
+<h2 id="3-获取class对象的三种方式"><a href="#3-获取class对象的三种方式" class="headerlink" title="3 获取class对象的三种方式"></a><strong>3 获取class对象的三种方式</strong></h2><p>获取字节码对象的方式：</p>
+<p>1.Object类中的getClass()方法</p>
+<p>想要用这种方式，必须要明确具体的类，并创建对象。</p>
+<p>麻烦</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Person p = <span class="keyword">new</span> Person();</span><br><span class="line">Class clazz = p.getClass();</span><br><span class="line">Person p1 = <span class="keyword">new</span> Perosn();</span><br><span class="line">Class clazz1 = p1.getClass();</span><br></pre></td></tr></table></figure>
+
+<p>2.任何数据类型都具备一个静态的属性，class来获取其对应的class对象。</p>
+<p> 相对简单，但是还是要明确用到类中的静态成员</p>
+<p> 还是不够扩展</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class clazz = Person<span class="class">.<span class="keyword">class</span></span>;</span><br><span class="line">Class clazz1 = Person<span class="class">.<span class="keyword">class</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>3.只要通过给定的类的字符串名称就可以获取该类，更为扩展</p>
+<p> 可以使用Class类中的方法完成。</p>
+<p> 该方法为forName(String className);返回与带有给定字符串名的类或接口相关联的class对象。参数要带上包名。</p>
+<p> 这种方式只要有名称即可，更为方便，扩展性更强</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String className = <span class="string">"cn.it.cast.bean.Person"</span>;</span><br><span class="line">Class clazz = Class.forName(className);</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-获取Class中的构造函数"><a href="#4-获取Class中的构造函数" class="headerlink" title="4 获取Class中的构造函数"></a><strong>4 获取Class中的构造函数</strong></h2><p>早期：new的时候，先根据被new的名称找寻该类的字节码文件，并加载进内存，并创建该字节码文件对象，并接着创建该字节码文件的对应的Person对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cn.it.cast.bean.Person p = <span class="keyword">new</span> cn.it.cast.bean.Person();</span><br></pre></td></tr></table></figure>
+
+<p>现在：找寻该名称类文件，并加载内存，并产生Class对象。使用<strong>newInstance();</strong>创建此class对象所表示类的一个新实例。如同用一个带有空参数列表的new表达式实例化该类。如果该类尚未初始化，则初始化该类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String className = <span class="string">"cn.it.cast.bean.Person"</span>;</span><br><span class="line">Class clazz = Class.forName(className);</span><br><span class="line">Object obj = clazz.newInstance();</span><br></pre></td></tr></table></figure>
+
+<p>第一种方法需要自己手动new一个，而第二种方法可以封装成方法，只要给一个类的名字的窗口，在这个窗口输入类的名字，程序就能自动帮new一个对象。</p>
+<p>当要获取指定名称对应类中的所体现的对象时，而该对象初始化不使用空参数构造该怎么办呢？</p>
+<p>早期</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cn.it.cast.bean.Person p = <span class="keyword">new</span> cn.it.cast.bean.Person(<span class="string">"aaa"</span>,<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+<p>现在：</p>
+<p>既然是通过指定的构造函数进行对象的初始化，所以应该先获取到该构造函数。通过字节码文件对象即可完成</p>
+<p>该方法是：<br>getConstructors();返回一个包含某些构造函数对象的数组，这些对象反映此Class对象所表示的类的<strong>所有公共</strong>构造方法</p>
+<p>getConstructors(paramTpyes);返回一个Constructor对象，它反映此Class对象所表示的类的<strong>指定公共</strong>构造方法。</p>
+<p>getDeclaredConstructors()；返回一个包含某些构造函数对象的数组，这些对象反映此Class对象所表示的类的<strong>所有</strong>构造方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String className = <span class="string">"cn.it.cast.bean.Person"</span>;</span><br><span class="line">Class clazz = Class.forName(className);</span><br><span class="line">Constructor constructor = clazz.getConstructors(String<span class="class">.<span class="keyword">class</span>, <span class="title">int</span>.<span class="title">class</span>)</span>;</span><br><span class="line">Object obj = constructor.newInstance(<span class="string">"aaa"</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-获取Class中的字段"><a href="#5-获取Class中的字段" class="headerlink" title="5 获取Class中的字段"></a><strong>5 获取Class中的字段</strong></h2><p>获取字节码文件中的字段</p>
+<p> getField();返回一个Field对象，反映此Class对象所表示的类或接口的<strong>指定公共</strong>成员字段</p>
+<p> getFields();返回一个Field对象数组，反映此Class对象所表示的类或接口的<strong>所有可访问公共</strong>成员字段</p>
+<p> getDeclaredField();返回一个Field对象，反映此Class对象所表示的类或接口的<strong>指定字段</strong></p>
+<p> getDeclaredFields();返回一个Field对象数组，反映此Class对象所表示的类或接口的<strong>所有字段</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Class clazz = Class.forName(<span class="string">"cn.it.cast.bean.Person"</span>);</span><br><span class="line">Field field = <span class="keyword">null</span>;</span><br><span class="line">field = clazz.getDeclaredField(<span class="string">"age"</span>);</span><br><span class="line"><span class="comment">//对私有字段的访问取消权限检查。暴力访问</span></span><br><span class="line">field.setAccessible(<span class="keyword">true</span>);<span class="comment">//原先是没有权限访问私有字段</span></span><br><span class="line">Object obj = clazz.newInstance();</span><br><span class="line">field.set(obj,<span class="number">55</span>);<span class="comment">//对字段设置值</span></span><br><span class="line">Object o = field.get(obj);<span class="comment">//操作字段就需要有对象，没有对象操作字段是没有意义的。</span></span><br><span class="line">System.out.println(o);</span><br><span class="line">结果：<span class="number">55</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="6-获取Class中的方法"><a href="#6-获取Class中的方法" class="headerlink" title="6 获取Class中的方法"></a><strong>6 获取Class中的方法</strong></h2><p>获取指定class中的函数   </p>
+<p> getMethod();返回一个Method对象，反映此Class对象所表示的类或接口的指定<strong>公共方法</strong></p>
+<p> getMethods();返回一个Field对象数组，反映此Class对象所表示的类或接口的<strong>所有可访问公共方法</strong></p>
+<p> getDeclaredMethod();返回一个Field对象，反映此Class对象所表示的类或接口的<strong>指定方法</strong></p>
+<p> getDeclaredMethods();返回一个Field对象数组，反映此Class对象所表示的类或接口的<strong>所有方法</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Class clazz = Class.forName(<span class="string">"cn.it.cast.bean.Person"</span>);</span><br><span class="line">Method[] methods = clazz.getMethods();<span class="comment">//获取的都是公有方法</span></span><br><span class="line">Method[] methods2 = clazz.getDeclaredMethods();<span class="comment">//获取本类中所有方法，包含私有。</span></span><br></pre></td></tr></table></figure>
+
+<p>空参方法获取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Class clazz = Class.forName(<span class="string">"cn.it.cast.bean.Person"</span>);</span><br><span class="line">Method method = clazz.getMethod(<span class="string">"show"</span>, <span class="keyword">null</span>);<span class="comment">//获取空参数一般方法</span></span><br><span class="line">Constructor constructor = <span class="class"><span class="keyword">class</span>.<span class="title">getConstructor</span>(<span class="title">String</span>.<span class="title">class</span>, <span class="title">int</span>.<span class="title">class</span>)</span>;</span><br><span class="line">Object obj = constructor.newInstance(<span class="string">"aaa"</span>, <span class="number">5</span>);</span><br><span class="line">method.invoke(obj, <span class="keyword">null</span>);</span><br></pre></td></tr></table></figure>
+
+<p>非空参方法获取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class clazz = Class.forName(<span class="string">"cn.it.cast.bean.Person"</span>);</span><br><span class="line">Method method = clazz.getMethod(<span class="string">"paraMethod"</span>, String<span class="class">.<span class="keyword">class</span>, <span class="title">int</span>.<span class="title">class</span>)</span>;</span><br><span class="line">Object obj = clazz.newInstance(<span class="string">"aaa"</span>, <span class="number">5</span>);</span><br><span class="line">method.invoke(obj, <span class="string">"aaa"</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+	  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	
+   </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JaveSE/" rel="tag"># JaveSE</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/29/JavaSE-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" rel="prev" title="JavaSE-网络编程">
+      <i class="fa fa-chevron-left"></i> JavaSE-网络编程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/31/JavaSE-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="next" title="JavaSE-正则表达式">
+      JavaSE-正则表达式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#反射机制"><span class="nav-number">1.</span> <span class="nav-text">反射机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-概述-amp-应用场景"><span class="nav-number">1.1.</span> <span class="nav-text">1 概述&amp;应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-细节-amp-class对象"><span class="nav-number">1.2.</span> <span class="nav-text">2 细节&amp;class对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-获取class对象的三种方式"><span class="nav-number">1.3.</span> <span class="nav-text">3 获取class对象的三种方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-获取Class中的构造函数"><span class="nav-number">1.4.</span> <span class="nav-text">4 获取Class中的构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-获取Class中的字段"><span class="nav-number">1.5.</span> <span class="nav-text">5 获取Class中的字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-获取Class中的方法"><span class="nav-number">1.6.</span> <span class="nav-text">6 获取Class中的方法</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="詹智健"
+      src="/images/A%20lemon.jpg">
+  <p class="site-author-name" itemprop="name">詹智健</p>
+  <div class="site-description" itemprop="description">今天也是很多个开心日子里开心的一天呀</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SsssshiFT-96" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SsssshiFT-96" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">詹智健</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共51.6k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

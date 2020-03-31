@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*��������ɫ*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*��Ӱ��ɫ*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*�ϱ߿���ɫ*/
+        border-left-color: #1E92FB;    /*��߿���ɫ*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Z_Letter.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Z_Letter.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ssssshift-96.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="正则表达式1 概述正则表达式 正则表达式用于操作字符串数据  通过一些特定的符号来体现  所以我们为了掌握正则表达式，必须要学习一些符号。  虽然简化了，但是阅读性变差了。 举例 需求：定义一个功能对qq号进行校验 要求：长度5-15位，只能是数字，0不能开头">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaSE-正则表达式">
+<meta property="og:url" content="https://ssssshift-96.github.io/2020/03/31/JavaSE-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/index.html">
+<meta property="og:site_name" content="SsssshiFT-96">
+<meta property="og:description" content="正则表达式1 概述正则表达式 正则表达式用于操作字符串数据  通过一些特定的符号来体现  所以我们为了掌握正则表达式，必须要学习一些符号。  虽然简化了，但是阅读性变差了。 举例 需求：定义一个功能对qq号进行校验 要求：长度5-15位，只能是数字，0不能开头">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-31T10:42:33.000Z">
+<meta property="article:modified_time" content="2020-03-31T14:29:27.646Z">
+<meta property="article:author" content="詹智健">
+<meta property="article:tag" content="JaveSE">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ssssshift-96.github.io/2020/03/31/JavaSE-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>JavaSE-正则表达式 | SsssshiFT-96</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SsssshiFT-96</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">37</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/31/JavaSE-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaSE-正则表达式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-31 18:42:33 / 修改时间：22:29:27" itemprop="dateCreated datePublished" datetime="2020-03-31T18:42:33+08:00">2020-03-31</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1 概述"></a>1 概述</h2><p>正则表达式</p>
+<p>正则表达式用于操作<strong>字符串</strong>数据</p>
+<p> 通过一些特定的<strong>符号</strong>来体现</p>
+<p> 所以我们为了掌握正则表达式，必须要学习一些<strong>符号</strong>。</p>
+<p> 虽然<strong>简化</strong>了，但是<strong>阅读性变差</strong>了。</p>
+<p>举例</p>
+<p>需求：定义一个功能对qq号进行校验</p>
+<p>要求：长度5-15位，只能是数字，0不能开头</p>
+<a id="more"></a>
+
+<p>举例</p>
+<p>需求：定义一个功能对qq号进行校验</p>
+<p>要求：长度5-15位，只能是数字，0不能开头</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String qq = <span class="string">"215212489"</span>;</span><br><span class="line">String regex = <span class="string">"[1-9][0-9]&#123;4,14&#125;"</span>;</span><br><span class="line"><span class="keyword">boolean</span> b = qq.matches(regex);</span><br><span class="line">System.out.println(b);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-常见的规则"><a href="#2-常见的规则" class="headerlink" title="2 常见的规则"></a>2 常见的规则</h2><p>字符：</p>
+<p>​           x 字符 x。举例：’a’表示字符a</p>
+<p>​           \ 反斜线字符。</p>
+<p>​           \n 新行（换行）符 (‘\u000A’) </p>
+<p>​           \r 回车符 (‘\u000D’)</p>
+<p>​       字符类：</p>
+<p>​           [abc] a、b 或 c（简单类） </p>
+<p>​           [^abc] 任何字符，除了 a、b 或 c</p>
+<p>​           [a-zA-Z] a到 z 或 A到 Z，两头的字母包括在内 </p>
+<p>​           [0-9] 0到9的字符都包括</p>
+<p>​       预定义字符类：</p>
+<p>​           . 任何字符。.本身用 .表示</p>
+<p>​           \d 数字：[0-9]</p>
+<p>​           \w 单词字符：[a-zA-Z_0-9]</p>
+<p>​              在正则表达式里面组成单词的东西必须有这些东西组成</p>
+<p>​       边界匹配器：</p>
+<p>​           ^ 行的开头 </p>
+<p>​           $ 行的结尾 </p>
+<p>​           \b 单词边界</p>
+<p>​              就是不是单词字符的地方。</p>
+<p>​              举例：hello world?haha;xixi </p>
+<p>​       数量词： </p>
+<p>​           X? X，一次或一次也没有</p>
+<p>​           X* X，零次或多次</p>
+<p>​           X+ X，一次或多次</p>
+<p>​           X{n} X，恰好 n 次 </p>
+<p>​           X{n,} X，至少 n 次 </p>
+<p>​           X{n,m} X，至少 n 次，但是不超过 m 次</p>
+<h2 id="3-常见的功能-匹配"><a href="#3-常见的功能-匹配" class="headerlink" title="3 常见的功能-匹配"></a><strong>3 常见的功能-匹配</strong></h2><p>匹配</p>
+<p>其实就是String类中的matches方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//匹配手机号码是否正确</span></span><br><span class="line">String tel = <span class="string">"15800001111"</span>;</span><br><span class="line">String regex = <span class="string">"1[358][0-9]&#123;9&#125;"</span>;</span><br><span class="line">String regex2 = <span class="string">"1[358]\\d&#123;9&#125;"</span>;<span class="comment">//这两个意思一样</span></span><br></pre></td></tr></table></figure>
+
+<p>第二种写法中用两个\，是因为\在字符串当中自动对后面字母进行转义，所以要再加一个\使得字母前的\为一般的\。</p>
+<h2 id="4-常见的功能-切割"><a href="#4-常见的功能-切割" class="headerlink" title="4 常见的功能-切割"></a><strong>4 常见的功能-切割</strong></h2><p>切割</p>
+<p>其实就是String类中的split方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"zhangsan    xiaoqiang   zhaoliu"</span>;</span><br><span class="line">String str3 = <span class="string">"zhangsan.xiaoqiang.zhaoliu"</span>;</span><br><span class="line">String str3 = <span class="string">"zhangsantttxiaoqiangmmmmzhaoliu"</span>;</span><br><span class="line">String[] names = str.split(<span class="string">" +"</span>);<span class="comment">//表示至少一个空格</span></span><br><span class="line">String[] names2 = str.split(<span class="string">"\\."</span>);<span class="comment">//单个.表示任意字符，所以需要转义</span></span><br><span class="line">String[] names3 = str.split(<span class="string">"(.)\\1+"</span>);<span class="comment">//正则规则中用于封装的形式是小括号。为了能使用没有名字但有编号，称之为组。"(.)\\1+"表示在使用第一组的内容，且后面的内用都与第一个内容相同</span></span><br></pre></td></tr></table></figure>
+
+<p>组：捕获组可以通过从左到右计算其开括号来编号。例如在表达式中((A)(B(C))存在四个组</p>
+<ol>
+<li>((A)(B(C)) 2.\A 3. (B(C)) 4. (C)</li>
+</ol>
+<p>组零始终代表整个表达式</p>
+<h2 id="5-常见的功能-替换"><a href="#5-常见的功能-替换" class="headerlink" title="5 常见的功能-替换"></a><strong>5 常见的功能-替换</strong></h2><p>替换</p>
+<p>其实就是String类中的replaceAll方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">String str=<span class="string">"zhangsantttxiaoqiangmmmmmmzhaoliu"</span>;</span><br><span class="line">String str1=str.replaceAll(<span class="string">"(.)\\1+"</span>, <span class="string">"#"</span>);</span><br><span class="line">String str2=str.replaceAll(<span class="string">"(.)\\1+"</span>, <span class="string">"$1"</span>);<span class="comment">//美元符号可以对前一个正则表达式中规则进行获取</span></span><br><span class="line">System.out.println(str1);</span><br><span class="line">System.out.println(str2);</span><br><span class="line">String tel=<span class="string">"15832132122"</span>;</span><br><span class="line">tel=tel.replaceAll(<span class="string">"(\\d&#123;3&#125;)\\d&#123;4&#125;(\\d&#123;4&#125;)"</span>, <span class="string">"$1****$2"</span>);</span><br><span class="line">System.out.println(tel);</span><br><span class="line">结果：zhangsan#xiaoqiang#zhaoliu</span><br><span class="line">	 zhangsantxiaoqiangmzhaoliu</span><br><span class="line">	 <span class="number">158</span>****<span class="number">2122</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-常见的功能-获取"><a href="#6-常见的功能-获取" class="headerlink" title="6 常见的功能-获取"></a><strong>6 常见的功能-获取</strong></h2><p>这里要用到一个类：Pattern</p>
+<p>​     此类为正则表达式的编译表示形式</p>
+<p>​     指定为字符串的正则表达式必须首先被编译为此类的实例。然后，可将得到的模式用于创建Matcher对象，依照正则表达式，该对象可以与任意字符序列匹配。执行匹配所涉及的所有状态都驻留在匹配器中，所以多个匹配器可以共享同一模式</p>
+<p>​     调用顺序</p>
+<p>​     将正则规则进行对象的封装</p>
+<p>​     Pattern p=Pattern.compile(“a*b”);</p>
+<p>​     通过正则对象的matcher方法和字符串关联，获取要对字符串操作的匹配器对象Matcher</p>
+<p>​     Matcher m=p.matcher(“aaaaa”);</p>
+<p>​     通过Matcher匹配器对象的方法对字符串进行操作</p>
+<p>​     boolean b=m.matched();</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"da jia hao,ming tian bu fang jia!"</span>;</span><br><span class="line">String regex = <span class="string">"\\b[a-z]&#123;3&#125;\\b"</span>;<span class="comment">//\\b表示单词边界</span></span><br><span class="line"><span class="comment">//1.将正则封装成对象</span></span><br><span class="line">Pattern p = Pattern.compile(regex);</span><br><span class="line"><span class="comment">//2.通过正则对象获取匹配器对象</span></span><br><span class="line">Matcher m = p.matcher(str);</span><br><span class="line"><span class="comment">//3.使用Matcher对象的方法对字符串操作</span></span><br><span class="line"><span class="comment">//既然要获取三个字符组成的单词，就查找：boolean find();</span></span><br><span class="line"><span class="keyword">while</span>(m.find())&#123;</span><br><span class="line">    System.out.println(m.group());<span class="comment">//获取匹配的子序列</span></span><br><span class="line">    System.out.println(m.start() + <span class="string">":"</span> + m.end());<span class="comment">//拿到字母在之前字符串中的位置</span></span><br><span class="line">&#125;</span><br><span class="line">结果：</span><br><span class="line">    jia</span><br><span class="line">    <span class="number">3</span>:<span class="number">6</span></span><br><span class="line">    hao</span><br><span class="line">    <span class="number">7</span>:<span class="number">10</span></span><br><span class="line">    jia</span><br><span class="line">    <span class="number">29</span>:<span class="number">32</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+	  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	
+   </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JaveSE/" rel="tag"># JaveSE</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/30/JavaSE-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" rel="prev" title="JavaSE-">
+      <i class="fa fa-chevron-left"></i> JavaSE-
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#正则表达式"><span class="nav-number">1.</span> <span class="nav-text">正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-概述"><span class="nav-number">1.1.</span> <span class="nav-text">1 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-常见的规则"><span class="nav-number">1.2.</span> <span class="nav-text">2 常见的规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-常见的功能-匹配"><span class="nav-number">1.3.</span> <span class="nav-text">3 常见的功能-匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-常见的功能-切割"><span class="nav-number">1.4.</span> <span class="nav-text">4 常见的功能-切割</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-常见的功能-替换"><span class="nav-number">1.5.</span> <span class="nav-text">5 常见的功能-替换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-常见的功能-获取"><span class="nav-number">1.6.</span> <span class="nav-text">6 常见的功能-获取</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="詹智健"
+      src="/images/A%20lemon.jpg">
+  <p class="site-author-name" itemprop="name">詹智健</p>
+  <div class="site-description" itemprop="description">今天也是很多个开心日子里开心的一天呀</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SsssshiFT-96" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SsssshiFT-96" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">詹智健</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共51.6k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

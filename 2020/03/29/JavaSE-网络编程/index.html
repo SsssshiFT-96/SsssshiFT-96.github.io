@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*��������ɫ*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*��Ӱ��ɫ*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*�ϱ߿���ɫ*/
+        border-left-color: #1E92FB;    /*��߿���ɫ*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Z_Letter.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Z_Letter.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ssssshift-96.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="网络编程1 网络模型概述网络编程（具体内容看计算机网络） OSI（Open System Interconncetion开放系统互连）参考模型 TCP&#x2F;IP参考模型 OSI七层协议模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaSE-网络编程">
+<meta property="og:url" content="https://ssssshift-96.github.io/2020/03/29/JavaSE-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="SsssshiFT-96">
+<meta property="og:description" content="网络编程1 网络模型概述网络编程（具体内容看计算机网络） OSI（Open System Interconncetion开放系统互连）参考模型 TCP&#x2F;IP参考模型 OSI七层协议模型">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-29T13:31:20.000Z">
+<meta property="article:modified_time" content="2020-03-30T12:40:42.955Z">
+<meta property="article:author" content="詹智健">
+<meta property="article:tag" content="JavaSE">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ssssshift-96.github.io/2020/03/29/JavaSE-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>JavaSE-网络编程 | SsssshiFT-96</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SsssshiFT-96</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">3</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">37</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/29/JavaSE-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JavaSE-网络编程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-03-29 21:31:20" itemprop="dateCreated datePublished" datetime="2020-03-29T21:31:20+08:00">2020-03-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-30 20:40:42" itemprop="dateModified" datetime="2020-03-30T20:40:42+08:00">2020-03-30</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="网络编程"><a href="#网络编程" class="headerlink" title="网络编程"></a>网络编程</h1><h2 id="1-网络模型概述"><a href="#1-网络模型概述" class="headerlink" title="1 网络模型概述"></a><strong>1 网络模型概述</strong></h2><p>网络编程（具体内容看计算机网络）</p>
+<p>OSI（Open System Interconncetion开放系统互连）参考模型</p>
+<p>TCP/IP参考模型</p>
+<p>OSI七层协议模型</p>
+<a id="more"></a>
+
+<p>1层物理层：主要定义物理设备标准，如网线的接口类型、光纤的接口类型、各种传输介质的传输速率等。它的主要作用是传输比特流（就是由1、0转化为电流强弱来进行传输,到达目的地后在转化为1、0，也就是我们常说的数模转换与模数转换），这一层的数据叫做比特。</p>
+<p>2层数据链路层：主要将从物理层接收的数据进行MAC地址（网卡地址）的封装与解封装。常把这一层叫做帧。在这一层工作的设备是交换机，数据通过交换机来传输。</p>
+<p>3层网络层：主要将从下层接收的数据进行IP地址的封装与解封装。在这一层工作的设备是路由器，常把这一层的数据叫做数据包。</p>
+<p>4层传输层：定义了一些传输数据的协议和端口号（WWW端口80等），如：TCP（传输控制协议，传输效率低，可靠性强，用于传输可靠性大，数据量大的数据），UDP（用户数据包协议，与TCP特性恰恰相反，用于传输可靠性要求不高，数据量小的数据，如QQ聊天数据就是通过这种方式传输的）。主要是将从下层数据接收的数据进行分段和传输，到达目的地址后在进行重组。常常把这一层数据叫做段。</p>
+<p>5层会话层：通过传输层（端口号：传输段与接收端）建立数据传输的通路。主要在你的系统之间发起会话或者接收会话请求（设备之间需要互相认识可以是IP也可以是MAC或者是主机名）。</p>
+<p>6层表示层：主要是进行对接收的数据进行解释、加密与解密、压缩与解压缩等（也就是把计算机能够识别的东西转换成人能够识别的东西，如图片、声音等）。</p>
+<p>7层应用层：主要是一些终端的应用，比如说FTD（各种文件下载）、WEB（IE浏览）、QQ之类的（可以把它理解成我们在电脑屏幕上可以看到的东西，就是终端应用）。</p>
+<p>TCP/IP模型将上述7层简化成4层。</p>
+<p>应用层、传输层、网际层、主机至网络层</p>
+<h2 id="2-网络要素-IP地址"><a href="#2-网络要素-IP地址" class="headerlink" title="2 网络要素-IP地址"></a><strong>2 网络要素-IP地址</strong></h2><p>网络通讯要素：IP地址、端口号、传输协议</p>
+<p>IP地址：InetAddress</p>
+<p>网络中设备的标识</p>
+<p>不易记忆，可用主机名</p>
+<p>本地回环地址：127.0.0.1 用来测试网卡，只能访问本地 主机名：localhost</p>
+<h2 id="3-网络要素-端口"><a href="#3-网络要素-端口" class="headerlink" title="3 网络要素-端口"></a><strong>3 网络要素-端口</strong></h2><p>端口号：用于标识进程的逻辑地址，不同进程的标识</p>
+<p>有效端口：0<del>65535，其中0</del>1024系统使用或保留端口（尽量不要用，系统本身会使用很多这部分的端口，不要与系统冲突）。</p>
+<p>比如QQ，若要向另一个主机传送信息，则会识别端口，可以得到是QQ传输的信息</p>
+<p>防火墙的原理就是禁用了相关的端口导致信息传递接收失败</p>
+<h2 id="4-网络要素-传输协议"><a href="#4-网络要素-传输协议" class="headerlink" title="4 网络要素-传输协议"></a><strong>4 网络要素-传输协议</strong></h2><p>传输协议：通讯的规则</p>
+<p>常见协议：TCP,UDP</p>
+<p>UDP</p>
+<p>将数据及源和目的封装成数据包中，将数据包扔出，不需要建立连接，即对方不在也可以发出数据</p>
+<p>每个数据包的大小在限制在64k内，但可以进行大数据量传输</p>
+<p>因无连接，是不可靠协议</p>
+<p>不需要建立连接，速度快</p>
+<p>比如qq发信息，视频通话，对讲机</p>
+<p>TCP</p>
+<p>建立连接，形成传输数据的通道，即必须对方在才能发出数据，通过三次握手来判断对方是否在线。</p>
+<p>在连接中进行大数据量传输</p>
+<p>通过三次握手完成连接，是可靠协议</p>
+<p>必须建立连接，效率会稍低</p>
+<p>比如打电话。</p>
+<h2 id="5-IP对象-InetAddress"><a href="#5-IP对象-InetAddress" class="headerlink" title="5  IP对象-InetAddress"></a><strong>5  IP对象-InetAddress</strong></h2><p>InetAddress:此类表示互联网协议地址，处于网际层。</p>
+<p>无构造函数，所以存在一个方法能够返回该对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取本地主机ip地址对象</span></span><br><span class="line">InetAddress ip = InetAddress.getLocalHost();</span><br><span class="line">ip.getHostAddress();<span class="comment">//获得本地ip地址</span></span><br><span class="line">ip.getHostName();<span class="comment">//获取本地主机名</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//获取其他主机ip地址对象</span></span><br><span class="line">ip = InetAddress.getByName(<span class="string">"主机名或ip地址"</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-域名解析"><a href="#6-域名解析" class="headerlink" title="6 域名解析"></a><strong>6 域名解析</strong></h2><p>域名解析是把域名指向网站空间IP，让人们通过注册的域名可以方便地访问到网站的一种服务。IP地址是网络上标识站点的数字地址，为了方便记忆，采用域名来代替IP地址标识站点地址。<strong>域名解析就是域名到IP地址的转换过程。域名的解析工作由DNS服务器完成</strong></p>
+<p>例如：<a href="http://www.sina.com.cn" target="_blank" rel="noopener">www.sina.com.cn</a></p>
+<p>www为主机名字、sina为域名名称、com为商业化组织代号、cn代表所属国家。</p>
+<p>回车时，该网址就是指向指定的ip地址，但并不是直接转向。在中间存在一个主机存放一些列表，里面有ip地址与名称的对应。这个主机叫做域名解析服务器，这个过程叫域名解析。所以过程就是输入网址后，先通过DNS找到对应的ip地址，再转到该ip地址对应的网页。DNS可以用国内的，国外的，不同运营商的。</p>
+<p>提高解析速度可以使用本地解析。在本机里面有一张域名解析列表</p>
+<p>在C:\Windows\System\drivers\etc\hosts中</p>
+<p>里面可以指定ip地址对应的主机。</p>
+<p>该方法可以屏蔽一些网站，只要在自己匹配域名地址和ip地址就行</p>
+<p><strong>这也说明在解析当中，先进行本地解析</strong>。</p>
+<h2 id="7-UDP协议-发送端"><a href="#7-UDP协议-发送端" class="headerlink" title="7 UDP协议-发送端"></a><strong>7 UDP协议-发送端</strong></h2><p>Socket:为网络服务提供的一种机制。</p>
+<p>通信两端都有Socket，网络通信其实就是Socket间的通信，数据在两个Socket间通过IO传输。</p>
+<p>UDP传输</p>
+<p>DatagramSocket：用来发送和接收数据报包的<strong>套接字</strong>，是包投递服务的发送或接收点。</p>
+<p>DatagramPacket：表示数据报包，用来实现无连接包投递服务。每条报文仅根据该包中包含的信息从一台机器路由到另一台机器。从一台机器发送到另一台机器的多个包可能选择不同的路由，也可能按不同的顺序到达。不对包投递做出保证。其方法中凡是带有地址参数的均是投递用的方法。</p>
+<p>创建UDP传输的发送端</p>
+<p>思路：</p>
+<p>1.建立UDP的Socket服务。</p>
+<p>2.将要发送的数据封装到包中。</p>
+<p>3.通过UDP的Socket服务将数据包发送出去。</p>
+<p>4.关闭Socket服务。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.</span></span><br><span class="line">DatagramSocket ds = <span class="keyword">new</span> DatagramSocket();</span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line">String str = <span class="string">"udp传输演示0"</span>;</span><br><span class="line"><span class="keyword">byte</span>[] buf = str.getBytes();</span><br><span class="line">DatagramPacket dp = <span class="keyword">new</span> DatagramPacket(buf, buf.length, InetAddress.getByName(<span class="string">"ip地址"</span>), <span class="number">10000</span>);<span class="comment">//参数分别是：数组、数组长度、地址名称、端口名</span></span><br><span class="line"><span class="comment">//3.</span></span><br><span class="line">ds.send(dp);</span><br><span class="line"><span class="comment">//4.</span></span><br><span class="line">ds.close();</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-UDP协议-接收端"><a href="#8-UDP协议-接收端" class="headerlink" title="8  UDP协议-接收端"></a><strong>8  UDP协议-接收端</strong></h2><p>建立UDP接收端的思路</p>
+<p>思路：</p>
+<p>1.建立UDP Socket服务,因为是要接收数据，必须要明确一个端口号</p>
+<p>2.创建数据包，用于存储接收到的数据。方便用数据包对象的方法解析这些数据</p>
+<p>3.使用Socket服务的receive方法将接收的数据存储到数据包中。</p>
+<p>4.通过数据包的方法解析数据包中的数据。</p>
+<p>5.关闭数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.</span></span><br><span class="line">DatagramSocket ds = <span class="keyword">new</span> DatagramSocket(<span class="number">10000</span>);</span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line"><span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">DatagramPacket dp = <span class="keyword">new</span> DatagramPacket(buf, buf.length);</span><br><span class="line"><span class="comment">//3.</span></span><br><span class="line">ds.recieve(dp);</span><br><span class="line"><span class="comment">//4.</span></span><br><span class="line">String ip = dp.getAddress().getHostAddress();</span><br><span class="line"><span class="keyword">int</span> port = dp.getPort();</span><br><span class="line">String text = <span class="keyword">new</span> String(dp.getData(), <span class="number">0</span>, dp.getLength());</span><br><span class="line">System.out.println(ip + <span class="string">":"</span> + port + text);</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-UDP协议-聊天程序"><a href="#9-UDP协议-聊天程序" class="headerlink" title="9  UDP协议-聊天程序"></a><strong>9  UDP协议-聊天程序</strong></h2><p>这要用到多线程，一个用来发送一个用来接收。</p>
+<p>若想要群发，就将发送地址改写为192.168.1.255。0是网络位，不能用。1-254是有效ip地址。255是广播地址，即若将地址写为255，则能发送到该广播地址所有网段存活的机器上。</p>
+<h2 id="10-TCP协议-客户端"><a href="#10-TCP协议-客户端" class="headerlink" title="10  TCP协议-客户端"></a><strong>10  TCP协议-客户端</strong></h2><p>TCP传输分为两个端点，分别是客户端和服务端</p>
+<p><strong>需要用到Socket和ServerSocket对象</strong>。</p>
+<p>客户端发数据到服务端</p>
+<p> 即TCP传输：客户端建立的过程。</p>
+<p> 1.创建tcp客户端socket服务。使用的是Socket对象</p>
+<p>   建议该对象一创建就明确目的地，要连接的主机</p>
+<p> 2.如果连接建立成功，说明数据传输通道已建立。</p>
+<p>   该通道就是Socket流，其是底层建立好的。既然是流，说明这里既有输入又有输出</p>
+<p>   想要输入或者输出流对象，可以找Socket对象来获取。</p>
+<p>   可以通过getOutputStream()和getInputStream()来获取两个字节源</p>
+<p> 3.使用输出流，将数据写出。</p>
+<p> 4.关闭资源。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.</span></span><br><span class="line">Socket socket = <span class="keyword">new</span> Socket(<span class="string">"ip地址"</span>, <span class="number">10002</span><span class="comment">/*端口号*/</span>);</span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line">OutputStream out = socket.getOutputStream();</span><br><span class="line"><span class="comment">//3.</span></span><br><span class="line">out.write(<span class="string">"tcp演示"</span>.getBytes());</span><br><span class="line"><span class="comment">//4.</span></span><br><span class="line">sockcet.close();</span><br></pre></td></tr></table></figure>
+
+<p><strong>11 TCP协议-服务端</strong></p>
+<p>服务端接收客户端发来的数据并打印在控制台上</p>
+<p> 建立tcp服务端的思路：</p>
+<p> 1.创建服务端socket服务。通过ServerSocket对象</p>
+<p> 2.服务端必须对外提供一个端口，否则客户端无法连接</p>
+<p> 3.获取连接过来的客户端对象。这样就能实现服务端对指定客户端的数据传输</p>
+<p> 4.通过客户端对象获取socket流读取客户端发来的数据，并打印在控制台上。</p>
+<p> 5.关闭资源。关客户端，关服务端。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.</span></span><br><span class="line">ServerSocket ss = <span class="keyword">new</span> ServerSocket(<span class="number">10002</span>);</span><br><span class="line"><span class="comment">//2.</span></span><br><span class="line">Socket s = ss.accept();<span class="comment">//该方法可以获取客户端对象</span></span><br><span class="line">String ip = s.getInetAddress().getHostAddress();</span><br><span class="line"><span class="comment">//3.</span></span><br><span class="line">InputStream in = s.getInputStream();</span><br><span class="line"><span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line"><span class="keyword">int</span> len = in.read(buf);</span><br><span class="line">String text = <span class="keyword">new</span> String(buf, <span class="number">0</span> ,len);</span><br><span class="line">System.out.println(text);</span><br><span class="line">s.close();</span><br><span class="line">ss.close();</span><br></pre></td></tr></table></figure>
+
+<p>获取客户端对象是阻塞式。</p>
+<p>注意：要先开服务端。</p>
+<h2 id="12-TCP协议-服务端和客户端交互"><a href="#12-TCP协议-服务端和客户端交互" class="headerlink" title="12 TCP协议-服务端和客户端交互"></a><strong>12 TCP协议-服务端和客户端交互</strong></h2><p>如果服务端发出数据，客户端来接收，同样也是使用socket流</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用客户端socket对象输出流给客户端返回数据</span></span><br><span class="line">OutputStream out = s.getOutputStream();</span><br><span class="line">out.write(<span class="string">"收到"</span>.getBytes());</span><br><span class="line"></span><br><span class="line"><span class="comment">//读取服务端返回的数据，使用socket读取流</span></span><br><span class="line">InputStream in = socket.getInputStream();</span><br><span class="line"><span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line"><span class="keyword">int</span> len = in.read(buf);</span><br><span class="line">String text = <span class="keyword">new</span> String(buf, <span class="number">0</span>, len);</span><br></pre></td></tr></table></figure>
+
+<h2 id="13-TCP协议-练习-服务端多线程技术"><a href="#13-TCP协议-练习-服务端多线程技术" class="headerlink" title="13 TCP协议-练习-服务端多线程技术"></a><strong>13 TCP协议-练习-服务端多线程技术</strong></h2><p>上述程序存在一个问题，因为一直是一个线程运作，所以当有人占用服务端时，其他人就必须排队，所以要使用多线程。当有人要使用服务器时，服务端接收到客户端后，产生新的线程对象，用来运行该客户端发来的数据或任务。主线程重新回到等待接收客户端状态。也就是<strong>服务器原理</strong>。</p>
+<h2 id="14-常见客户端和服务端"><a href="#14-常见客户端和服务端" class="headerlink" title="14 常见客户端和服务端"></a><strong>14 常见客户端和服务端</strong></h2><p>最常见的客户端：</p>
+<p>​    浏览器：IE</p>
+<p>最常见的服务端：</p>
+<p>​    服务器：Tomcat</p>
+<p>Interface Servlet是接口，写在服务器上面的程序，功能都要实现这一接口才能使用</p>
+<p>其余部分详见视频或自查资料。</p>
+<h2 id="15-了解客户端和服务器端原理"><a href="#15-了解客户端和服务器端原理" class="headerlink" title="15 了解客户端和服务器端原理"></a><strong>15 了解客户端和服务器端原理</strong></h2><p>为了了解其原理：</p>
+<p>1.</p>
+<p>自定义服务器</p>
+<p>使用已有的客户端IE，了解一下客户端给服务端发送了什么请求</p>
+<p>编写程序</p>
+<p>然后打开浏览器，在网页输入ip地址＋端口</p>
+<p>将接收到的信息复制粘贴过来</p>
+<p>GET / HTTP/1.1  <strong>请求行</strong>，遵从了http协议而来：请求方式/请求的资源路径/http协议版本</p>
+<p><strong>请求消息头</strong> 属性名：属性值（即支持的东西，比如支持html格式的text文件）</p>
+<p>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,<em>/</em>;q=0.8</p>
+<p>Accept-Language: zh-CN</p>
+<p>Upgrade-Insecure-Requests: 1</p>
+<p>User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.18362</p>
+<p>Accept-Encoding: gzip, deflate 支持的压缩方式（网页压缩方式）</p>
+<p>Host: 192.168.1.105:9099</p>
+<p>Connection: Keep-Alive</p>
+<p>//<strong>空行</strong></p>
+<p>//<strong>请求体</strong>：指定的自定义信息。请求体和请求头之间要有空行。</p>
+<h2 id="16-URL-amp-URLConnection"><a href="#16-URL-amp-URLConnection" class="headerlink" title="16 URL&amp;URLConnection"></a><strong>16 URL&amp;URLConnection</strong></h2><p>从服务器端回来的数据需要解析，java中的URL对象提供了方法。</p>
+<p><strong>URL代表一个统一资源定位符</strong>，它是指向互联网“资源”的指针。资源可以是简单的文件或目录，也可以是对更复杂对象的引用，例如对数据库或搜索引擎的查询。</p>
+<p><a href="http://192.168.1.105:9099/" target="_blank" rel="noopener">http://192.168.1.105:9099/</a> 这一个就是URL</p>
+<p>URI是统一资源标识符。</p>
+<p>笼统地说每个URL都是URI，但不一定每个URI都是URL。因为URI还包括一个子类，即统一资源名称（URN），它命名资源但不指定如何定位资源。</p>
+<p>使用URL的方法可以得到该定位符里具体的信息</p>
+<p>代码演示略</p>
+<p>使用URL中的openStream()方法可以打开此URL的连接并返回一个用于从该连接读入的InputStream，再读取流中内容就可以得到服务器传来的信息。</p>
+<p>代码演示略</p>
+<p>openStream（）方法的原理是URL使用openConnection方法得到一个<strong>URLConnection</strong>对象，即获取url对象的url连接器对象，将连接封装成了对象：java中内置的可以解析的具体协议的对象+socket。</p>
+<p>然后再使用连接器对象中getInputStream方法可以得到相同的结果。</p>
+<p>代码演示略</p>
+<h2 id="17-常见网络架构"><a href="#17-常见网络架构" class="headerlink" title="17 常见网络架构"></a>17 常见网络架构</h2><p>网络结构：</p>
+<p>1.C/S client/server</p>
+<p>​    特点：</p>
+<p>​       该结构的软件，客户端和服务端都需要编写。</p>
+<p>​       开发成本较高，维护较为麻烦</p>
+<p>​    好处：</p>
+<p>​       客户端在本地可以分担一部分运算。</p>
+<p>2.B/S browser/server</p>
+<p>​    特点：</p>
+<p>​       该结构的软件，只开发服务器，不开发客户端，因为客户端直接由浏览器取代</p>
+<p>​       开发成本相对低，维护更为简单。</p>
+<p>​    缺点：所有运算都要在服务器端完成</p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+	  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	
+   </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaSE/" rel="tag"># JavaSE</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/28/JavaSE-IO%E6%B5%813/" rel="prev" title="JavaSE-IO流3">
+      <i class="fa fa-chevron-left"></i> JavaSE-IO流3
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/03/30/JavaSE-%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/" rel="next" title="JavaSE-">
+      JavaSE- <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络编程"><span class="nav-number">1.</span> <span class="nav-text">网络编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-网络模型概述"><span class="nav-number">1.1.</span> <span class="nav-text">1 网络模型概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-网络要素-IP地址"><span class="nav-number">1.2.</span> <span class="nav-text">2 网络要素-IP地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-网络要素-端口"><span class="nav-number">1.3.</span> <span class="nav-text">3 网络要素-端口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-网络要素-传输协议"><span class="nav-number">1.4.</span> <span class="nav-text">4 网络要素-传输协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-IP对象-InetAddress"><span class="nav-number">1.5.</span> <span class="nav-text">5  IP对象-InetAddress</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-域名解析"><span class="nav-number">1.6.</span> <span class="nav-text">6 域名解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-UDP协议-发送端"><span class="nav-number">1.7.</span> <span class="nav-text">7 UDP协议-发送端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-UDP协议-接收端"><span class="nav-number">1.8.</span> <span class="nav-text">8  UDP协议-接收端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-UDP协议-聊天程序"><span class="nav-number">1.9.</span> <span class="nav-text">9  UDP协议-聊天程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-TCP协议-客户端"><span class="nav-number">1.10.</span> <span class="nav-text">10  TCP协议-客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-TCP协议-服务端和客户端交互"><span class="nav-number">1.11.</span> <span class="nav-text">12 TCP协议-服务端和客户端交互</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-TCP协议-练习-服务端多线程技术"><span class="nav-number">1.12.</span> <span class="nav-text">13 TCP协议-练习-服务端多线程技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-常见客户端和服务端"><span class="nav-number">1.13.</span> <span class="nav-text">14 常见客户端和服务端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-了解客户端和服务器端原理"><span class="nav-number">1.14.</span> <span class="nav-text">15 了解客户端和服务器端原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-URL-amp-URLConnection"><span class="nav-number">1.15.</span> <span class="nav-text">16 URL&amp;URLConnection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17-常见网络架构"><span class="nav-number">1.16.</span> <span class="nav-text">17 常见网络架构</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="詹智健"
+      src="/images/A%20lemon.jpg">
+  <p class="site-author-name" itemprop="name">詹智健</p>
+  <div class="site-description" itemprop="description">今天也是很多个开心日子里开心的一天呀</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SsssshiFT-96" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SsssshiFT-96" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">詹智健</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共51.6k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
