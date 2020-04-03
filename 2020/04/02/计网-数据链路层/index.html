@@ -43,7 +43,7 @@
 <meta property="og:description" content="数据链路层按照CodeSheep讲的重点编写 以太网帧的格式封装成帧(framing)就是在一段数据的前后分别添加首部和尾部，然后就构成一个帧。确定帧的界限。 首部和尾部的一个重要作用就是进行帧定界。 常用的以太网MAC帧格式有两种标准 ：DIX Ethernet V2 标准IEEE 的 802.3 标准">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-02T12:46:16.000Z">
-<meta property="article:modified_time" content="2020-04-02T14:09:03.781Z">
+<meta property="article:modified_time" content="2020-04-03T12:06:37.539Z">
 <meta property="article:author" content="詹智健">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -146,7 +146,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">39</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">40</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -227,10 +227,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-04-02 20:46:16 / 修改时间：22:09:03" itemprop="dateCreated datePublished" datetime="2020-04-02T20:46:16+08:00">2020-04-02</time>
+              <time title="创建时间：2020-04-02 20:46:16" itemprop="dateCreated datePublished" datetime="2020-04-02T20:46:16+08:00">2020-04-02</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-03 20:06:37" itemprop="dateModified" datetime="2020-04-03T20:06:37+08:00">2020-04-03</time>
+              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -292,10 +298,109 @@
 <p>指主机发送 ARP 查找自己的 IP 地址，即数据链路层 SIP=DIP</p>
 <p>作用有两个：</p>
 <p>1）一个主机使用免费 ARP 确定是有存在有其他主机设置了相同的 IP 地址</p>
-<p>2）如果发送免费 ARP 的主机改变了 MAC 地址，可以通过发送免费 ARP 的方式告知其他</p>
-<p>主机端更新 ARP 表</p>
-<p>网卡的MAC地址和IP地址互查机制</p>
-<p>ARP报文格式、ARP查询原理、ARP缓存</p>
+<p>2）如果发送免费 ARP 的主机改变了 MAC 地址，可以通过发送免费 ARP 的方式告知其他主机端更新 ARP 表</p>
+<p><strong>RARP协议</strong></p>
+<p><strong>反向地址转换协议（RARP：Reverse Address Resolution Protocol）</strong> 反向地址转换协议（RARP）允许局域网的物理机器从网关服务器的 ARP 表或者缓存上请求其 <strong>IP 地址</strong>。网络管理员在局域网网关路由器里创建一个表以映射物理地址（MAC）和与其对应的 IP 地址。当设置一台新的机器时，其 RARP 客户机程序需要向路由器上的 RARP 服务器请求相应的 IP 地址。假设在路由表中已经设置了一个记录，RARP 服务器将会返回 IP 地址给机器，此机器就会存储起来以便日后使用。 RARP 可以使用于以太网、光纤分布式数据接口及令牌环 LAN</p>
+<p><strong>工作原理</strong>：</p>
+<p>1.发送主机发送一个本地的RARP广播，在此广播包中，声明自己的MAC地址并且请求任何收到此请求的RARP服务器分配一个IP地址；</p>
+<p>2.本地网段上的RARP服务器收到此请求后，检查其RARP列表，查找该MAC地址对应的IP地址；</p>
+<p>3.如果存在，RARP服务器就给源主机发送一个响应数据包并将此IP地址提供给对方主机使用；</p>
+<p>4.如果不存在，RARP服务器对此不做任何的响应；</p>
+<p>5.源主机收到从RARP服务器的响应信息，就利用得到的IP地址进行通讯；如果一直没有收到RARP服务器的响应信息，表示初始化失败。 [1]</p>
+<p><strong>工作过程</strong>：</p>
+<p>1、网络上的每台设备都会有一个独一的硬件地址，通常是由设备厂商分配的MAC地址。PC1从网卡上读取MAC地址，然后在网络上发送一个RARP请求的广播数据包，请求RARP服务器回复该PC的IP地址。</p>
+<p>2、RARP服务器收到了RARP请求数据包，为其分配IP地址，并将RARP回应发送给PC1。</p>
+<p>3、PC1收到RARP回应后，就使用得到的IP地址进行通讯。</p>
+<p><strong>网卡的MAC地址和IP地址互查机制</strong></p>
+<p>ARP协议用于将IP地址转为MAC地址<br>RARP协议用于将MAC地址转为IP地址</p>
+<p><strong>ARP查询原理</strong></p>
+<p>每台主机都会在自己的ARP缓冲区中建立一个 ARP列表，以表示IP地址和MAC地址的对应关系。</p>
+<p>当源主机需要将一个数据包要发送到目的主机时，会首先检查自己 ARP列表中是否存在该 IP地址对应的MAC地址。</p>
+<p>如果有，就直接将数据包发送到这个MAC地址；如果没有，就向本地网段发起一个ARP请求的广播包，查询此目的主机对应的MAC地址。</p>
+<p>此ARP请求数据包里包括源主机的IP地址、硬件地址、以及目的主机的IP地址。网络中所有的主机收到这个ARP请求后，会检查数据包中的目的IP是否和自己的IP地址一致。</p>
+<p>如果不相同就忽略此数据包；如果相同，该主机首先将发送端的MAC地址和IP地址添加到自己的ARP列表中。</p>
+<p>如果ARP表中已经存在该IP的信息，则将其覆盖，然后给源主机发送一个 ARP响应数据包，告诉对方自己是它需要查找的MAC地址。</p>
+<p>源主机收到这个ARP响应数据包后，将得到的目的主机的IP地址和MAC地址添加到自己的ARP列表中，并利用此信息开始数据的传输。</p>
+<p>如果源主机一直没有收到ARP响应数据包，表示ARP查询失败。</p>
+<p><strong>ARP报文格式</strong></p>
+<p>ARP报文分为ARP请求和ARP应答报文两种，报文格式可以统一如下：</p>
+<table>
+<thead>
+<tr>
+<th>硬件类型</th>
+<th>上层协议类型</th>
+<th>MAC地址长度</th>
+<th>IP地址长度</th>
+<th>操作类型</th>
+<th>源MAC地址</th>
+<th>源IP地址</th>
+<th>目的MAC地址</th>
+<th>目的IP地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>6</td>
+<td>4</td>
+<td>6</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<p>前五个为ARP报头。</p>
+<ul>
+<li>硬件类型：占两字节，表示ARP报文可以在哪种类型的网络上传输，值为1时表示为以太网地址。</li>
+<li>上层协议类型：占两字节，表示硬件地址要映射的协议地址类型，映射IP地址时的值为0x0800。</li>
+<li>MAC地址长度：占一字节，标识MAC地址长度，以字节为单位，此处为6。</li>
+<li>IP协议地址长度：占一字节，标识IP得知长度，以字节为单位，此处为4。</li>
+<li>操作类型：占2字节，指定本次ARP报文类型。1标识ARP请求报文，2标识ARP应答报文。</li>
+<li>源MAC地址：占6字节，标识发送设备的硬件地址。</li>
+<li>源IP地址：占4字节，标识发送方设备的IP地址。</li>
+<li>目的MAC地址：占6字节，表示接收方设备的硬件地址，在请求报文中该字段值全为0，即00-00-00-00-00-00，表示任意地址，因为现在不知道这个MAC地址。</li>
+<li>目的IP地址：占4字节，表示接受方的IP地址。</li>
+</ul>
+<p>ARP报文不是直接在网络层上发送的，它还是需要向下传输到数据链路层，所以当ARP报文传输到数据链路层之后，需要再次进行封装。以以太网为例，ARP报文传输到以太网数据链路层后会形成<strong>ARP帧</strong>。ARP帧如下所示，它就是在ARP报文前面加了一个以太网帧头。</p>
+<table>
+<thead>
+<tr>
+<th>目的MAC地址</th>
+<th>源MAC地址</th>
+<th>帧类型</th>
+<th>硬件类型</th>
+<th>上层协议类型</th>
+<th>MAC地址长度</th>
+<th>IP地址长度</th>
+<th>操作类型</th>
+<th>源MAC地址</th>
+<th>源IP地址</th>
+<th>目的MAC地址</th>
+<th>目的IP地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>6</td>
+<td>6</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>6</td>
+<td>4</td>
+<td>6</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<p><strong>以太网帧头的三个字段说明</strong></p>
+<ul>
+<li>目的MAC地址：占6字节，如果是ARP请求帧，因为它是一个广播帧，所以要填上广播MAC地址（FF-FF-FF-FF-FF-FF），其目标主机是网络上的所有主机。</li>
+<li>源MAC地址：占6字节，这是发送ARP帧的节点MAC地址。</li>
+<li>帧类型：占两字节，这里用来标识帧封装的上层协议，因为本帧的数据部分是ARP报文，所以直接用ARP的协议号0x0806表示就可以了。</li>
+</ul>
 
     </div>
 
@@ -328,7 +433,10 @@
     <a href="/2020/04/01/%E8%AE%A1%E7%BD%91-TCP%20IP%E5%8D%8F%E8%AE%AE/" rel="prev" title="计网-TCP/IP协议">
       <i class="fa fa-chevron-left"></i> 计网-TCP/IP协议
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/03/%E8%AE%A1%E7%BD%91-%E7%BD%91%E7%BB%9C%E5%B1%82/" rel="next" title="计网-网络层">
+      计网-网络层 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -404,7 +512,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -454,7 +562,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共55.6k字</span>
+  <span class="post-count">博客全站共60.5k字</span>
 </div>
         
 <div class="busuanzi-count">

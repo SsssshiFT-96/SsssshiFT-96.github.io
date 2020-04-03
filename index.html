@@ -143,7 +143,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">39</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">40</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -202,6 +202,162 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/04/03/%E8%AE%A1%E7%BD%91-%E7%BD%91%E7%BB%9C%E5%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/03/%E8%AE%A1%E7%BD%91-%E7%BD%91%E7%BB%9C%E5%B1%82/" class="post-title-link" itemprop="url">计网-网络层</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-03 20:08:01 / 修改时间：21:54:01" itemprop="dateCreated datePublished" datetime="2020-04-03T20:08:01+08:00">2020-04-03</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h1><h2 id="IP数据报的格式"><a href="#IP数据报的格式" class="headerlink" title="IP数据报的格式"></a><strong>IP数据报的格式</strong></h2><p><strong>一个 IP 数据报由首部和数据两部分组成。</strong></p>
+<p>首部的前一部分是固定长度，共 20 字节，是所有 IP 数据报必须具有的。</p>
+<p>在首部的固定部分的后面是一些可选字段，其长度是可变的。</p>
+<p>ip首部格式</p>
+<p> 版本    首部长度    区分服务    总长度</p>
+<p>​                    标        识                标志    片偏移</p>
+<p>生存时间                    协议         首部检验和</p>
+<p>​                                源地址</p>
+<p>​                                目的地址</p>
+<p>​            可选字段（长度可变）            填充</p>
+<p>前五行为固定部分，最后一行为可变部分</p>
+<p>(1) <strong>版本</strong> 占 4 位，指 IP 协议的版本目前的 IP 协议版本号为 4 (即 IPv4)</p>
+<p>(2) <strong>首部长度</strong> 占 4 位，可表示的最大数值是 15 个单位(一个单位为 4 字节)因此 IP 的首部长度的最大值是 60 字节。</p>
+<p>(3) <strong>区分服务</strong> 占 8 位，用来获得更好的服务。在旧标准中叫做<strong>服务类型</strong>，但实际上一直未被使用过。1998 年这个字段改名为区分服务。只有在使用区分服务（DiffServ）时，这个字段才起作用。<strong>在一般的情况下都不使用这个字段</strong>。</p>
+<p>(4) <strong>总长度</strong> 占 16 位，指首部和数据之和的长度，<strong>单位为字节</strong>，因此数据报的最大长度为 65535 字节。总长度必须不超过<strong>最大传送单元 MTU(Maximum Transfer Unit)</strong>。IP协议规定，在因特网中所有的主机和路由器，必须能够接受长度不超过576字节的数据报。当主机需要发送长度超过576字节的数据报时，应当先了解一下，目的主机是否能够接受。否则就要进行分片。</p>
+<p>(5) <strong>标识(identification)</strong>  占 16 位，它是一个计数器，用来产生数据报的标识</p>
+<p>(6) <strong>标志(flag)</strong> 占 3 位，目前只有前两位有意义。</p>
+<p>标志字段的最低位是 MF (More Fragment)。MF =1 表示后面“还有分片”。MF =0 表示最后一个分片。</p>
+<p>标志字段中间的一位是 DF (Don’t Fragment)。只有当 DF =0 时才允许分片。</p>
+<p>(7) <strong>片偏移</strong> 占13 位，指出：较长的分组在分片后，某片在原分组中的相对位置。片偏移以 8 个字节为偏移单位。具体例子见书P142</p>
+<p>(8) <strong>生存时间</strong> 占8位，记为 TTL (Time To Live)，数据报在网络中可通过的路由器数的最大值。</p>
+<p>(9) <strong>协议</strong> 占8位，指出此数据报携带的数据使用何种协议，以便目的主机的 IP 层将数据部分上交给哪个处理过程</p>
+<p>(10) <strong>首部检验和</strong> 占16位，只检验数据报的首部，不检验数据部分。这里不采用 CRC 检验码而采用简单的计算方法</p>
+<p>(11) <strong>源地址</strong> 占32位</p>
+<p>(12) <strong>目的地址</strong> 占32位</p>
+<p><strong>IP</strong> <strong>数据报首部的可变部分</strong></p>
+<p>IP 首部的可变部分就是一个选项字段，用来支持排错、测量以及安全等措施，内容很丰富。</p>
+<p>选项字段的长度可变，从 1 个字节到 40 个字节不等，取决于所选择的项目。</p>
+<p>增加首部的可变部分是为了增加 IP 数据报的功能，但这同时也使得 IP 数据报的首部长度成为可变的。这就增加了每一个路由器处理数据报的开销。</p>
+<p>实际上这些选项很少被使用。</p>
+<p><strong>IP分片</strong></p>
+<p><strong>当发送的IP数据包的大小超过了MTU时</strong>，IP层就需要对数据进行分片，否则数据将无法发送成功。</p>
+<p>IP分片发生在IP层，不仅源端主机会进行分片，中间的路由器也有可能分片，因为不同的网络的MTU是不一样的，如果传输路径上的某个网络的MTU比源端网络的MTU要小，路由器就可能对IP数据报再次进行分片。而分片数据的重组只会发生在目的端的IP层。</p>
+<p>在IP首部有4个字节是用于分片的。前16位是IP数据报的标识，同一个数据报的各个分片的标识是一样的，目的端会根据这个标识来判断IP分片是否属于同一个IP数据报。中间3位是标志位，其中有1位用来表示是否有更多的分片，如果是最后一个分片，该标志位为0，否则为1。后面13位表示分片在原始数据的偏移，这里的原始数据是IP层收到的传输的TCP或UDP数据，不包含IP首部。</p>
+<p>需要注意的，在分片的数据中，传输层的首部只会出现在第一个分片中。因为传输层的数据格式对IP层是透明的，传输层的首部只有在传输层才会有它的作用，IP层不知道也不需要保证在每个分片中都有传输层首部。所以，在网络上传输的数据包是有可能没有传输层首部的。</p>
+<p><strong>避免ip分片</strong></p>
+<p>在网络编程中，我们要避免出现IP分片，那么为什么要避免呢？原因是IP层是没有超时重传机制的，如果IP层对一个数据包进行了分片，只要有一个分片丢失了，只能依赖于传输层进行重传，结果是所有的分片都要重传一遍，这个代价有点大。由此可见，IP分片会大大降低传输层传送数据的成功率，所以我们要避免IP分片。</p>
+<p><strong>如何避免</strong></p>
+<p>对于UDP包，我们需要在应用层去限制每个包的大小，一般不要超过1472字节，即以太网MTU（1500）—UDP首部（8）—IP首部（20）。</p>
+<p>对于TCP数据，应用层就不需要考虑这个问题了，因为传输层已经帮我们做了。在建立连接的三次握手的过程中，连接双方会相互通告MSS（Maximum Segment Size，最大报文段长度），MSS一般是MTU—IP首部（20）—TCP首部（20），每次发送的TCP数据都不会超过双方MSS的最小值，所以就保证了IP数据报不会超过MTU，避免了IP分片。</p>
+<p><strong>分片顺序</strong></p>
+<p>有标识字段可以确定分片属于哪一个报文，13位的片偏移可以确定分片的顺序。</p>
+<p><strong>接收端如何确定分片均到达</strong></p>
+<p>1）如果收到的包IP头中Fragmentation Flags为0且有UDP字段，则未分片<br>2）如果收到的包IP头中Fragmentation Flags为1且有UDP字段，则为第一片<br>3）如果收到的包IP头中Fragmentation Flags为1且无UDP字段，则为中间片<br>4）如果如果收到的包IP头中Fragmentation Flags为0且无UDP字段，则为最后一片</p>
+<p><strong>IP选路</strong></p>
+<p>IP选路，即IP寻路，就是根据路由表中的记录，来决定当前数据报是直接交付（目的地址属于当前局域网）还是发往下一跳路由（隶属于不同的局域网）。</p>
+<p><strong>搜索匹配路由表步骤</strong></p>
+<p>1.搜索匹配的主机地址；<br>2.搜索匹配网络地址；<br>3.搜索默认表项（一般0.0.0.0）<br>IP层进行的选路实际上是一种选路机制，它搜索路由表并决定向哪个网络接口发送分组。 这区别于选路策略，它只是一组决定把哪些路由放入路由表的规则。</p>
+<p><strong>简单路由表</strong></p>
+<p>在计算机网络中，<strong>路由表或称路由择域信息库（RIB）</strong>是一个存储在路由器或者联网计算机中的电子表格（文件）或类数据库。路由表存储着指向特定网络地址的路径（在有些情况下，还记录有路径的路由度量值）。路由表中含有网络周边的拓扑信息。路由表建立的主要目标是为了实现路由协议和静态路由选择。</p>
+<p>在现代路由器构造中，路由表不直接参与数据包的传输，而是用于生成一个小型指向表，这个指向表仅仅包含由路由算法选择的数据包传输优先路径，这个表格通常为了优化硬件存储和查找而被压缩或提前编译</p>
+<p>路由表项</p>
+<p>路由表中的表项内容包括：</p>
+<ul>
+<li>destination：目的地址，用来标识IP包的目的地址或者目的网络。</li>
+<li>mask：网络掩码，与目的地址一起标识目的主机或者路由器所在的网段的地址。</li>
+<li>pre：标识路由加入IP路由表的优先级。可能到达一个目的地有多条路由，但是优先级的存在让他们先选择优先级高的路由进行利用。</li>
+<li>cost：路由开销，当到达一个目的地的多个路由优先级相同时，路由开销最小的将成为最优路由。</li>
+<li>interface：输出接口，说明IP包将从该路由器哪个接口转发。</li>
+<li>nexthop：下一跳IP地址，说明IP包所经过的下一个路由器。</li>
+</ul>
+<p><strong>网际控制报文协议ICMP</strong></p>
+<p>为了提高 IP 数据报交付成功的机会，在网际层使用了<strong>网际控制报文协议 ICMP (Internet Control Message Protocol)</strong>。</p>
+<p>ICMP是为了解决两大问题：</p>
+<p>1.反馈分组传送和到达中出现的各种错误</p>
+<p>2.查询主机或路由器信息</p>
+<p>ICMP 允许主机或路由器报告差错情况和提供有关异常情况的报告。</p>
+<p>ICMP 不是高层协议，而是 IP 层的协议。</p>
+<p>ICMP 报文不直接传递给下层（数据链路层）而是作为 IP 层数据报的数据，加上数据报的首部，组成 IP 数据报发送出去。  </p>
+<p><strong>ICMP协议报文格式</strong></p>
+<p>类型                    代码                    检验和</p>
+<p>（这四个字节取决于ICMP报文的类型）</p>
+<p>ICMP的数据部分（长度取决于类型）</p>
+<p>ICMP 报文的前 4 个字节是统一的格式，共有三个字段：即类型、代码和检验和。接着的 4 个字节的内容与 ICMP 的类型有关。</p>
+<p><strong>ICMP报文的种类</strong></p>
+<p>ICMP 报文的种类有两种，即 <strong>ICMP 差错报告报文和 ICMP 询问报文</strong>。 </p>
+<p><strong>ICMP差错报文共有5种</strong></p>
+<p><strong>终点不可达</strong>：当路由器或主机不能交付数据报时就向源点发送终点不可达报文</p>
+<p><strong>源点抑制</strong>：当路由器或主机由于拥塞而丢弃数据报时，就向源点发送源点抑制报文，使源点知道应当把数据报的发送速率放慢</p>
+<p><strong>时间超过</strong>：当路由器收到生存时间为零的数据报时，除丢弃该数据报外，还要向源点发送时间超过报文。当终点在预先规定的时间内不能收到一个数据报的全部数据报片时，就把已收到的数据报片都丢弃，并向源点发送时间超过报文</p>
+<p><strong>参数问题</strong>：当路由器或目的主机收到数据报的首部中有的字段的值不正确时，就丢弃该数据报，并向源点发送参数问题报文</p>
+<p><strong>改变路由（重定向）</strong>：路由器把改变路由报文发送给主机，让主机知道下次应将数据报发送给另外的路由器（可通过更好的路由）</p>
+<p><strong>ICMP</strong> <strong>差错报告报文的数据字段的内容</strong></p>
+<p>把收到的需要进行差错报告的IP数据报的首部和数据字段的前8个字节提取出来，作为ICMP报文数据字段。再加上相应的ICMP差错报告报文的前8个字节，就构成了ICMP差错报告报文。</p>
+<p><strong>不应发送 ICMP 差错报告报文的几种情况</strong></p>
+<p>对 ICMP 差错报告报文不再发送 ICMP 差错报告报文。</p>
+<p>对第一个分片的数据报片的所有后续数据报片都不发送 ICMP 差错报告报文。</p>
+<p>对具有多播地址的数据报都不发送 ICMP 差错报告报文。</p>
+<p>对具有特殊地址（如127.0.0.0 或 0.0.0.0）的数据报不发送 ICMP 差错报告报文。</p>
+<p><strong>ICMP</strong> <strong>询问报文有两种</strong></p>
+<p><strong>回送请求和回答报文</strong> ICMP回送请求报文是有主机或路由器向一个特定的目的主机发出的询问。收到此报文的主机必须给源主机或路由器发送ICMP回送回答报文。这种询问报文用来测试目的站是否可达以及了解其有关状态。</p>
+<p><strong>时间戳请求和回答报文</strong> ICMP时间戳请求报文是请某个主机或路由器回答当前的日期和时间。在ICMP时间戳回答报文中有一个32位字段，其中写入的整数代表从1900年1月1日起到当前时刻一共有多少秒。时间戳请求与回答可用来进行时钟同步和测量时间。</p>
+<p><strong>下面的几种 ICMP 报文不再使用</strong></p>
+<p>信息请求与回答报文、掩码地址请求和回答报文、路由器询问和通告报文</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+   </div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/04/02/%E8%AE%A1%E7%BD%91-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -225,10 +381,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-04-02 20:46:16 / 修改时间：22:09:03" itemprop="dateCreated datePublished" datetime="2020-04-02T20:46:16+08:00">2020-04-02</time>
+              <time title="创建时间：2020-04-02 20:46:16" itemprop="dateCreated datePublished" datetime="2020-04-02T20:46:16+08:00">2020-04-02</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-03 20:06:37" itemprop="dateModified" datetime="2020-04-03T20:06:37+08:00">2020-04-03</time>
+              </span>
 
           
 
@@ -887,80 +1049,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/03/26/JavaSE-%E5%85%B6%E4%BB%96%E5%AF%B9%E8%B1%A1API/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/A%20lemon.jpg">
-      <meta itemprop="name" content="詹智健">
-      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SsssshiFT-96">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/26/JavaSE-%E5%85%B6%E4%BB%96%E5%AF%B9%E8%B1%A1API/" class="post-title-link" itemprop="url">JavaSE-其他对象API</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-03-26 21:48:55 / 修改时间：22:08:41" itemprop="dateCreated datePublished" datetime="2020-03-26T21:48:55+08:00">2020-03-26</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="其他对象API"><a href="#其他对象API" class="headerlink" title="其他对象API"></a>其他对象API</h1><h2 id="1-System类"><a href="#1-System类" class="headerlink" title="1 System类"></a>1 <strong>System类</strong></h2><p>System类包含一些有用的类字段和方法，它不能被实例化，即构造函数不对外提供。</p>
-<p>System：类中的方法和属性都是静态的。</p>
-<p>字段有：out、in、err    </p>
-<p>常见方法：</p>
-<p>long currentTimeMillis();获取当前时间的毫秒值。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/26/JavaSE-%E5%85%B6%E4%BB%96%E5%AF%B9%E8%B1%A1API/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-	
-   </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1033,7 +1121,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1083,7 +1171,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共55.6k字</span>
+  <span class="post-count">博客全站共60.5k字</span>
 </div>
         
 <div class="busuanzi-count">
