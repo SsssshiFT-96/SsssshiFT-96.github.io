@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*��������ɫ*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*��Ӱ��ɫ*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*�ϱ߿���ɫ*/
+        border-left-color: #1E92FB;    /*��߿���ɫ*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Z_Letter.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Z_Letter.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ssssshift-96.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="应用层应用层的具体内容就是规定应用进程在通信时所遵循的协议。 每个应用层协议都是为了解决某一类应用问题，而问题的解决又往往是通过位于不同主机中的多个应用进程之间的通信和协同工作来完成的。 应用层的许多协议都是基于客户服务器方式。客户(client)和服务器(server)都是指通信中所涉及的两个应用进程。客户服务器方式所描述的是进程之间服务和被服务的关系。客户是服务请求方，服务器是服务提供方。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计网-应用层">
+<meta property="og:url" content="https://ssssshift-96.github.io/2020/04/04/%E8%AE%A1%E7%BD%91-%E5%BA%94%E7%94%A8%E5%B1%82/index.html">
+<meta property="og:site_name" content="SsssshiFT-96">
+<meta property="og:description" content="应用层应用层的具体内容就是规定应用进程在通信时所遵循的协议。 每个应用层协议都是为了解决某一类应用问题，而问题的解决又往往是通过位于不同主机中的多个应用进程之间的通信和协同工作来完成的。 应用层的许多协议都是基于客户服务器方式。客户(client)和服务器(server)都是指通信中所涉及的两个应用进程。客户服务器方式所描述的是进程之间服务和被服务的关系。客户是服务请求方，服务器是服务提供方。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-04T14:04:56.000Z">
+<meta property="article:modified_time" content="2020-04-07T06:40:29.973Z">
+<meta property="article:author" content="詹智健">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ssssshift-96.github.io/2020/04/04/%E8%AE%A1%E7%BD%91-%E5%BA%94%E7%94%A8%E5%B1%82/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>计网-应用层 | SsssshiFT-96</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SsssshiFT-96</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">5</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">46</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/04/04/%E8%AE%A1%E7%BD%91-%E5%BA%94%E7%94%A8%E5%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计网-应用层
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-04 22:04:56" itemprop="dateCreated datePublished" datetime="2020-04-04T22:04:56+08:00">2020-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-07 14:40:29" itemprop="dateModified" datetime="2020-04-07T14:40:29+08:00">2020-04-07</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h1><p>应用层的具体内容就是规定应用进程在通信时所遵循的协议。</p>
+<p>每个应用层协议都是为了解决某一类应用问题，而问题的解决又往往是通过位于不同主机中的多个应用进程之间的通信和协同工作来完成的。</p>
+<p>应用层的许多协议都是基于客户服务器方式。客户(client)和服务器(server)都是指通信中所涉及的两个应用进程。客户服务器方式所描述的是进程之间服务和被服务的关系。客户是服务请求方，服务器是服务提供方。 </p>
+<a id="more"></a>
+
+<h2 id="域名系统DNS"><a href="#域名系统DNS" class="headerlink" title="域名系统DNS"></a><strong>域名系统DNS</strong></h2><p><strong>DNS协议</strong></p>
+<p>域名系统（Domain Name System，缩写：DNS）是互联网的一项服务。<strong>它作为将域名和IP地址相互映射的一个分布式数据库</strong>，能够使人更方便地访问互联网。DNS使用TCP和UDP<strong>端口53</strong>。当前，对于每一级域名长度的限制是63个字符，域名总长度则不能超过253个字符。<strong>DNS协议</strong>是用来将域名转换为IP地址（也可以将IP地址转换为相应的域名地址）</p>
+<p><strong>DNS协议的名字空间</strong></p>
+<p>采用层次树状结构的命名方法</p>
+<p>任何一个连接在因特网上的主机或路由器，都有一个唯一的层次结构的名字，即<strong>域名</strong>。</p>
+<p>“域”是名字空间中一个可被管理的划分。域还可划分为子域。而子域还可继续划分为子域的子域，这样就形成了顶级域、二级域、三级域，等等。</p>
+<p>域名的结构由标号序列组成，各标号之间用点隔开：</p>
+<p>… <strong>.</strong> 三级域名 <strong>.</strong> 二级域名 <strong>.</strong> 顶级域名</p>
+<p>因特网域名空间的结构，实际上<strong>是倒过来的树</strong>，在最上面的是根，但没有对应的名字。根下面一级的节点就是顶级域名。顶级域名可往下划分子域，即二级域名。再往下就是三级域名、四级域名等等。一旦某个单位拥有了一个域名，它就可以自己决定是否要进一步划分其下属的子域，不必由上级机构批准。<strong>域名树的树叶就是单台计算机的名字，它就不能再继续往下划分子域了</strong>。</p>
+<p><strong>域名解析</strong></p>
+<p>一、主机向本地域名服务器的查询一般都是采用<strong>递归查询。</strong>递归查询就是：如果主机所询问的本地域名服务器不知道被查询的域名的IP地址，那么本地域名服务器就以DNS客户的身份，向其它根域名服务器继续发出查询请求报文(即替主机继续查询)，而不是让主机自己进行下一步查询。因此，递归查询返回的查询结果或者是所要查询的IP地址，或者是报错，表示无法查询到所需的IP地址。<br>二、本地域名服务器向根域名服务器的查询的<strong>迭代查询</strong>。迭代查询的特点：当根域名服务器收到本地域名服务器发出的迭代查询请求报文时，要么给出所要查询的IP地址，要么告诉本地服务器：“你下一步应当向哪一个域名服务器进行查询”。然后让本地服务器进行后续的查询。根域名服务器通常是把自己知道的顶级域名服务器的IP地址告诉本地域名服务器，让本地域名服务器再向顶级域名服务器查询。顶级域名服务器在收到本地域名服务器的查询请求后，要么给出所要查询的IP地址，要么告诉本地服务器下一步应当向哪一个权限域名服务器进行查询。最后，知道了所要解析的IP地址或报错，然后把这个结果返回给发起查询的主机。</p>
+<p><strong>逆向解析</strong></p>
+<p>DNS服务器里面有两个区域，即“正向查找区域”和“反向查找区域”，正向查找区域就是通常所说的域名解析，反向查找区域即是<br><strong>IP反向解析</strong>，<strong>它得到作用是通过查找IP地址的PTR记录来得到该IP地址指向的域名</strong>。要成功得到域名就必须有该IP地址的PTR记录。PTR及记录是邮件交换记录的一种，邮件交换记录中有A记录和PTR记录，A记录解析名字到地址，PTR记录解析地址到名字。<br>反向域名解析系统（Reverse DNS）的功能确保适当的邮件交换记录是生效的。反向域名解析与通常的正向域名解析下相反，提供IP地址到域名的对应。IP反向解析主要应用到邮件服务器中来阻拦垃圾邮件。</p>
+<p>多数垃圾邮件发送者使用动态分配或者没有注册域名的IP地址来发送垃圾邮件，以避免追踪，使用域名反向解析后，就可以大大降低垃圾邮件的数量。比如用<a href="mailto:xxx@name.com">xxx@name.com</a>这个邮箱给<a href="mailto:kasum@lwork.com">kasum@lwork.com</a>发一封信，lwork邮件服务器接到这封信会查看这封信的信头文件，这封信的信头文件会显示这封信是由哪个IP地址发出来的。然后根据这个IP地址进行反向解析，如果反向解析到这个IP对应的域名是name.com就接收这封邮件，如果反向解析这个IP没有对应到name.com，那么就拒绝这封邮件。由于在域名系统中，一个IP地址可以对应多个域名，因此从IP出发去找域名，理论上应该遍历整个域名树，但是这在internet上是不现实的。为了完成逆向域名解析，系统提供一个特别域，该特别域称为逆向解析域in-addr.arpa.这样欲解析的IP地址就会被表达城一种像域名一样的可显示串形式，后缀以逆向解析域域名“in-addr.arpa”结尾。</p>
+<p><strong>DNS缓存</strong></p>
+<p>每个域名服务器都维护一个高速缓存，存放最近用过的名字以及从何处获得名字映射信息的记录。</p>
+<p>可大大减轻根域名服务器的负荷，使因特网上的 DNS 查询请求和回答报文的数量大为减少。</p>
+<p>为保持高速缓存中的内容正确，域名服务器应为每项内容设置计时器，并处理超过合理时间的项（例如，每个项目只存放两天）。</p>
+<p>当权限域名服务器回答一个查询请求时，在响应中都指明绑定有效存在的时间值。增加此时间值可减少网络开销，而减少此时间值可提高域名转换的准确性。</p>
+<h2 id="FTP协议"><a href="#FTP协议" class="headerlink" title="FTP协议"></a>FTP协议</h2><p><strong>文件传送协议 FTP (File Transfer Protocol)</strong> 是因特网上使用得最广泛的文件传送协议。</p>
+<p>FTP 提供交互式的访问，允许客户指明文件的类型与格式，并允许文件具有存取权限。</p>
+<p>FTP 屏蔽了各计算机系统的细节，因而适合于在异构网络中任意计算机之间传送文件。</p>
+<p><strong>FTP 特点</strong></p>
+<p>文件传送协议 FTP 只提供文件传送的一些基本的服务，它使用 TCP 可靠的运输服务。</p>
+<p>FTP 的主要功能是减少或消除在不同操作系统下处理文件的不兼容性。</p>
+<p>FTP 使用<strong>客户服务器方式</strong>。一个 FTP 服务器进程可同时为多个客户进程提供服务。FTP 的服务器进程由两大部分组成：一个主进程，负责接受新的请求；另外有若干个从属进程，负责处理单个请求。</p>
+<p><strong>两个连接</strong></p>
+<p><strong>控制连接</strong>在整个会话期间一直保持打开，FTP 客户发出的传送请求通过控制连接发送给服务器端的控制进程，但控制连接不用来传送文件。</p>
+<p>实际用于传输文件的是<strong>“数据连接”</strong>。服务器端的控制进程在接收到 FTP 客户发送来的文件传输请求后就创建“数据传送进程”和“数据连接”，用来连接客户端和服务器端的数据传送进程。</p>
+<p>数据传送进程实际完成文件的传送，在传送完毕后关闭“数据传送连接”并结束运行。</p>
+<p><strong>两个不用的端口号</strong></p>
+<p>当客户进程向服务器进程发出建立连接请求时，要寻找连接服务器进程的<strong>熟知端口(21)</strong>，同时还要<strong>告诉服务器进程自己的另一个端口号码，用于建立数据传送连接</strong>。接着，服务器进程用自己传送数据的熟知端口(20)与客户进程所提供的端口号码建立数据传送连接。<strong>由于 FTP 使用了两个不同的端口号，所以数据连接与控制连接不会发生混乱</strong>。</p>
+<p>使用两个不同端口号的<strong>好处</strong>是使协议更加简单和更容易实现和在传输文件时还可以利用控制连接（例如，客户发送请求终止传输）。</p>
+<p><strong>两种工作模式：PASV+PORT</strong></p>
+<p>在<strong>主动模式</strong>下，FTP客户端随机开启一个大于1024的端口N向服务器的21号端口发起连接，然后开放N+1号端口进行监听，并向服务器发出PORT N+1命令。服务器接收到命令后，会用其本地的FTP数据端口（通常是20）来连接客户端指定的端口N+1，进行数据传输。</p>
+<p>在<strong>被动模式</strong>下，FTP库户端随机开启一个大于1024的端口N向服务器的21号端口发起连接，同时会开启N+1号端口。然后向服务器发送PASV命令，通知服务器自己处于被动模式。服务器收到命令后，会开放一个大于1024的端口P进行监听，然后用PORT P命令通知客户端，自己的数据端口是P。客户端收到命令后，会通过N+1号端口连接服务器的端口P，然后在两个端口之间进行数据传输。</p>
+<p>​    <strong>两者不同不同之处</strong>：不同之处是由于PORT（主动）这个方式需要在接上TCP 21端口后，服务器通过自己的TCP 20来发出数据。并且需要建立一个新的连接来传送档案。而PORT的命令包含一些客户端没用的资料，所以有了PASV的出现。而PASV模式拥有PORT模式的优点，并去掉一些PORT的缺点。PASV运行方式就是当服务器接收到客户端连接请求时，就会自动从端口1024到5000中随机选择一个和客户端建立连接传递数据。由于被动且自动建立连接，容易受到攻击，所以安全性差。</p>
+<p>总的来说，主动模式的FTP是指服务器主动连接客户端数据端口，被动模式下的FTP是指服务器被动地等待客户端连接自己的数据端口。</p>
+<p><strong>FTP断点续传</strong></p>
+<p><strong>FTP（文件传输协议的简称）（File Transfer Protocol、 FTP）客户端软件断点续传</strong>指的是在下载或上传时，将下载或上传任务（一个文件或一个压缩包）人为的划分为几个部分，每一个部分采用一个线程进行上传或下载，如果碰到网络故障，可以从已经上传或下载的部分开始继续上传下载未完成的部分，而没有必要从头开始上传下载。用户可以节省时间，提高速度。</p>
+<p>对于ftp的断点续传上传的功能实现，FTP协议中提供了一条APPE的控制命令用来追加文件，我们所实现的断点续传的命令就是围绕着这个命令进行的。<br>1、 在正常上传的过程中，记录下已经发送的文件的长度<br>2、 当网络发送异常时，记录当前发送文件长度，并关闭当前ftp连接，结束ftp的发送过程<br>3、 当网络正常后，重新开始建立ftp的连接，此时由上传文件改为APPE命令，并在数据连接上发送剩余的数据到ftp服务器。</p>
+<p><strong>匿名FTP</strong></p>
+<p>背景</p>
+<p>使用FTP时必须首先登录，在远程主机上获得相应的权限以后，方可上传或下载文件。也就是说，要想同哪一台计算机传送文件，就必须具有哪一台计算机的适当授权。换言之，除非有用户ID和口令，否则便无法传送文件。这种情况违背了Internet的开放性，Internet上的FTP主机何止千万，不可能要求每个用户在每一台主机上都拥有帐号。<strong>匿名FTP就是为解决这个问题而产生的。</strong></p>
+<p><strong>anonymous FTP（匿名FTP</strong>）</p>
+<p>即匿名文件传输协议。用于对远程计算机的连接，这些计算机是作为匿名或客户用户进行连接的，以将公共文件传输到用户的本地计算机。</p>
+<p><strong>特性</strong></p>
+<p>匿名FTP是这样一种机制：用户可通过它连接到远程主机上，并从其下载文件，而无需成为其注册用户。系统管理员建立了一个特殊的用户ID，名为anonymous， Internet上的任何人在任何地方都可使用该用户ID。</p>
+<p>通过FTP程序连接匿名FTP主机的方式同连接普通FTP主机的方式差不多，只是在要求提供用户标识ID时必须输入anonymous，该用户ID的口令可以是任意的字符串。习惯上，用自己的E-mail地址作为口令，使系统维护程序能够记录下来谁在存取这些文件</p>
+<p>匿名FTP服务的<strong>实质</strong>是：提供服务的机构在它的FTP服务器上建立一个公开账户（一般为anonymous），并赋予该账户访问公共目录的权限。用户想要登录到这些FTP服务器时，无需事先申请用户账户，可以用“anonymous”作为用户名，用自己的E-mail地址或姓名作为用户密码，便可登录，获取FTP服务。</p>
+<p><strong>匿名FTP服务的优点是：</strong></p>
+<p>第一，匿名FTP运用很广，没有什么指定的要求。所以，每一个人都可以在匿名FTP主机上访问文件。“big deal”是指世界上大量运用的匿名FTP，即上千的匿名主机和无数的文件都可以被免费拷贝。在Internet上，大量信息和大量计算机程序都是可获得的，人们可以利用计算机设备和磁盘空间来获得对自己有用的文件。匿名FTP提供进入最大信息库的通路，并且这个库总是不断壮大，它不关闭，并且无所不包，还可以免费访问。</p>
+<p>第二，在Internet上，匿名FTP是软件分发的主要方式。在Internet上保存所有已提供所用标准协议的有用程序。许多程序通过匿名FTP分布，每一个人都可以建立一个Internet主机。</p>
+<p>FTP之所有非常重要的最后一个原因是：匿名FTP被用来归档和传播技术信息，从而定义了Internet自己(实现资源共享）。</p>
+<h2 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a><strong>HTTP协议</strong></h2><p>为了使超文本的链接能够高效率地完成，需要用 HTTP 协议来传送一切必须的信息。</p>
+<p>从层次的角度看，HTTP 是面向事务的(transaction-oriented)应用层协议，它是万维网上能够可靠地交换文件（包括文本、声音、图像等各种多媒体文件）的重要基础。</p>
+<p><strong>HTTP协议报文格式</strong></p>
+<p>HTTP 有两类报文：</p>
+<p><strong>请求报文</strong>——从客户向服务器发送请求报文。</p>
+<p><strong>响应报文</strong>——从服务器到客户的回答。</p>
+<p>由于 HTTP 是面向正文的(text-oriented)，因此在报文中的每一个字段都是一些 ASCII 码串，因而每个字段的长度都是不确定的。</p>
+<p>HTTP请求报文和响应报文都是由三个部分组成。可以看出，这两种报文格式的区别就是开始行不同。</p>
+<p>开始行：用于区分请求报文还是响应报文。开始行的三个字段之间都以空格分隔开，最后的“CR”和“LF”分别代表回车和换行</p>
+<p>首部行：用来说明浏览器、服务器或报文主体的一些信息。首部可以有好几行，但也可以不使用。在每一个首部行中都有首部字段名和它的值，每一行在结束的地方都要有”回车“和”换行“。整个首部行结束时，还有一空行将首部行和后面的实体主体分开。</p>
+<p>实体主体：在请求报文中一般都不用这个字段，而在相应报文中也可能没有这个字段。</p>
+<p>请求报文中的请求行：</p>
+<p>请求行只有三个内容，即<strong>方法，请求资源的URL，以及HTTP的版本</strong>。<strong>“方法”</strong>是面向对象技术中使用的专门名词。所谓“方法”就是对所请求的对象进行的<strong>操作</strong>，因此<strong>这些方法实际上也就是一些命令</strong>。因此，请求报文的类型是由它所采用的方法决定的。。</p>
+<p>响应报文的第一行就是状态行，包括三项内容，即<strong>HTTP版本、状态码、以及解释状态码的简单短语</strong>。</p>
+<p><strong>状态码(Status-Code)都是三位数字，分为5大类共33种</strong></p>
+<p>1xx 表示通知信息的，如请求收到了或正在进行处理。</p>
+<p>2xx 表示成功，如接受或知道了。</p>
+<p>3xx 表示重定向，表示要完成请求还必须采取进一步的行动。</p>
+<p>4xx 表示客户的差错，如请求中有错误的语法或不能完成。</p>
+<p>5xx 表示服务器的差错，如服务器失效无法完成请求。</p>
+<h2 id="HTTPS协议"><a href="#HTTPS协议" class="headerlink" title="HTTPS协议"></a>HTTPS协议</h2><p><strong>HTTPS （全称：Hyper Text Transfer Protocol over SecureSocket Layer），是以安全为目标的 HTTP 通道</strong>，在HTTP的基础上通过传输加密和身份认证保证了传输过程的安全性。HTTPS 在HTTP 的基础下加入SSL 层，HTTPS 的安全基础是 SSL，因此加密的详细内容就需要 SSL。 HTTPS 存在不同于 HTTP 的默认端口及一个加密/身份验证层（在 HTTP与 TCP 之间）。这个系统提供了身份验证与加密通讯方法。它被广泛用于万维网上安全敏感的通讯，例如交易支付等方面</p>
+<p><strong>HTTPS加密请求（一次握手）过程</strong></p>
+<ul>
+<li>首先，客户端发起握手请求，以明文传输请求信息，包含版本信息，加密-套件候选列表，压缩算法候选列表，随机数，扩展字段等信息(<code>这个没什么好说的，就是用户在浏览器里输入一个HTTPS网址，然后连接到服务端的443端口。</code>)</li>
+<li>服务端的配置，采用HTTPS协议的服务器必须要有一套数字证书，可以自己制作，也可以向组织申请。区别就是自己颁发的证书需要客户端验证通过，才可以继续访问，而使用受信任的公司申请的证书则不会弹出提示页面。<code>这套证书其实就是一对公钥和私钥。</code>如果对公钥不太理解，可以想象成一把钥匙和一个锁头，只是世界上只有你一个人有这把钥匙，你可以把锁头给别人，别人可以用这个锁把重要的东西锁起来，然后发给你，因为只有你一个人有这把钥匙，所以只有你才能看到被这把锁锁起来的东西。</li>
+<li>服务端返回协商的信息结果，包括选择使用的协议版本 version，选择的加密套件 cipher suite，选择的压缩算法 compression method、随机数 random_S 以及证书。(<code>这个证书其实就是公钥，只是包含了很多信息，如证书的颁发机构，过期时间等等。</code>)</li>
+<li>客户端验证证书的合法性，包括可信性，是否吊销，过期时间和域名。(<code>这部分工作是由客户端的SSL/TLS来完成的，首先会验证公钥是否有效，比如颁发机构，过期时间等等，如果发现异常，则会弹出一个警示框，提示证书存在的问题。如果证书没有问题，那么就生成一个随机值。然后用证书（也就是公钥）对这个随机值进行加密。就好像上面说的，把随机值用锁头锁起来，这样除非有钥匙，不然看不到被锁住的内容。</code>)</li>
+<li>客户端使用公匙对对称密匙加密，发送给服务端。(<code>这部分传送的是用证书加密后的随机值，目的是让服务端得到这个随机值，以后客户端和服务端的通信就可以通过这个随机值来进行加密解密了。</code>)</li>
+<li>服务器用私钥解密，拿到对称加密的密匙。(<code>服务端用私钥解密后，得到了客户端传过来的随机值，然后把内容通过该随机值进行对称加密，将信息和私钥通过某种算法混合在一起，这样除非知道私钥，不然无法获取内容，而正好客户端和服务端都知道这个私钥，所以只要加密算法够彪悍，私钥够复杂，数据就够安全。</code>)</li>
+<li>传输加密后的信息，这部分信息就是服务端用私钥加密后的信息，可以在客户端用随机值解密还原。</li>
+<li>客户端解密信息，客户端用之前生产的私钥解密服务端传过来的信息，于是获取了解密后的内容。整个过程第三方即使监听到了数据，也束手无策。</li>
+</ul>
+<p><strong>摘要算法</strong></p>
+<p><strong>消息摘要算法分为三类：</strong></p>
+<p>MD(Message Digest)：消息摘要</p>
+<p>SHA(Secure Hash Algorithm)：安全散列</p>
+<p>MAC(Message Authentication Code)：消息认证码</p>
+<p><strong>数字证书</strong>可以理解为网络上使用的电子身份证，上面记录了某个主体的信息（比如某网站），通过CA机构数字签名的手段进行了认证。同时，数字证书上记录着一份公钥，这份公钥对于的私钥只有证书的持有着拥有。<br>1、证书上的数字签名证明了证书的真实性。<br>2、持有证书上公钥对于的私钥，则实际持有了该证书，可以解密该证书加密的内容。</p>
+<p>数字签名是怎么回事，真实性又是怎么保证的呢：<br>我们从非对称加密中可以发现，私钥的拥有者是唯一的。那么用私钥加密的内容，可以认为只有拥有者可以提供。假设我们知道一个公钥，用它解密出来的内容则一定是私钥的拥有者所加密的，也就是说，这个内容一定是私钥拥有者产生的。那么只要能证明公钥的持有者，就可以证明一封数字内容的持有者了。<br>“用私钥签名，用公钥认证”。这就满足了一个“签名”被签署和被认证的基本逻辑。<br>那么是不是要对证书上所有的内容全部用私钥加密来达到签名的效果呢。实际这么做的话，加密成本就太高了。<br>我们的数字签名实际也不是这么做的，我们需要对需要被签名的内容进行精简，并对精简后的内容进行私钥加密就可以形成签名了，这个精简的过程我们称为“摘要”。这里的这个摘要需要满足以下原则:只要被摘要的内容不一样，则摘要一定不一样。这样一来，证书的内容只需要明文保存，同时进行摘要后用私钥加密形成签名。当我们需要验证证书是，用同样的摘要算法进行摘要，并对签名进行解密，两者一对比，如果一样，说明证书的内容没被改动过。<br><strong>这个摘要并加密的过程，就是数字签名</strong>。这里我们用到了摘要算法，被摘要出来的内容具有固定的长度。</p>
+<p>掌握DNS协议，掌握DNS协议的名字空间、DNS指针查询（反向查找或逆向解析）基本原理、DNS缓存</p>
+<p>掌握FTP协议、两条连接：控制连接+数据连接、为何需要控制流和数据流</p>
+<p>两种工作模式：PASV+PORT，各种FTP指令和响应码</p>
+<p>FTP断点续传、匿名FTP</p>
+<p>掌握HTTP协议：1.报文格式：请求报文、响应报文、请求头各种字段、响应头各种字段 2.Http状态码</p>
+<p>掌握HTTPS协议：1.https的详细握手过程 2.摘要算法、数字签名、数字证书的原理和过程</p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+	  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	
+   </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag"># 计算机网络</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/04/%E8%AE%A1%E7%BD%91-%E4%BC%A0%E8%BE%93%E5%B1%82/" rel="prev" title="计网-传输层">
+      <i class="fa fa-chevron-left"></i> 计网-传输层
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/07/MySQL%E5%9F%BA%E7%A1%80-%E5%BC%95%E5%85%A5/" rel="next" title="MySQL基础-引入">
+      MySQL基础-引入 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#应用层"><span class="nav-number">1.</span> <span class="nav-text">应用层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#域名系统DNS"><span class="nav-number">1.1.</span> <span class="nav-text">域名系统DNS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FTP协议"><span class="nav-number">1.2.</span> <span class="nav-text">FTP协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP协议"><span class="nav-number">1.3.</span> <span class="nav-text">HTTP协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS协议"><span class="nav-number">1.4.</span> <span class="nav-text">HTTPS协议</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="詹智健"
+      src="/images/A%20lemon.jpg">
+  <p class="site-author-name" itemprop="name">詹智健</p>
+  <div class="site-description" itemprop="description">今天也是很多个开心日子里开心的一天呀</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SsssshiFT-96" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SsssshiFT-96" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">詹智健</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共75.4k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

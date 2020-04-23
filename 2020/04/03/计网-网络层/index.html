@@ -43,7 +43,7 @@
 <meta property="og:description" content="网络层IP数据报的格式一个 IP 数据报由首部和数据两部分组成。 首部的前一部分是固定长度，共 20 字节，是所有 IP 数据报必须具有的。 在首部的固定部分的后面是一些可选字段，其长度是可变的。 ip首部格式  版本    首部长度    区分服务    总长度 ​                    标        识                标志    片偏移 生存时间">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-03T12:08:01.000Z">
-<meta property="article:modified_time" content="2020-04-03T13:54:01.014Z">
+<meta property="article:modified_time" content="2020-04-23T01:24:12.566Z">
 <meta property="article:author" content="詹智健">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -136,7 +136,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">4</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -146,7 +146,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">40</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">46</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -227,10 +227,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-04-03 20:08:01 / 修改时间：21:54:01" itemprop="dateCreated datePublished" datetime="2020-04-03T20:08:01+08:00">2020-04-03</time>
+              <time title="创建时间：2020-04-03 20:08:01" itemprop="dateCreated datePublished" datetime="2020-04-03T20:08:01+08:00">2020-04-03</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-23 09:24:12" itemprop="dateModified" datetime="2020-04-23T09:24:12+08:00">2020-04-23</time>
+              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -261,6 +267,8 @@
 <p>​                                目的地址</p>
 <p>​            可选字段（长度可变）            填充</p>
 <p>前五行为固定部分，最后一行为可变部分</p>
+<a id="more"></a>
+
 <p>(1) <strong>版本</strong> 占 4 位，指 IP 协议的版本目前的 IP 协议版本号为 4 (即 IPv4)</p>
 <p>(2) <strong>首部长度</strong> 占 4 位，可表示的最大数值是 15 个单位(一个单位为 4 字节)因此 IP 的首部长度的最大值是 60 字节。</p>
 <p>(3) <strong>区分服务</strong> 占 8 位，用来获得更好的服务。在旧标准中叫做<strong>服务类型</strong>，但实际上一直未被使用过。1998 年这个字段改名为区分服务。只有在使用区分服务（DiffServ）时，这个字段才起作用。<strong>在一般的情况下都不使用这个字段</strong>。</p>
@@ -376,7 +384,10 @@
     <a href="/2020/04/02/%E8%AE%A1%E7%BD%91-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" rel="prev" title="计网-数据链路层">
       <i class="fa fa-chevron-left"></i> 计网-数据链路层
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/04/%E8%AE%A1%E7%BD%91-%E4%BC%A0%E8%BE%93%E5%B1%82/" rel="next" title="计网-传输层">
+      计网-传输层 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -452,14 +463,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -502,7 +513,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共60.5k字</span>
+  <span class="post-count">博客全站共75.4k字</span>
 </div>
         
 <div class="busuanzi-count">
