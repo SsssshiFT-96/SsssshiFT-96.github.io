@@ -143,7 +143,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">48</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">50</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -198,6 +198,399 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/09/15/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/15/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/" class="post-title-link" itemprop="url">项目复盘</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-15 19:21:18" itemprop="dateCreated datePublished" datetime="2020-09-15T19:21:18+08:00">2020-09-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-14 20:16:11" itemprop="dateModified" datetime="2020-09-14T20:16:11+08:00">2020-09-14</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="论坛项目"><a href="#论坛项目" class="headerlink" title="论坛项目"></a>论坛项目</h1><h2 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h2><p>Spring Boot、MySql、MyBatis、Maven、ElasticSearch、RabbitMQ</p>
+<h2 id="功能实现"><a href="#功能实现" class="headerlink" title="功能实现"></a>功能实现</h2><h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><h4 id="使用GitHub登录"><a href="#使用GitHub登录" class="headerlink" title="使用GitHub登录"></a>使用GitHub登录</h4><p>1.用户登录论坛，点击登录，论坛就会调用github的authorize接口，就会出现一个授权画面，点击授权<br>2.授权后，github会重新访问论坛，使用GET访问的url是callback（所以要创建一个可以处理callback请求的controller）并会携带参数code和state。<br>3.创建一个可以处理callback请求的controller，将参数取出。使用第三方工具OkHttp使用POST方法来调用github的access_token接口即<a href="https://github.com/login/oauth/access_token，将之前获得的信息设置到一个对象中，然后转成JSON格式。手动创建Request的对象，设置url，请求体。通过OkHttp访问，将返回的响应体转换成字符串对象，通过切割获取access_token" target="_blank" rel="noopener">https://github.com/login/oauth/access_token，将之前获得的信息设置到一个对象中，然后转成JSON格式。手动创建Request的对象，设置url，请求体。通过OkHttp访问，将返回的响应体转换成字符串对象，通过切割获取access_token</a><br>4.根据access_token，用第3步同样的方法访问<a href="https://api.github.com/user?access_token=" target="_blank" rel="noopener">https://api.github.com/user?access_token=</a> + 上一步中得到的access_token。通过OkHttp发送请求，得到返回响应，将响应体转换为string类型，这时是JSON格式的string，可以将其转换成之前建立好的java对象。此时就获得了用户信息。<br>5.将得到的用户信息存入数据库中。</p>
+<h4 id="登录状态持久化"><a href="#登录状态持久化" class="headerlink" title="登录状态持久化"></a>登录状态持久化</h4><p>登录的时候，自己设定自动token相当于sessionID，以token为key存入到cookie中。下次在登录之前，首先获取cookie，找到token为key的cookie，然后得到对应的token值，从数据库中查找用户是否存在，若存在则直接返回用户，若不存在则进行登录。这里后面使用拦截器，在请求执行之前尝试获取cookie中的user。</p>
+<h3 id="导航栏"><a href="#导航栏" class="headerlink" title="导航栏"></a>导航栏</h3><p>因为每个界面都用到导航栏，如果每个界面都去写的话，到时需要修改又要每个界面修改非常的麻烦。所以现在将导航栏的部分封装成一个单独的html，然后其他的html导入即可。</p>
+<h3 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h3><h4 id="文章发布"><a href="#文章发布" class="headerlink" title="文章发布"></a>文章发布</h4><p>点击发布文章按钮会来到文章发布的页面<br>给每个要输入的框如title、description、tag设置变量用于接收。在文章发布页面点击发布时，会发送publish请求，然后对应框的内容会被对应的参数接收存储。首先将这些内容存入到Model中，以防再次回到页面时需要重新写入<strong><span style = "color : red">（一个难点？）</span></strong>。然后判断每个内容是否符合规范，若不符合规范则会往Model中传入error和相应的信息，之后会再次返回到这个页面，之前写的内容因为存入过Model中，所以会复现，然后在不合规范的地方会出现如何不合规范。若符合规范，则将对应的数据存入到数据库中，然后返回到主页。这里注意后面修改文章也同样用一个方法，所以这里我们还定义参数id来获取请求的id，但是新建文章是没有id的，所以通过这一点来判断存入数据库是create还是update</p>
+<p>数据库存放的东西有文章的id、标题、内容、创建时间、修改时间、创建者id、评论数、浏览数、点赞数、tag</p>
+<h4 id="文章修改编辑"><a href="#文章修改编辑" class="headerlink" title="文章修改编辑"></a>文章修改编辑</h4><p>首先通过文章标题的超链接请求上的参数获取文章的id，通过id获取文章的具体数据，如标题，内容，tag，然后回显在页面上。然后和文章发布一样，修改内容。在存入数据库时，因为id是有值的，所以调用update的方法更新数据库中的内容。</p>
+<h3 id="首页"><a href="#首页" class="headerlink" title="首页"></a>首页</h3><h4 id="左栏展示问题列表"><a href="#左栏展示问题列表" class="headerlink" title="左栏展示问题列表"></a>左栏展示问题列表</h4><p>从数据库中获取所有的问题，并按时间顺序倒序排列展示在主页上，并显示其他信息如阅读量、评论数、点赞数等。为每个问题标题都设置超链接，href为question/id。</p>
+<h4 id="右栏是热点话题等"><a href="#右栏是热点话题等" class="headerlink" title="右栏是热点话题等"></a>右栏是热点话题等</h4><p>热点话题后面会讲</p>
+<h4 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h4><p>因为问题多的话，一个页面就会变得很长，所以需要进行分页处理。</p>
+<p>先前使用自定义的逻辑实现分页<strong><span style = "color : red">（一个难点？）</span></strong></p>
+<p>后面使用pageHelper实现分页，简单实用<br>使用方法：<br>在调用mapper进行查询的代码上上方写入PageHelper.startPage(page, size);然后在mapper代码下面获得通过获取的集合得到PageInfo如下所示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PageHelper.startPage(page, size);</span><br><span class="line">questions = questionMapper.selectQuestions2();</span><br><span class="line">info = <span class="keyword">new</span> PageInfo&lt;&gt;(questions, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+<p>PageInfo里面有许多信息，比如pageNum、pageSize、pages、prePage、nextPage等。可以通过这些信息设置下面的选择页数。</p>
+<h3 id="文章详情"><a href="#文章详情" class="headerlink" title="文章详情"></a>文章详情</h3><p>左栏通过每篇文章的标题上的链接，可以进入到文章详情页面。通过question/{id}请求，controller使用@PathVariable获取到id，这样就可以通过id获取到指定文章内容。同样通过id获取一级评论内容。</p>
+<p>右栏通过本章的标签来获取同标签的问题，实现获取相关问题的页面。</p>
+<h3 id="个人中心（我的问题、我的通知）"><a href="#个人中心（我的问题、我的通知）" class="headerlink" title="个人中心（我的问题、我的通知）"></a>个人中心（我的问题、我的通知）</h3><p>因为设置的时候，个人中心是有两个的即我的问题和我的回复，所以要实现点击不同的进入到不同页面，但是要在同一个controller的方法中完成。这里同样使用@PathVariable获取到profile/{action}请求的参数action，通过action判定是点击哪个<br>若是我的问题，则通过用户id从数据库中搜索出全部的由该id创建的文章/问题<br>若是我的通知，则通过用户id从数据库中搜索出全部的回复该id的评论，并标注已读与未读。</p>
+<h3 id="错误页面处理"><a href="#错误页面处理" class="headerlink" title="错误页面处理"></a>错误页面处理</h3><p>首先自定制一个错误页面</p>
+<p>使用@ControllerAdvice专门处理异常的类来加入到ioc容器中，在该类方法上使用@ExceptionHandler(Exception.class)处理通用异常，然后在方法中根据异常类型返回不同的ModelAndView。<br>若是404,500这些异常，则需要建立一个Controller继承ErrorController来进行处理。</p>
+<h3 id="回复功能"><a href="#回复功能" class="headerlink" title="回复功能"></a>回复功能</h3><p>功能实现效果是：当进去问题界面时，会出现回复列表，按照某一顺序排序。<br>下面有个回复框，可以回复问题。点击提交时，异步调用服务端的请求。请求成功后局部刷新，把回复追加上来，然后增加回复数。</p>
+<p>这里实现一个前后端交互的接口。当前端内容提交时调用服务器端的一个接口，成功以后直接呈现在页面上。</p>
+<p>使用json的方式去做</p>
+<p>Json可以理解为网络传输的一种数据结构，可以用来js和java的互相交流</p>
+<p>从前端传过来一个json，服务器端接收到反序列化成一个对象来做操作。回给前端的时候，返回一个java object，然后spring把object转换成json</p>
+<p>这种方式可以将前端以JSON形式传过来的数据封装到CommentDTO中，只要里面属性能一一对上。RequestBody可以接收json格式的数据存到对象中。ReponseBody可以将对象变成json发送出去。网页调试可以用<strong>postman</strong>来做</p>
+<p><strong>回复功能是使用js来完成的</strong></p>
+<h4 id="一级回复功能"><a href="#一级回复功能" class="headerlink" title="一级回复功能"></a>一级回复功能</h4><p>获取问题id和回复内容，将内容通过POST请求发送给后端服务器，后端服务器接收到后，使用RequestBody将JSON格式的数据存到对象中，即CommentDTO中，然后根据CommentDTO的内容创建comment对象，并再设置其他属性如建立时间，评论人id等。之后存入到数据库中。</p>
+<h4 id="获取回复"><a href="#获取回复" class="headerlink" title="获取回复"></a>获取回复</h4><p>获取评论回复，创建一个类除了之前的评论回复的属性之外，再加一个user信息。通过questionID获取评论，返回一个List集合，存入model中</p>
+<h4 id="二级回复功能"><a href="#二级回复功能" class="headerlink" title="二级回复功能"></a>二级回复功能</h4><p>较为复杂，先暂时略<br>获取过程就是用GET来请求，因为一级回复是用POST来请求，这里来区分一下。然后传入本条评论的id，在mapper中通过parentId（这里就是要回复的评论的id）和评论类型即二级评论，从数据库中查找。<br>这里说明一下评论的数据表字段：id、parent_id、type、commentator、gmt_create、gmt_modified、like_count、content。不论是查找一级回复还是二级回复，均为通过parent_id和type来查询。其中一级评论的parent_id是问题的id，二级评论的parent_id是评论的那个评论id。</p>
+<h3 id="通知功能"><a href="#通知功能" class="headerlink" title="通知功能"></a>通知功能</h3><p>就是将回复问题还是回复评论的信息通知到用户，有新的通知，并标注通知的数量。在数据库中创建通知表，创建的字段有id、notifier、receiver、outerId、通知类型（是回复问题的还是回复评论的）、创建时间、状态（分为已读和未读）、通知者的名字、通知涉及的文章的名。<br>当有新评论时，就创建一个通知，存入数据库。然后用户通过个人中心查看通知时，转到相应的问题详情页面，并将状态由未读转成已读。</p>
+<h3 id="添加富文本编辑"><a href="#添加富文本编辑" class="headerlink" title="添加富文本编辑"></a>添加富文本编辑</h3><h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><h3 id="热点话题"><a href="#热点话题" class="headerlink" title="热点话题"></a>热点话题</h3><p>使用spring定时器。随着数据量增多，响应时长增加的功能应该使用异步的方法。<br>Spring boot schedule<br><a href="https://spring.io/guides/gs/scheduling-tasks/" target="_blank" rel="noopener">https://spring.io/guides/gs/scheduling-tasks/</a></p>
+<p>获取热点标签算法<br>关注的点<br>1.当前标签的问题数<br>2.每一个问题的回复数</p>
+<p>优先值计算（自定义）<br>5+当前标签的问题数+每个问题的回复数<br>搜索功能</p>
+<p>设定一个定时器，每6小时更新一次，更新的时候从数据库中取出每个问题，然后得到每个问题对应的标签，以标签为键，自定义的优先值为值存到map中。根据自定义的优先值，故还要取出每个问题的回复数。然后将该map根据里面的优先值存放到大根堆中。将在大根堆中的tag取出单独存放在一个list中，返回该list。</p>
+<h3 id="搜索功能"><a href="#搜索功能" class="headerlink" title="搜索功能"></a>搜索功能</h3><p><strong>这里使用ElasticSearch进行检索</strong><br>在ES中先手动创建关于问题的索引<br>创建java对象，对应于ES中的问题索引<br>创建QuestionRepository接口，用来自定义查询，这样直接使用该接口的方法即可查询<br>在SpringBoot的test中手动初始化es中的问题索引，将添加ES之前就存在的问题放入索引中<br>将原来到数据库查询的语句更换为到es查询</p>
+<p><strong>使用RabbitMQ实现问题内容改变或者新添问题后对ES中的索引异步更新</strong><br>创建RabbitMQ的配置类<br>定义队列、交换机、路由键<br>更新问题或添加新问题时，异步发送消息更新ES<br>在publishController原来的代码上添加发送消息的代码<br>设置消息对象<br>创建消息发送对象及相关发送方法<br>创建消息接收对象并创建处理方法</p>
+<h1 id="秒杀项目"><a href="#秒杀项目" class="headerlink" title="秒杀项目"></a>秒杀项目</h1><h2 id="技术栈-1"><a href="#技术栈-1" class="headerlink" title="技术栈"></a>技术栈</h2><p>前端：Thymeleaf、Bootstrap、JQuery<br>后端：SpringBoot、JSR303、MyBatis<br>中间件：RabbitMQ、Redis、Druid</p>
+<h2 id="功能实现-1"><a href="#功能实现-1" class="headerlink" title="功能实现"></a>功能实现</h2><p>分布式会话、商品列表页、商品详情页、订单详情页<br>系统压测、缓存优化、消息队列、接口安全</p>
+<h3 id="登录功能"><a href="#登录功能" class="headerlink" title="登录功能"></a>登录功能</h3><h4 id="明文密码两个MD5处理"><a href="#明文密码两个MD5处理" class="headerlink" title="明文密码两个MD5处理"></a>明文密码两个MD5处理</h4><p>两次MD5<br>1.用户端：PASS=MD5(明文+固定Salt)<br>是因为用户在HTTP上输入的明文密码不作任何处理，明文密码会在网络上进行传输。容易被恶意用户得到明文密码。所以需要把MD5处理后的密码传给服务端</p>
+<p>2.服务端：PASS=MD5(用户输入+随机Salt)<br>服务端接收到的密码和生成随机的Salt拼装，再经过MD5，再写到数据库中。主要是防止数据库被盗，通过反查表得到密码。</p>
+<h4 id="分布式Session"><a href="#分布式Session" class="headerlink" title="分布式Session"></a>分布式Session</h4><p>用户的第一个请求落在第一个服务器上，第二个请求落在第二个服务器上，这样第二个请求用户的session信息就会全部丢失。可以使用session同步解决，但是性能有问题，且比较复杂。</p>
+<p>用户登录成功，如何实现session功能</p>
+<p>登录成功，给这个用户生成一个session ID，称之为token来标识这个用户，然后写到cookie当中，传递给客户端。然后客户端在随后的访问当中都在cookie中上传这个token。服务端拿到token后，根据token取到用户的session信息。</p>
+<p><strong>这里我们将得到的token存在redis中，这就是分布式Session。</strong></p>
+<h3 id="实现秒杀功能"><a href="#实现秒杀功能" class="headerlink" title="实现秒杀功能"></a>实现秒杀功能</h3><p>数据库设计、商品列表、商品详情页 略</p>
+<h4 id="秒杀功能实现（初步）"><a href="#秒杀功能实现（初步）" class="headerlink" title="秒杀功能实现（初步）"></a>秒杀功能实现（初步）</h4><p>点击秒杀按钮，首先判断商品库存是否还有。<br>其次判断是否已经秒杀到，防止一人多次秒杀。<br>两步均判断通过则认为是可以秒杀。开始减库存、下订单、写入秒杀订单，这三种应该是同时成功或者同时失败，所以使用事务。<br>最后下订单将订单信息存入数据库，然后返回至订单详情</p>
+<h3 id="使用JMeter初步压测"><a href="#使用JMeter初步压测" class="headerlink" title="使用JMeter初步压测"></a>使用JMeter初步压测</h3><p>使用方法见word笔记</p>
+<p>结果（在600个线程同时访问，循环15次的情况下）<br>访问/goods/to_list页面吞吐量为554.2/sec<br>访问/miaosha/do_miaosha即秒杀，吞吐量为606.8/sec</p>
+<h3 id="页面优化技术"><a href="#页面优化技术" class="headerlink" title="页面优化技术"></a>页面优化技术</h3><h4 id="页面缓存"><a href="#页面缓存" class="headerlink" title="页面缓存"></a>页面缓存</h4><p>访问页面的时候，不是直接让系统帮我们去渲染，而是说先从缓存里面取，如果找到了，直接返回客户端，如果没有，就手动去渲染这个模板。渲染出来之后再输出客户端，同时把这个结果缓存到redis中，这样就可以优化访问速度，应对高并发</p>
+<p>这里面在redis中缓存的是HTML的源代码，找到就直接返回该源代码由浏览器解析，没有就自己手动渲染，存入缓存中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果缓存中没有，就手工渲染。方法参数为：模板名称，模板需要的参数如request等</span></span><br><span class="line"><span class="comment">//因为项目使用的是thymeleaf.spring5的版本把SpringWebContext大部分的功能移到了IWebContext下面</span></span><br><span class="line"><span class="comment">//用来区分边界。剔除了ApplicationContext 过多的依赖，现在thymeleaf渲染不再过多依赖spring容器</span></span><br><span class="line">IWebContext ctx = <span class="keyword">new</span> WebContext(request, response, request.getServletContext(),</span><br><span class="line">                                 request.getLocale(), model.asMap());</span><br><span class="line">String html = thymeleafViewResolver.getTemplateEngine().process(<span class="string">"goods_list"</span>, ctx);</span><br></pre></td></tr></table></figure>
+
+<p>给页面存进redis中设置过期时间时，页面缓存的时间非常短，因为页面缓存主要是为了解决短时间内的大量访问；如果时间设置太长，则会失去即时性，所以需要作出取舍。</p>
+<h4 id="URL缓存"><a href="#URL缓存" class="headerlink" title="URL缓存"></a>URL缓存</h4><p>url缓存跟页面缓存类似，不同的是，比如访问具体的商品信息，不同的商品url是不一样的，就根据url来分别存入redis缓存中。</p>
+<p>获取某商品的详细信息时，先通过访问的url来尝试从缓存中获取，因为url带有商品的id信息等。若有就直接取出返回界面。若没有则先获取商品信息，然后手动渲染，以商品id为键存入到redis中。</p>
+<h4 id="对象缓存"><a href="#对象缓存" class="headerlink" title="对象缓存"></a>对象缓存</h4><p>用户信息同样也可以存在缓存中，若登录的用户在缓存中有，则从缓存中取出信息。若没有则从数据库中取出，并存入缓存中</p>
+<h3 id="页面缓存压测"><a href="#页面缓存压测" class="headerlink" title="页面缓存压测"></a>页面缓存压测</h3><p>对/goods/to_list压测<br>参数：线程600，循环15次<br>结果：吞吐量1655.9/sec，比之前提高了198.9%</p>
+<h3 id="页面静态化"><a href="#页面静态化" class="headerlink" title="页面静态化"></a>页面静态化</h3><p>直接将页面缓存到用户的浏览器上<br>HTML+ajax来实现，就是点击链接直接返回相应的htm文件。在文件中不变的直接用HTML来实现，动态的资源就用ajax来调用服务端的数据。</p>
+<h3 id="静态资源优化和CDN优化"><a href="#静态资源优化和CDN优化" class="headerlink" title="静态资源优化和CDN优化"></a>静态资源优化和CDN优化</h3><p>1.JS/CSS压缩，减少流量<br>2.多个JS/CSS组合，减少连接数<br>3.CDN就近访问<br>CDN全称是Content Delivery Network，即内容分发网络。CDN是构建在现有网络基础上的智能虚拟网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术</p>
+<h3 id="超卖问题"><a href="#超卖问题" class="headerlink" title="超卖问题"></a>超卖问题</h3><p>解决超卖：</p>
+<p>1.数据库加唯一索引：防止用户重复购买</p>
+<p>2.SQL加库存数量判断：防止库存变为负数</p>
+<h3 id="接口优化"><a href="#接口优化" class="headerlink" title="接口优化"></a>接口优化</h3><p>思路：减少数据库的访问，将同步下单改成异步下单<br>1.系统初始化，把商品库存数量加载到Redis<br>2.收到请求，Redis预减库存，库存不足，直接返回，否则进入3<br>3.请求入队，立即返回排队中（异步下单）<br>4.请求出队，生成订单，减少库存（异步的）<br>5.客户端轮询，是否秒杀成功</p>
+<p>使用到RabbitMQ消息队列</p>
+<p>服务端上，Redis预减库存减少数据库的访问、内存标记减少Redis访问</p>
+<p>系统初始化，将库存存到redis缓存中，然后设计一个内存标记，即若库存没有了，就直接返回没有库存，不用再访问Redis，然后将商品存入到redis中</p>
+<p>访问内存标记，判断秒杀是否结束，若结束则不用再去访问Redis</p>
+<p>若没有结束，则判断是否已经秒杀到，防止一人秒杀多次</p>
+<p>若判断没有秒杀到，则将库存减少，返回减少后的库存量<br>这里判断返回后减少的库存量是否小于0，如果小于零则无法秒杀。==注意：==这里若小于需要进行库存补充，这样redis里面库存的数量不会是负数。</p>
+<p>将下订单的消息入队，异步处理</p>
+<p>生产端将请求入队</p>
+<p>消费端对队列接收，消费消息。接收到消息后进行异步处理，判断库存，这里可以访问数据库，因为从进队列的就很少了。若库存没有，则返回秒杀失败消息。</p>
+<p>再次判断是否秒杀到，若秒杀到则返回失败消息。==注意：==这里也需要进行库存补充。</p>
+<p>最终判断可以秒杀，则进行减库存、下订单、写入秒杀订单。</p>
+<h3 id="这里涉及到消息可靠性传递的问题。"><a href="#这里涉及到消息可靠性传递的问题。" class="headerlink" title="这里涉及到消息可靠性传递的问题。"></a>这里涉及到消息可靠性传递的问题。</h3><p><a href="https://www.cnblogs.com/refuge/p/10356750.html" target="_blank" rel="noopener">https://www.cnblogs.com/refuge/p/10356750.html</a></p>
+<p><a href="https://blog.csdn.net/Unknownfuture/article/details/107993937" target="_blank" rel="noopener">https://blog.csdn.net/Unknownfuture/article/details/107993937</a></p>
+<p>RabbitMQ消息丢失的3种情况：<br>1.消息在生产者传入broker的过程中丢失<br>2.RabbitMQ收到消息，暂存内存中，还没消费，自己挂掉，内存中的数据搞丢<br>3.消费者消费到了这个消息，但还没来得及处理，就挂了，RabbitMQ以为消息已经被处理</p>
+<p><strong>解决方案</strong><br>1.使用生产者确认模式，使用异步confirm，前提是处理的消息可以被交换机路由到队列上<br>2.使用RabbitMQ持久化解决第二种情况。但在持久化中宕机仍导致消息丢失<br>3.使用接收方确认机制：ackMode = manual，即消费者接受消息后，手动确认/拒绝消息，响应给Broker<br>但因为rabbitMQ<strong>没有超时机制</strong>。<br>因此Broker判断是否重发消息的唯一标准是：<strong>连接是否中断</strong></p>
+<ul>
+<li><p>连接未断开，但也未收到任何确认/拒绝。</p>
+<p>则认为该消费者繁忙，不再给该消费者分发更多的消息。</p>
+<p><strong>但也不会给其他消费者发送该信息，直到消费者回复，或者连接断开</strong>（断开处理如下）</p>
+</li>
+<li><p>在收到ack / nack 前，连接断开（<strong>无论哪一方</strong>），认为消息没有被消费，会重新分发给下一个订阅的消费者。</p>
+<p>（也可能是同一个消费者。但不管如何，都会<strong>存在重复消费的隐患</strong>，需要去重等处理）</p>
+</li>
+</ul>
+<h2 id="安全优化"><a href="#安全优化" class="headerlink" title="安全优化"></a>安全优化</h2><h3 id="秒杀接口地址隐藏"><a href="#秒杀接口地址隐藏" class="headerlink" title="秒杀接口地址隐藏"></a>秒杀接口地址隐藏</h3><p>思路：秒杀开始之前，先去请求接口，获取秒杀地址<br>1.接口改造，带上PathVariable参数<br>2.添加生成地址的接口<br>3.秒杀收到请求，先验证PathVariable<br>总结：不直接通过本来的秒杀地址/miaosha/do_miaosha 来进行秒杀请求，而是先去生成一个path，然后将path拼接到本来的秒杀地址中，即/miaosha + path + /do_miaosha 来进行秒杀请求。</p>
+<p>首先原本访问的是/miaosha/do_miaosha，现在是先访问/miaosha/path，但是要带上秒杀商品的id。然后在方法内随机生成path，并将这个path和id存入到redis中，之后将path返回。成功返回的话，就在前端使用js直接使用方法doMiaosha(path)，请求的url是/miaosha/ + path + /do_miaosha。在服务端的controller上，会首先验证这个path，验证成功则进行秒杀操作。</p>
+<h3 id="数学公式验证码"><a href="#数学公式验证码" class="headerlink" title="数学公式验证码"></a>数学公式验证码</h3><p>思路：点击秒杀之前，先输入验证码，分散用户的请求<br>1.添加生成验证码的接口<br>2.在获取秒杀路径的时候，验证验证码<br>3.ScriptEngine使用</p>
+<p>在前端js中，若是正在秒杀，则会调用/miaosha/verifyCode?goodsId=… 的url，然后就会去获取验证码。这里用到BufferedImage来创建验证啊，会将随机生成的数字和加减乘的组合变成一个图片返回。返回之前回将加减乘的结果存到redis中，验证的时候从缓存中取出验证，是否验证成功，该结果都应该从缓存中移除。</p>
+<h3 id="接口限流防刷"><a href="#接口限流防刷" class="headerlink" title="接口限流防刷"></a>接口限流防刷</h3><p>思路：对接口做限流<br>将功能放在缓存中。<br>一个用户访问页面或者就接口时，将访问次数放入缓存中，同时给数据加上有效期。有效期之内，要是有访问，就加1。在有效期内，访问超过设定值，就返回失败。但是有效期没有超过次数，然后又到了下一个有效期，就重新计数。</p>
+<h2 id="未添加的支付功能"><a href="#未添加的支付功能" class="headerlink" title="未添加的支付功能"></a>未添加的支付功能</h2><p>自己的想法：<br>在订单成功生成时，发送订单id加TTL至队列中，但不对其消费。当过了TTL，该信息就会被转到死信队列中，让监听死信队列的消费者来消费这则消息。若订单id对应的支付状态为未支付，则将其失效，并增加该商品库存。若支付状态为已支付，不做处理。</p>
+<h1 id="坦克大战"><a href="#坦克大战" class="headerlink" title="坦克大战"></a>坦克大战</h1><h2 id="技术栈-2"><a href="#技术栈-2" class="headerlink" title="技术栈"></a>技术栈</h2><p>JavaSE、Netty</p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><p>创建坦克模型（区分敌我坦克）、子弹发射、物体碰撞检测、边界碰撞检测、网络版的连接通信</p>
+<h2 id="涉及到的设计模式"><a href="#涉及到的设计模式" class="headerlink" title="涉及到的设计模式"></a>涉及到的设计模式</h2><h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>GameModel的创建一个单例，因为坦克、子弹等都是创建在一个模型上的，所以这个GM是不能有多个的。</p>
+<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><p>子弹发射的策略是根据不同阵营的坦克进行发射的。比如己方坦克可以向四周发射子弹，而敌方坦克只能向前进的方向发射坦克。<br>实现方式就是先建立一个子弹发射策略的接口，里面有个抽象方法fire()；<br>然后创建两个类实现该接口，一个是己方子弹发射策略，复写fire()方法，里面自定义子弹的创建，如直接创建4个方向的子弹；一个是敌方子弹发射策略，复写fire()方法，只创建一个方向的子弹。<br>之后在坦克类中定义一个属性为子弹发射策略，类为接口类。在new的时候，根据坦克的阵营，来为这个属性初始化。后面调用该属性的fire()方法时，就是想要的策略发出的子弹了。</p>
+<h3 id="装饰模式"><a href="#装饰模式" class="headerlink" title="装饰模式"></a>装饰模式</h3><p>给子弹进行装饰，发出不同样式的子弹。这里需要先将子弹类和抽象装饰器类均继承同一个父类，即GameObject。<br>其次在抽象类中定义一个抽象方法即paint()方法，这是用来在GameModel上画图的，即在页面上显示物体。这里注意，要创建一个类为GameObject的属性，然后抽象类的构造器里面传入GameObject，这里就是之后的子弹类通过构造器传入装饰类。<br>然后创建装饰器类实现该接口，里面复写paint()方法。先调用传入的子弹类的paint()方法构建出子弹，然后再自己实现一些对子弹的装饰。<br>最后在创建子弹的代码为：new 指定的装饰器(new 子弹())；</p>
+<h3 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h3><p>创建一个碰撞器接口，来进行碰撞检测。不同物体间的碰撞使用不同的碰撞器<br>用责任链将<strong>每个Collider</strong>串起来，这样当进行碰撞检测时，先检测是否满足第一个collider，不满足就检测链上的第二个collider。<br>ColliderChain也实现Collider接口的话，两个chain可以并成一个chain，即chain1.add(chain2);</p>
+<h3 id="门面模式"><a href="#门面模式" class="headerlink" title="门面模式"></a>门面模式</h3><h2 id="网络版坦克大战"><a href="#网络版坦克大战" class="headerlink" title="网络版坦克大战"></a>网络版坦克大战</h2><p>使用Netty进行网络连接。</p>
+<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Server</span> </span>&#123;</span><br><span class="line">	<span class="comment">//创建一个通道组,将连接通道都存在这个组中。</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> ChannelGroup clients = <span class="keyword">new</span> DefaultChannelGroup(GlobalEventExecutor.INSTANCE);</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serverStart</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">//负责接收客户端的连接</span></span><br><span class="line">		EventLoopGroup bossGroup = <span class="keyword">new</span> NioEventLoopGroup(<span class="number">1</span>);</span><br><span class="line">		<span class="comment">//负责连接上的客户端的处理，比如一些IO事件</span></span><br><span class="line">		EventLoopGroup workerGroup = <span class="keyword">new</span> NioEventLoopGroup(<span class="number">2</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			ServerBootstrap b = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">			ChannelFuture f = b.group(bossGroup, workerGroup)</span><br><span class="line">			.channel(NioServerSocketChannel<span class="class">.<span class="keyword">class</span>)//指定<span class="title">channel</span>类型</span></span><br><span class="line"><span class="class">			//<span class="title">childHandler</span>就是用于当连接的客户端上发生事件时，进行处理</span></span><br><span class="line"><span class="class">			.<span class="title">childHandler</span>(<span class="title">new</span> <span class="title">ChannelInitializer</span>&lt;<span class="title">SocketChannel</span>&gt;()</span>&#123;</span><br><span class="line">				<span class="meta">@Override</span></span><br><span class="line">				<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line"><span class="comment">//					System.out.println(ch);</span></span><br><span class="line">					ChannelPipeline p1 = ch.pipeline();<span class="comment">//获得该channel的责任链</span></span><br><span class="line">					p1.addLast(<span class="keyword">new</span> MsgDecoder())<span class="comment">//将接收到的ByteBuf解码成Msg</span></span><br><span class="line">					.addLast(<span class="keyword">new</span> MsgEncoder())</span><br><span class="line">					.addLast(<span class="keyword">new</span> ServerChildHandler());<span class="comment">//往责任链上增加Handler，</span></span><br><span class="line">														<span class="comment">//一旦往这个上面写数据，则用Handler来处理。</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;)</span><br><span class="line">			.bind(<span class="number">8888</span>)<span class="comment">//监听8888端口</span></span><br><span class="line">			.sync();<span class="comment">//用于判断bind是否成功进行阻塞。若没有阻塞则还没判断就进行下面操作。</span></span><br><span class="line"><span class="comment">//			System.out.println("server started");</span></span><br><span class="line">			ServerFrame.INSTANCE.updateServerMsg(<span class="string">"server started"</span>);</span><br><span class="line">			f.channel().closeFuture().sync();<span class="comment">//起到阻塞作用。</span></span><br><span class="line">											<span class="comment">//closeFuture()是等待channel调用close，然后这句话才会往下执行。</span></span><br><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			workerGroup.shutdownGracefully();</span><br><span class="line">			bossGroup.shutdownGracefully();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//ChannelInboundHandlerAdapter也继承了ChannelHandler，</span></span><br><span class="line"><span class="comment">//所以ServerChildHandler也继承了ChannelHandler</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ServerChildHandler</span> <span class="keyword">extends</span> <span class="title">ChannelInboundHandlerAdapter</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelActive</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		Server.clients.add(ctx.channel());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="comment">//用来读客户端写进来的数据</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">//服务器端接收到后就直接转发。</span></span><br><span class="line">		Server.clients.writeAndFlush(msg);		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		cause.printStackTrace();</span><br><span class="line">		<span class="comment">//删除出现异常的客户端channel，并关闭连接</span></span><br><span class="line">		Server.clients.remove(ctx.channel());</span><br><span class="line">		ctx.close();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Client INSTANCE = <span class="keyword">new</span> Client();</span><br><span class="line">	<span class="keyword">private</span> Channel channel = <span class="keyword">null</span>;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Client</span><span class="params">()</span></span>&#123;&#125;;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">connect</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//线程池，循环事件不断处理的组。默认值很多，客户端的话传一个线程进去即可</span></span><br><span class="line">		EventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup(<span class="number">1</span>);<span class="comment">//线程封装在此</span></span><br><span class="line">		Bootstrap b = <span class="keyword">new</span> Bootstrap();<span class="comment">//辅助启动类		</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">//连接</span></span><br><span class="line"><span class="comment">//			b.group(group)//将线程池放入</span></span><br><span class="line"><span class="comment">//				.channel(NioSocketChannel.class)//指定将来连接到服务器的channel的类型，</span></span><br><span class="line"><span class="comment">//												//这里是NIO的channel类型，非阻塞版</span></span><br><span class="line"><span class="comment">//				//在channel上发生事件，交给handler来处理</span></span><br><span class="line"><span class="comment">//				.handler(new ClientChannelInitializer())//调用connect之后，handler才开始执行，才开始初始化。</span></span><br><span class="line"><span class="comment">//				.connect("localhost", 8888)//连得远程服务器的id和端口号</span></span><br><span class="line"><span class="comment">////				.addListener(null)//加入监听者，连接结束后判断是否成功</span></span><br><span class="line"><span class="comment">//				.sync();//netty里面的方法均为异步方法，所以connect是异步方法，</span></span><br><span class="line"><span class="comment">//						//执行完之后就可以去做别的事，若要等着connect执行完，那么就需要用sync()方法。</span></span><br><span class="line"><span class="comment">//						//这调用的是future的sync。不能让其继续执行，</span></span><br><span class="line"><span class="comment">//						//是使之成为同步本来在connect后返回的是一个future对象。若没有sync方法，则用下面的形式</span></span><br><span class="line"><span class="comment">//						//sync是将其阻塞住，不让其再继续下去。</span></span><br><span class="line">			</span><br><span class="line">			  ChannelFuture f = b.group(group)</span><br><span class="line">				.channel(NioSocketChannel<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">				.<span class="title">handler</span>(<span class="title">new</span> <span class="title">ClientChannelInitializer</span>())</span></span><br><span class="line">				.connect("localhost", 8888);</span><br><span class="line">				f.addListener(<span class="keyword">new</span> ChannelFutureListener()&#123;</span><br><span class="line">					<span class="meta">@Override</span></span><br><span class="line">					<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operationComplete</span><span class="params">(ChannelFuture future)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">						<span class="keyword">if</span>(!future.isSuccess())&#123;</span><br><span class="line">							System.out.println(<span class="string">"not connected"</span>);</span><br><span class="line">						&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">							System.out.println(<span class="string">"connected"</span>);</span><br><span class="line">							<span class="comment">//连接成功将channel初始化</span></span><br><span class="line">							channel = future.channel();</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;);</span><br><span class="line">				f.sync();				</span><br><span class="line">			 </span><br><span class="line">			f.channel().closeFuture().sync();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			group.shutdownGracefully();<span class="comment">//结束客户端</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">(Msg msg)</span></span>&#123;</span><br><span class="line">		<span class="comment">//将写好的字符串msg转成ByteBuf，通过channel并写给服务器</span></span><br><span class="line">		channel.writeAndFlush(msg);</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClientChannelInitializer</span> <span class="keyword">extends</span> <span class="title">ChannelInitializer</span>&lt;<span class="title">SocketChannel</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		ch.pipeline()</span><br><span class="line">			.addLast(<span class="keyword">new</span> MsgEncoder())<span class="comment">//将msg编码发出去</span></span><br><span class="line">			.addLast(<span class="keyword">new</span> MsgDecoder())<span class="comment">//用于对接收的数据解码</span></span><br><span class="line">			.addLast(<span class="keyword">new</span> ClientHandler());</span><br><span class="line">			<span class="comment">//.addLast(new ClientChildHandler());</span></span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//若接收到的消息类型确定，就可以继承这个类</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 接收坦克的逻辑处理</span></span><br><span class="line"><span class="comment"> 1.判断是不是自己</span></span><br><span class="line"><span class="comment"> 2.列表是不是已经有了</span></span><br><span class="line"><span class="comment"> 3.发自己的一个TankJoinMsg，是为了发给新加入的客户端，使之产生本客户端的对象。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClientHandler</span> <span class="keyword">extends</span> <span class="title">SimpleChannelInboundHandler</span>&lt;<span class="title">Msg</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">channelRead0</span><span class="params">(ChannelHandlerContext ctx, Msg msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">//将接收到的消息自己进行处理</span></span><br><span class="line">		msg.handle();		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//这个Handler启用了，就可以往外写数据</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelActive</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		ctx.writeAndFlush(<span class="keyword">new</span> TankJoinMsg(TankFrame.INSTANCE.getMainTank()));</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="编码器"><a href="#编码器" class="headerlink" title="编码器"></a>编码器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//编码器</span></span><br><span class="line"><span class="comment">//首先给包写一个信息头，如信息的类型即MsgType；第二个是消息的长度；第三个是消息体；</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MsgEncoder</span> <span class="keyword">extends</span> <span class="title">MessageToByteEncoder</span>&lt;<span class="title">Msg</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">encode</span><span class="params">(ChannelHandlerContext ctx, Msg msg, ByteBuf buf)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"><span class="comment">//		buf.writeBytes(msg.toBytes());</span></span><br><span class="line">		buf.writeInt(msg.getMsgType().ordinal());<span class="comment">//消息类型</span></span><br><span class="line">		<span class="keyword">byte</span>[] bytes = msg.toBytes();<span class="comment">//将消息体变成字节数组</span></span><br><span class="line">		buf.writeInt(bytes.length);<span class="comment">//消息的长度也就是字节数组的长度</span></span><br><span class="line">		buf.writeBytes(bytes);<span class="comment">//消息体</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解码器"><a href="#解码器" class="headerlink" title="解码器"></a>解码器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解码器</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MsgDecoder</span> <span class="keyword">extends</span> <span class="title">ByteToMessageDecoder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">decode</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">//判断是否读全，读全才处理。这里解决了TCP的拆包和粘包的问题</span></span><br><span class="line"><span class="comment">//		if(in.readableBytes() &lt; 33) return;</span></span><br><span class="line">		<span class="comment">//Type类型4个字节，消息长度4个字节</span></span><br><span class="line">		<span class="keyword">if</span>(in.readableBytes() &lt; <span class="number">8</span>) <span class="keyword">return</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//读到哪了，做个标记。</span></span><br><span class="line">		in.markReaderIndex();</span><br><span class="line">		</span><br><span class="line">		MsgType msgType = MsgType.values()[in.readInt()];		</span><br><span class="line">		<span class="keyword">int</span> length = in.readInt();</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//若可读的部分小于length，表明消息没有完全传过来</span></span><br><span class="line">		<span class="keyword">if</span>(in.readableBytes() &lt; length)&#123;</span><br><span class="line">			<span class="comment">//将指针回到最早的标记好的位置，也就是0的位置</span></span><br><span class="line">			in.resetReaderIndex();</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[length];</span><br><span class="line">		in.readBytes(bytes);</span><br><span class="line">		</span><br><span class="line">		Msg msg = <span class="keyword">null</span>;		</span><br><span class="line">		<span class="keyword">switch</span>(msgType)&#123;</span><br><span class="line">		<span class="keyword">case</span> TankJoin:</span><br><span class="line">			msg = <span class="keyword">new</span> TankJoinMsg();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> TankStartMoving:</span><br><span class="line">			msg = <span class="keyword">new</span> TankStartMovingMsg();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> TankStop:</span><br><span class="line">			msg = <span class="keyword">new</span> TankStopMsg();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> BulletNew:</span><br><span class="line">			msg = <span class="keyword">new</span> BulletNewMsg();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> TankDie:</span><br><span class="line">			msg = <span class="keyword">new</span> TankDieMsg();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> TankDirChanged:</span><br><span class="line">			msg = <span class="keyword">new</span> TankDirChangedMsg();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		msg.parse(bytes);<span class="comment">//根据bytes将各个属性填写好</span></span><br><span class="line">		out.add(msg);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="消息的抽象类"><a href="#消息的抽象类" class="headerlink" title="消息的抽象类"></a>消息的抽象类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建msg抽象类，将所有消息都继承于此，这样每种消息都有自己处理的方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Msg</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">byte</span>[] toBytes();</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">parse</span><span class="params">(<span class="keyword">byte</span>[] bytes)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> MsgType <span class="title">getMsgType</span><span class="params">()</span></span>;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="其中一种消息的具体实现类"><a href="#其中一种消息的具体实现类" class="headerlink" title="其中一种消息的具体实现类"></a>其中一种消息的具体实现类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TankJoinMsg</span> <span class="keyword">extends</span> <span class="title">Msg</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span> x, y;</span><br><span class="line">	<span class="keyword">public</span> Dir dir;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">boolean</span> moving;</span><br><span class="line">	<span class="keyword">public</span> Group group;</span><br><span class="line">	<span class="keyword">public</span> UUID id;<span class="comment">//UUID是一个128位的数字，通过专门的算法生成，独一无二的</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TankJoinMsg</span><span class="params">(Tank t)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.x = t.x;</span><br><span class="line">		<span class="keyword">this</span>.y = t.y;</span><br><span class="line">		<span class="keyword">this</span>.dir = t.getDir();</span><br><span class="line">		<span class="keyword">this</span>.group = t.getGroup();</span><br><span class="line">		<span class="keyword">this</span>.id = t.getId();</span><br><span class="line">		<span class="keyword">this</span>.moving = t.isMoving();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TankJoinMsg</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y, Dir dir, <span class="keyword">boolean</span> moving, Group group, UUID id)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.x = x;</span><br><span class="line">		<span class="keyword">this</span>.y = y;</span><br><span class="line">		<span class="keyword">this</span>.dir = dir;</span><br><span class="line">		<span class="keyword">this</span>.group = group;</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">		<span class="keyword">this</span>.moving = moving;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TankJoinMsg</span><span class="params">()</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//根据bytes填写好属性</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">parse</span><span class="params">(<span class="keyword">byte</span>[] bytes)</span></span>&#123;</span><br><span class="line">		DataInputStream dis = <span class="keyword">new</span> DataInputStream(<span class="keyword">new</span> ByteArrayInputStream(bytes));</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.x = dis.readInt();</span><br><span class="line">			<span class="keyword">this</span>.y = dis.readInt();</span><br><span class="line">			<span class="keyword">this</span>.dir = Dir.values()[dis.readInt()];</span><br><span class="line">			<span class="keyword">this</span>.moving = dis.readBoolean();</span><br><span class="line">			<span class="keyword">this</span>.group = Group.values()[dis.readInt()];</span><br><span class="line">			<span class="keyword">this</span>.id = <span class="keyword">new</span> UUID(dis.readLong(), dis.readLong());</span><br><span class="line">			</span><br><span class="line">		&#125;<span class="keyword">catch</span>(IOException e)&#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				dis.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">				<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//将整个消息转化成byte数组</span></span><br><span class="line">	<span class="comment">//这里不用ByteBuf的原因是防止哪天不用netty也能照常使用。</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">byte</span>[] toBytes()&#123;</span><br><span class="line">		ByteArrayOutputStream baos = <span class="keyword">null</span>;</span><br><span class="line">		DataOutputStream dos = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">byte</span>[] bytes = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			baos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">			dos = <span class="keyword">new</span> DataOutputStream(baos);<span class="comment">//用这个来往外写</span></span><br><span class="line">			</span><br><span class="line">			<span class="comment">//将信息写入</span></span><br><span class="line">			dos.writeInt(x);</span><br><span class="line">			dos.writeInt(y);</span><br><span class="line">			dos.writeInt(dir.ordinal());<span class="comment">//枚举类里面可以当做数组，将当前数值的下标传入</span></span><br><span class="line">			dos.writeBoolean(moving);<span class="comment">//布尔类型往外写是一个字节</span></span><br><span class="line">			dos.writeInt(group.ordinal());</span><br><span class="line">			dos.writeLong(id.getMostSignificantBits());<span class="comment">//因为UUID是128位。所以这里高64位写出来</span></span><br><span class="line">			dos.writeLong(id.getLeastSignificantBits());<span class="comment">//这里写低64位</span></span><br><span class="line">			</span><br><span class="line">			dos.flush();</span><br><span class="line">			bytes = baos.toByteArray();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="keyword">if</span>(baos != <span class="keyword">null</span>)&#123;</span><br><span class="line">				baos.close();	</span><br><span class="line">				&#125;</span><br><span class="line">					</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="keyword">if</span>(dos != <span class="keyword">null</span>)&#123;</span><br><span class="line">				dos.close();	</span><br><span class="line">				&#125;</span><br><span class="line">					</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> bytes;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"TankMsg"</span> + x + <span class="string">","</span> + y;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">//判断接收到的坦克是否是自己的坦克或者是列表中存在的坦克</span></span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.id.equals(TankFrame.INSTANCE.getMainTank().getId()) ||</span><br><span class="line">				TankFrame.INSTANCE.findByUUID(<span class="keyword">this</span>.id)!= <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line"><span class="comment">//		System.out.println(111);</span></span><br><span class="line">		<span class="comment">//通过msg初始化一个坦克，然后将坦克加入列表</span></span><br><span class="line">		Tank t = <span class="keyword">new</span> Tank(<span class="keyword">this</span>);</span><br><span class="line">		TankFrame.INSTANCE.addTank(t);</span><br><span class="line">		<span class="comment">//将自己的坦克信息传出去</span></span><br><span class="line">		Client.INSTANCE.send(<span class="keyword">new</span> TankJoinMsg(TankFrame.INSTANCE.getMainTank()));</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//返回消息的类型</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> MsgType <span class="title">getMsgType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> MsgType.TankJoin;</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="对上面消息使用-Netty中的EmbeddedChannel-进行单元测试"><a href="#对上面消息使用-Netty中的EmbeddedChannel-进行单元测试" class="headerlink" title="对上面消息使用 Netty中的EmbeddedChannel 进行单元测试"></a>对上面消息使用 Netty中的EmbeddedChannel 进行单元测试</h3><p>对于 Netty 的 ChannelHandler 进行单元测试，Netty 提供了 EmbeddedChannel 嵌入式通道来完成这一过程，主要使用该通道来测试数据的入站出站过程是否合法；</p>
+<p>该通道提供以下常用的 API：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>writeInbound</td>
+<td>写一个入站消息到 EmbeddedChannel。 如果数据能从 EmbeddedChannel 通过 readInbound() 读到，则返回 true；</td>
+</tr>
+<tr>
+<td>readInbound</td>
+<td>从 EmbeddedChannel 读到入站消息。任何返回遍历整个ChannelPipeline。如果读取还没有准备，则此方法返回 null；</td>
+</tr>
+<tr>
+<td>writeOutbound</td>
+<td>写一个出站消息到 EmbeddedChannel。 如果数据能从 EmbeddedChannel 通过 readOutbound() 读到，则返回 true；</td>
+</tr>
+<tr>
+<td>readOutbound</td>
+<td>从 EmbeddedChannel 读到出站消息。任何返回遍历整个ChannelPipeline。如果读取还没有准备，则此方法返回 null；</td>
+</tr>
+<tr>
+<td>Finish</td>
+<td>如果从入站或者出站中能读到数据，标记 EmbeddedChannel 完成并且返回。这同时会调用 EmbeddedChannel 的关闭方法；</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TankJoinMsgCodecTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestEncoder</span><span class="params">()</span></span>&#123;</span><br><span class="line">		EmbeddedChannel ch = <span class="keyword">new</span> EmbeddedChannel();</span><br><span class="line">		</span><br><span class="line">		UUID id = UUID.randomUUID();</span><br><span class="line">		TankJoinMsg msg = <span class="keyword">new</span> TankJoinMsg(<span class="number">5</span>, <span class="number">10</span>, Dir.DOWN, </span><br><span class="line">				<span class="keyword">true</span>, Group.BAD, id);</span><br><span class="line">		ch.pipeline()</span><br><span class="line">			.addLast(<span class="keyword">new</span> MsgEncoder());</span><br><span class="line">		ch.writeOutbound(msg);</span><br><span class="line">		</span><br><span class="line">		ByteBuf buf = (ByteBuf)ch.readOutbound();</span><br><span class="line">		MsgType msgType = MsgType.values()[buf.readInt()];</span><br><span class="line">		assertEquals(MsgType.TankJoin, msgType);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> length = buf.readInt();</span><br><span class="line">		assertEquals(<span class="number">33</span>, length);</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> x = buf.readInt();</span><br><span class="line">		<span class="keyword">int</span> y = buf.readInt();</span><br><span class="line">		<span class="keyword">int</span> dirOrdinal = buf.readInt();</span><br><span class="line">		Dir dir = Dir.values()[dirOrdinal];</span><br><span class="line">		<span class="keyword">boolean</span> moving = buf.readBoolean();</span><br><span class="line">		<span class="keyword">int</span> groupOrdinal = buf.readInt();</span><br><span class="line">		Group g = Group.values()[groupOrdinal];</span><br><span class="line">		UUID uuid = <span class="keyword">new</span> UUID(buf.readLong(), buf.readLong());</span><br><span class="line">		</span><br><span class="line">		assertEquals(<span class="number">5</span>, x);</span><br><span class="line">		assertEquals(<span class="number">10</span>, y);</span><br><span class="line">		assertEquals(Dir.DOWN, dir);</span><br><span class="line">		assertEquals(<span class="keyword">true</span>, moving);</span><br><span class="line">		assertEquals(Group.BAD, g);</span><br><span class="line">		assertEquals(id, uuid);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestDecoder</span><span class="params">()</span></span>&#123;</span><br><span class="line">		EmbeddedChannel ch = <span class="keyword">new</span> EmbeddedChannel();</span><br><span class="line">		</span><br><span class="line">		UUID id = UUID.randomUUID();</span><br><span class="line">		TankJoinMsg msg = <span class="keyword">new</span> TankJoinMsg(<span class="number">5</span>, <span class="number">10</span>, Dir.DOWN, </span><br><span class="line">				<span class="keyword">true</span>, Group.BAD, id);</span><br><span class="line">		ch.pipeline()</span><br><span class="line">			.addLast(<span class="keyword">new</span> MsgDecoder());</span><br><span class="line">		ByteBuf buf = Unpooled.buffer();</span><br><span class="line">		buf.writeInt(MsgType.TankJoin.ordinal());</span><br><span class="line">		<span class="keyword">byte</span>[] bytes = msg.toBytes();</span><br><span class="line">		buf.writeInt(bytes.length);</span><br><span class="line">		buf.writeBytes(bytes);</span><br><span class="line">		</span><br><span class="line"><span class="comment">//		buf.writeBytes(msg.toBytes());</span></span><br><span class="line">		</span><br><span class="line">		ch.writeInbound(buf.duplicate());</span><br><span class="line">		TankJoinMsg msgR = (TankJoinMsg)ch.readInbound();</span><br><span class="line">		</span><br><span class="line">		assertEquals(<span class="number">5</span>, msgR.x);</span><br><span class="line">		assertEquals(<span class="number">10</span>, msgR.y);</span><br><span class="line">		assertEquals(Dir.DOWN, msgR.dir);</span><br><span class="line">		assertEquals(<span class="keyword">true</span>, msgR.moving);</span><br><span class="line">		assertEquals(Group.BAD, msgR.group);</span><br><span class="line">		assertEquals(id, msgR.id);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+   </div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/09/15/%E8%87%AA%E5%B7%B1%E9%9D%A2%E7%BB%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/15/%E8%87%AA%E5%B7%B1%E9%9D%A2%E7%BB%8F/" class="post-title-link" itemprop="url">自己面经</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-15 19:21:17 / 修改时间：15:59:41" itemprop="dateCreated datePublished" datetime="2020-09-15T19:21:17+08:00">2020-09-15</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="字节一面（25min）"><a href="#字节一面（25min）" class="headerlink" title="字节一面（25min）"></a>字节一面（25min）</h1><p>强烈怀疑是为了刷kpi才面试的我，这时间也太短了<br>1.死锁的四个特征<br>2.讲一下拥塞控制<br>3.讲一下MySQL事务的4个特性<br>4.系统调用<br>5.线程比进程轻量的原因<br>手撕：找出01矩阵中，1最多的区域，返回1的数量</p>
+<h1 id="拼多多超级提前批一面（50min）"><a href="#拼多多超级提前批一面（50min）" class="headerlink" title="拼多多超级提前批一面（50min）"></a>拼多多超级提前批一面（50min）</h1><p>自我介绍<br>怼项目<br>学习组件，自己有什么难点<br>三个项目在学习的时候印象最深的地方有哪些？</p>
+<p><strong>坦克大战</strong><br>用到哪些设计模式<br>子弹与坦克碰撞检测能否不用责任链<br>策略模式用的java原生的还是spring的<br>spring里面的策略模式有了解吗（没有。。。）</p>
+<p><strong>秒杀系统</strong></p>
+<p>讲一下秒杀的具体场景和过程<br>在库存都为1的情况下，同时有两个用户进行秒杀，且都通过了库存判断和有无重复秒杀，那么是怎么处理的（超卖问题）<br>减库存的操作是在哪里操作的（redis还是数据库）<br>高并发下，如果两个都操作的话，是否有必要</p>
+<p><strong>算法题</strong><br>递归完成二叉树层序遍历</p>
+<h1 id="拼多多超级提前批二面（56min）"><a href="#拼多多超级提前批二面（56min）" class="headerlink" title="拼多多超级提前批二面（56min）"></a>拼多多超级提前批二面（56min）</h1><p>自我介绍<br><strong>怼项目</strong><br>三个项目讲一下（讲完第一个坦克大战就没让我讲了）<br>对设计模式的理解</p>
+<p><strong>Redis</strong><br>redis是否可以持久化<br>详细讲一下rdb和aof<br>持久化的一些参数了解哪些<br>redis必须要持久化吗<br>redis进行持久化会对性能有影响吗</p>
+<p><strong>RabbitMQ</strong><br>讲一下AMQP协议<br>了解MQTT吗（不了解）<br>RabbitMQ的特性<br>RabbitMQ与其他消息中间件的区别</p>
+<p><strong>Java</strong><br>现在Java出到哪个版本了<br>了解新版本Java的特性吗（不了解）<br>1.8中ConcurrentHashMap与之前的不同点<br>CAS讲一下，底层如何保证并发安全的</p>
+<p><strong>JVM</strong><br>讲一下垃圾回收（讲了如何判断对象是否存活和回收算法）<br>哪些对象可以作为GC Root</p>
+<p><strong>多线程</strong><br>线程池的参数<br>阻塞队列有哪些</p>
+<p><strong>算法</strong><br>实现一个二叉查找树（实现插入和查询功能）<br>如果存入的值是任意对象如何处理<br>如何删除一个节点如何处理</p>
+<p><strong>非技术相关</strong><br>如何了解到拼多多这个产品的<br>对我们工作强度了解吗</p>
+<p><strong>反问</strong><br>拼多多用到的技术栈<br>认为拼多多有哪些技术难点<br>对自己的评价（面试官说不方便评价）</p>
+<h1 id="拼多多客户端一面（60min）"><a href="#拼多多客户端一面（60min）" class="headerlink" title="拼多多客户端一面（60min）"></a>拼多多客户端一面（60min）</h1><p><strong>科研项目</strong><br>讲自己科研的东西，讲了十几分钟自己的研究生课题</p>
+<p><strong>怼项目</strong><br>为什么选择这三个项目来做<br>秒杀系统为什么想到要做压测<br>压测系统是如何知道你的QPS是多少<br>为什么改变之后QPS会上升<br>除了加缓存还有什么提高的QPS的方法吗</p>
+<p><strong>操作系统</strong><br>进程和线程的区别<br>线程的生命周期<br>为什么会有就绪状态</p>
+<p><strong>Java</strong><br>讲一下HashMap的底层结构<br>哈希冲突只用链表吗？<br>为什么后面转成红黑树</p>
+<p><strong>SQL语句</strong><br>给了一个消息表，查询最近一个月由a发出的消息，并按时间降序排序</p>
+<p><strong>算法</strong><br>查询一个int数二进制含1的个数</p>
+<h1 id="拼多多客户端hr面（30min）"><a href="#拼多多客户端hr面（30min）" class="headerlink" title="拼多多客户端hr面（30min）"></a>拼多多客户端hr面（30min）</h1><p>何时返校<br>研究生是保研还是考研<br>为什么不去实习呢<br>为什么考虑转行<br>考虑转行的话是如何选择互联网行业的<br>自己做的项目有什么收获或者体验<br>希望的工作地点<br>家庭情况<br>有无女朋友<br>是否有其他公司的意向书或者在流程中<br>选择第一份工作公司考虑的因素<br>我们工作强度很大，如何看待<br>进入公司你最顾忌的点是什么<br>期望的薪资</p>
+<p>反问</p>
+<h1 id="携程提前批一面（50min）"><a href="#携程提前批一面（50min）" class="headerlink" title="携程提前批一面（50min）"></a>携程提前批一面（50min）</h1><p>自我介绍<br>请问为什么要转行<br>有参加过计算机相关的竞赛吗<br><strong>怼项目</strong><br>项目的难点<br>讲的具体一点<br>使用elasticsearch设置了几个节点（项目太小了，用不到集群就设置了一个）</p>
+<p><strong>JVM</strong><br>讲一下垃圾回收算法（这里断网，导致重进了面试间好几次…)</p>
+<p><strong>Spring/Spring boot</strong><br>如果让你来设计一个Spring，你会如何设计<br>spring中的Bean都是单例的吗</p>
+<p><strong>多线程</strong><br>多线程用到的包是什么<br>讲一个这个包里面的东西<br>线程安全的集合<br>线程池、线程池种类、线程池里面的参数<br>AQS（state、CLB队列等）<br>线程越多，效率就好吗<br>在使用多线程的时候最消耗CPU的是哪里<br>线程使用的资源在哪里（不知道为什么知识点就跑到操作系统上去了）</p>
+<p><strong>算法</strong><br>判断一个链表有无环（用哈希不用哈希）<br>反转单向链表</p>
+<p><strong>反问</strong><br>携程的业务（主要是做旅游方面的）<br>自己需要提高的地方（计算机的基础知识有所欠缺，多看一下操作系统和计算机组成原理）</p>
+<h1 id="美团一面（1h7min）"><a href="#美团一面（1h7min）" class="headerlink" title="美团一面（1h7min）"></a>美团一面（1h7min）</h1><p><strong>自我介绍</strong><br><strong>怼项目</strong><br>秒杀<br>Redis缓存页面说一下<br>缓存的key是什么<br>使用RabbitMQ如果消息传递失败了是重新传递还是其他？</p>
+<p><strong>Java基础</strong><br>ArrayList和LinkedList区别以及扩容机制<br>HashMap的底层数据结构和put过程<br>红黑树是什么时候有的<br>为什么使用红黑树而不是平衡树之类的（当时有点懵）<br>HashMap如何判断key值相同<br>如果key是String类型equal怎么判断，如果是自定义对象呢<br>为什么hash和equal均要重写<br>异常体系了解吗（忘了）</p>
+<p><strong>JVM</strong><br>内存模型（这里先答成了JMM，后面提醒回答堆栈）<br>GC发生在哪些区域<br>判断对象死亡的方法有哪些</p>
+<p><strong>多线程</strong><br>线程的状态<br>就绪是什么状态（这里可能和操作系统的搞混了）<br>让线程处于time-waiting状态有什么方法<br>sleep和wait方法有什么不同<br>线程池创建的参数有哪些<br>线程池一创建就有核心线程数那么多的线程数量吗<br>什么时候会创建超过核心线程数的线程<br>如果队列满了、线程也满了会执行什么策略<br>讲一下ThreadLocal<br>ThreadLocal使用需要注意什么</p>
+<p><strong>算法</strong><br>找出最长回文子串（写完讲了思路，面试官没太懂，万幸给的样例都过了）</p>
+<p><strong>反问</strong><br>有什么需要提高的（没回答）<br>美团用的技术栈</p>
+<h1 id="美团二面（53min）"><a href="#美团二面（53min）" class="headerlink" title="美团二面（53min）"></a>美团二面（53min）</h1><p><strong>算法题4道</strong><br>在一个数组里找到第m小的value，打印出来</p>
+<p>从n个不重复数字里边随机的选出m个不重复的数，打印出来。其中n&gt;=m<br>要求：每个数字最多被选择一次<br>时间：O（m）</p>
+<p>输入：一个文本串<br>输出：最长重复子串<br>示例：<br> - Ask not what your country can do for you, but what your can do for your country.<br>最长重复子串：can do for you</p>
+<p>有一个有序数组n个元素（升序），循环移动m位后，找出最小值的位置<br>n=4,m=2<br>1,2,3,4 -&gt; 2,3,4,1 -&gt; 3,4,1,2</p>
+<p>1.线程安全的单例模式</p>
+<p>2.static关键字的作用</p>
+<p> - public static class A {</p>
+<p>​    private static String s;</p>
+<p>​    public static void func() {}</p>
+<p>  }</p>
+<p>进程A和B</p>
+<p>A:<br>  *(0X123AA) = 10;</p>
+<p>B:<br>  *(0X123AA) = 20;</p>
+<p>问题：<br> - 在多core cpu环境下，A和B进程同时运行时，会不会出现写冲突、数据被覆盖的情况</p>
+<h1 id="用友一面（36min）"><a href="#用友一面（36min）" class="headerlink" title="用友一面（36min）"></a>用友一面（36min）</h1><p>自我介绍</p>
+<p><strong>怼项目</strong><br>秒杀<br>如何解决超卖问题<br>rabbitMQ消费端出现异常如何处理</p>
+<p>论坛<br>如何设计管理员和非管理员<br>若管理员分为超级管理员、普通管理员如何设计</p>
+<p><strong>Java</strong><br>如何高效遍历map集合中的key-value<br>如果map中key的值是自定义的User，会有什么问题</p>
+<p><strong>MySQL</strong><br>left join<br>如果left join后面不加on会出现什么问题<br>给出一个联合索引，判断下面哪个查询使用到了索引<br>手写SQL，根据表求出每个学校学生的数量，如果要求学生数量大于20呢<br>MySQL索引底层结构，为什么使用B+树</p>
+<p><strong>计网</strong><br>如果POST请求传过来一个JSON格式的数据，Spring中的Controller如何接受这个数据<br>Cookie是存放在http协议中的哪个位置<br>Cookie和Session的区别</p>
+<p><strong>Linux</strong><br>查询进程日志用的指令</p>
+<p><strong>Maven</strong><br>Maven有哪些指令</p>
+<p><strong>Git</strong><br>使用过Git吗</p>
+<p><strong>反问</strong><br>用友的业务</p>
+<h1 id="58同城一面（23min）"><a href="#58同城一面（23min）" class="headerlink" title="58同城一面（23min）"></a>58同城一面（23min）</h1><p><strong>怼项目</strong><br><strong>坦克大战</strong><br>讲一下坦克大战的技术难点(用到什么算法、数据结构)<br>如果坦克、子弹很多的话，物体碰撞如何优化</p>
+<p><strong>秒杀项目</strong><br>讲一下秒杀项目如何优化的<br>Redis为什么快（这里讲到Redis是在内存上使用的，MySQL是数据存在磁盘上的。面试官打断说MySQL也是存在内存上的）<br>Redis是单线程，若是多核会不会浪费了</p>
+<p><strong>ElasticSearch</strong><br>用来做什么<br>全文索引MySQL为什么不能做</p>
+<p><strong>操作系统</strong><br>讲一下内存管理</p>
+<h1 id="顺丰一面（24min）"><a href="#顺丰一面（24min）" class="headerlink" title="顺丰一面（24min）"></a>顺丰一面（24min）</h1><p><strong>JVM</strong><br>JVM的内存结构<br>堆栈的区别<br>哪些是线程共享的<br>双亲委派模型<br>如果自己写一个类和JDK重名了，加载器加载哪个类</p>
+<p><strong>Java</strong><br>反射，什么场合会用到反射</p>
+<p><strong>Spring</strong><br>讲一下Spring用到的注解有哪些？SpringMVC、Spring Boot也行</p>
+<p><strong>MySQL</strong><br>讲一下MySQL索引</p>
+<p><strong>Redis</strong><br>讲一下对Redis的了解<br>Redis为什么这么快<br>还知道其他用作缓存的技术吗</p>
+<p><strong>RabbitMQ</strong><br>讲一下具体的使用</p>
+<p><strong>ElasticSearch</strong><br>ElasticSearch的索引了解吗</p>
+<p><strong>多线程</strong><br>使用多线程的方式<br>线程池的拒绝策略</p>
+<p><strong>计算机网路</strong><br>TCP和UDP的区别</p>
+<h1 id="顺丰二面（24min）"><a href="#顺丰二面（24min）" class="headerlink" title="顺丰二面（24min）"></a>顺丰二面（24min）</h1><p><strong>项目</strong><br><strong>秒杀系统</strong><br>讲一下在项目中Redis和RabbitMQ的使用<br>RabbitMQ中业务处理的逻辑是什么<br>如果用户能够秒杀订单，但支付时放弃如何处理<br>如果限定30分钟后不支付自动取消订单，如何处理</p>
+<p><strong>论坛项目</strong><br>回复文章的评论、回复评论的评论是如何设计的<br>返回给前端的评论的数据结构是什么样子的</p>
+<p><strong>设计模式</strong><br>讲一下你了解的设计模式</p>
+<h1 id="华为校招一面（30min）"><a href="#华为校招一面（30min）" class="headerlink" title="华为校招一面（30min）"></a>华为校招一面（30min）</h1><p><strong>项目</strong><br><strong>秒杀系统</strong><br>介绍一下秒杀系统<br>是否存在缓存未命中的情况<br>redis中大量键失效如何处理</p>
+<p><strong>计算机网络</strong><br>讲一下http协议</p>
+<p><strong>算法</strong><br>将字符串中的*移到最前面</p>
+<h1 id="华为校招二面（50min）"><a href="#华为校招二面（50min）" class="headerlink" title="华为校招二面（50min）"></a>华为校招二面（50min）</h1><p><strong>项目</strong><br>如何去学习和做项目的<br>平常语言学习是如何进行的</p>
+<p><strong>Spring Boot</strong><br>讲一下Spring Boot的特点<br>用过哪些Spring Boot的组件</p>
+<p><strong>多线程</strong><br>讲一下线程同步的方式<br>volatile的禁止指令重排具体讲一下（学过计算机体系结构吗？，没有，跳过）<br>countDownCatch具体如何使用<br>ThreadLocal了解吗<br>如何删除里面的对象</p>
+<p><strong>JVM</strong><br>讲一下GC（自己从判断对象存活到GC算法到常见的垃圾回收器讲了一遍）<br>G1中每个Region里都可能会有跨区域的引用，G1是如何去操作的<br>CMS中存在Stop the World 的阶段有哪些</p>
+<p><strong>MySQL</strong><br>写一个语句，有一张表有学生id字段、课程字段和成绩字段，找出有两门以上大于80分的学生的ID</p>
+<p><strong>算法</strong><br>写一个快速排序，最坏和最好的时间复杂度是多少？</p>
+<h1 id="华为校招主管面（15min）"><a href="#华为校招主管面（15min）" class="headerlink" title="华为校招主管面（15min）"></a>华为校招主管面（15min）</h1><p><strong>项目</strong><br><strong>科研项目</strong><br>讲一下你的科研情况</p>
+<p><strong>秒杀系统</strong><br>主要做了什么</p>
+<p><strong>论坛项目</strong><br>论坛项目具体有什么功能</p>
+<p><strong>坦克大战</strong><br>为什么做这个</p>
+<p><strong>职业规划</strong><br>今后的职业规划发展<br>你觉得架构师需要具备什么</p>
+<p><strong>反问</strong></p>
+<h1 id="OPPO一面（34min）"><a href="#OPPO一面（34min）" class="headerlink" title="OPPO一面（34min）"></a>OPPO一面（34min）</h1><p><strong>科研</strong><br>讲一下科研项目</p>
+<p><strong>项目</strong><br><strong>坦克大战</strong><br>netty连接用到的协议<br>讲一下自己对netty的理解<br>讲一下自己对IO多路复用的理解</p>
+<p><strong>秒杀系统</strong><br>Redis存的数据什么<br>RabbitMQ的解耦削峰在项目中的应用</p>
+<p><strong>JVM</strong><br>讲一下JVM的内存结构<br>讲一个堆的结构</p>
+<p><strong>多线程</strong><br>有哪些同步的手段或方法<br>讲一下ThreadLocal</p>
+<p><strong>学习</strong><br>平时如何学习<br>看过哪些书<br>实习有过吗<br>硕士期间的排名为什么填的其他<br>本科的一等奖学金每年都有拿吗</p>
+<p><strong>反问</strong></p>
+<h1 id="OPPO二面（25min）"><a href="#OPPO二面（25min）" class="headerlink" title="OPPO二面（25min）"></a>OPPO二面（25min）</h1><p><strong>项目</strong><br><strong>秒杀系统</strong><br>关于秒杀和库存这方面的业务逻辑是怎样的？</p>
+<p><strong>操作系统</strong><br>进程的通信方式<br>两个进程同时拥有一个共享内存，一个进程退出了，该共享内存是否会释放<br>哪些区域是线程共享的</p>
+<p><strong>JVM</strong><br>讲一下GC的过程</p>
+<p><strong>MySQL</strong><br>讲一下MySQL的特性<br>讲一下事务隔离机制</p>
+<p><strong>计算机网络</strong><br>了解哪些网络协议<br>TCP中MSS了解吗<br>MSS和MTU的区别<br>TCP中的重传和快速重传</p>
+<p><strong>反问</strong></p>
+<h1 id="海康威视电话面（24min）"><a href="#海康威视电话面（24min）" class="headerlink" title="海康威视电话面（24min）"></a>海康威视电话面（24min）</h1><p><strong>Spring Boot</strong><br>Spring的两大特性是什么？<br>AOP讲一下，主要应用的场景<br>日志功能为什么要用到AOP<br>AOP的底层原理讲一下，具体如何实现</p>
+<p><strong>MySQL</strong><br>项目中使用到MySQL碰到那些问题<br>MySQL语句如何优化<br>如何查看SQL语句是否命中索引</p>
+<p><strong>MyBatis</strong><br>#{}和${}的区别</p>
+<p><strong>Java</strong><br>JDK源码有看过哪些<br>HashMap的底层数据结构<br>HashMap的数组长度设置为13是否正确<br>HashMap的数组长度为什么要为2的幂次</p>
+<p><strong>多线程</strong><br>线程同步的方式<br>可重入锁的实现<br>AQS的使用到的主要结构<br>可重入锁的公平锁和非公平锁的如何实现</p>
+<p><strong>学习生活</strong><br>有什么你努力了但结果还是不理想的事情<br>如何解决</p>
+<p><strong>反问</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+   </div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -2766,171 +3159,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/04/03/%E8%AE%A1%E7%BD%91-%E7%BD%91%E7%BB%9C%E5%B1%82/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/A%20lemon.jpg">
-      <meta itemprop="name" content="詹智健">
-      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SsssshiFT-96">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/03/%E8%AE%A1%E7%BD%91-%E7%BD%91%E7%BB%9C%E5%B1%82/" class="post-title-link" itemprop="url">计网-网络层</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-03 20:08:01" itemprop="dateCreated datePublished" datetime="2020-04-03T20:08:01+08:00">2020-04-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-01 16:08:21" itemprop="dateModified" datetime="2020-09-01T16:08:21+08:00">2020-09-01</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h1><h2 id="IP数据报的格式"><a href="#IP数据报的格式" class="headerlink" title="IP数据报的格式"></a><strong>IP数据报的格式</strong></h2><p><strong>一个 IP 数据报由首部和数据两部分组成。</strong></p>
-<p>首部的前一部分是固定长度，共 20 字节，是所有 IP 数据报必须具有的。</p>
-<p>在首部的固定部分的后面是一些可选字段，其长度是可变的。</p>
-<p>ip首部格式</p>
-<p> 版本    首部长度    区分服务    总长度</p>
-<p>​                    标        识                标志    片偏移</p>
-<p>生存时间                    协议         首部检验和</p>
-<p>​                                源地址</p>
-<p>​                                目的地址</p>
-<p>​            可选字段（长度可变）            填充</p>
-<p>前五行为固定部分，最后一行为可变部分</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/03/%E8%AE%A1%E7%BD%91-%E7%BD%91%E7%BB%9C%E5%B1%82/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-	
-   </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/04/02/%E8%AE%A1%E7%BD%91-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/A%20lemon.jpg">
-      <meta itemprop="name" content="詹智健">
-      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SsssshiFT-96">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/02/%E8%AE%A1%E7%BD%91-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" class="post-title-link" itemprop="url">计网-数据链路层</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-02 20:46:16" itemprop="dateCreated datePublished" datetime="2020-04-02T20:46:16+08:00">2020-04-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-15 10:22:41" itemprop="dateModified" datetime="2020-07-15T10:22:41+08:00">2020-07-15</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h1><p>按照CodeSheep讲的重点编写</p>
-<h2 id="以太网帧的格式"><a href="#以太网帧的格式" class="headerlink" title="以太网帧的格式"></a>以太网帧的格式</h2><p><strong>封装成帧</strong>(framing)就是在一段数据的前后分别添加首部和尾部，然后就构成一个帧。确定帧的界限。</p>
-<p>首部和尾部的一个<strong>重要作用</strong>就是进行帧定界。</p>
-<p>常用的以太网MAC帧格式有两种标准 ：<br>DIX Ethernet V2 标准<br>IEEE 的 802.3 标准</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/02/%E8%AE%A1%E7%BD%91-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-	
-   </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -3003,7 +3231,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -3053,7 +3281,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共177.1k字</span>
+  <span class="post-count">博客全站共189.3k字</span>
 </div>
         
 <div class="busuanzi-count">

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*��������ɫ*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*��Ӱ��ɫ*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*�ϱ߿���ɫ*/
+        border-left-color: #1E92FB;    /*��߿���ɫ*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Z_Letter.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Z_Letter.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ssssshift-96.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="论坛项目技术栈Spring Boot、MySql、MyBatis、Maven、ElasticSearch、RabbitMQ 功能实现登录使用GitHub登录1.用户登录论坛，点击登录，论坛就会调用github的authorize接口，就会出现一个授权画面，点击授权2.授权后，github会重新访问论坛，使用GET访问的url是callback（所以要创建一个可以处理callback请求的contr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="项目复盘">
+<meta property="og:url" content="https://ssssshift-96.github.io/2020/09/15/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/index.html">
+<meta property="og:site_name" content="SsssshiFT-96">
+<meta property="og:description" content="论坛项目技术栈Spring Boot、MySql、MyBatis、Maven、ElasticSearch、RabbitMQ 功能实现登录使用GitHub登录1.用户登录论坛，点击登录，论坛就会调用github的authorize接口，就会出现一个授权画面，点击授权2.授权后，github会重新访问论坛，使用GET访问的url是callback（所以要创建一个可以处理callback请求的contr">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-15T11:21:18.454Z">
+<meta property="article:modified_time" content="2020-09-14T12:16:11.572Z">
+<meta property="article:author" content="詹智健">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ssssshift-96.github.io/2020/09/15/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>项目复盘 | SsssshiFT-96</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SsssshiFT-96</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">50</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/09/15/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          项目复盘
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-15 19:21:18" itemprop="dateCreated datePublished" datetime="2020-09-15T19:21:18+08:00">2020-09-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-14 20:16:11" itemprop="dateModified" datetime="2020-09-14T20:16:11+08:00">2020-09-14</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="论坛项目"><a href="#论坛项目" class="headerlink" title="论坛项目"></a>论坛项目</h1><h2 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h2><p>Spring Boot、MySql、MyBatis、Maven、ElasticSearch、RabbitMQ</p>
+<h2 id="功能实现"><a href="#功能实现" class="headerlink" title="功能实现"></a>功能实现</h2><h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><h4 id="使用GitHub登录"><a href="#使用GitHub登录" class="headerlink" title="使用GitHub登录"></a>使用GitHub登录</h4><p>1.用户登录论坛，点击登录，论坛就会调用github的authorize接口，就会出现一个授权画面，点击授权<br>2.授权后，github会重新访问论坛，使用GET访问的url是callback（所以要创建一个可以处理callback请求的controller）并会携带参数code和state。<br>3.创建一个可以处理callback请求的controller，将参数取出。使用第三方工具OkHttp使用POST方法来调用github的access_token接口即<a href="https://github.com/login/oauth/access_token，将之前获得的信息设置到一个对象中，然后转成JSON格式。手动创建Request的对象，设置url，请求体。通过OkHttp访问，将返回的响应体转换成字符串对象，通过切割获取access_token" target="_blank" rel="noopener">https://github.com/login/oauth/access_token，将之前获得的信息设置到一个对象中，然后转成JSON格式。手动创建Request的对象，设置url，请求体。通过OkHttp访问，将返回的响应体转换成字符串对象，通过切割获取access_token</a><br>4.根据access_token，用第3步同样的方法访问<a href="https://api.github.com/user?access_token=" target="_blank" rel="noopener">https://api.github.com/user?access_token=</a> + 上一步中得到的access_token。通过OkHttp发送请求，得到返回响应，将响应体转换为string类型，这时是JSON格式的string，可以将其转换成之前建立好的java对象。此时就获得了用户信息。<br>5.将得到的用户信息存入数据库中。</p>
+<h4 id="登录状态持久化"><a href="#登录状态持久化" class="headerlink" title="登录状态持久化"></a>登录状态持久化</h4><p>登录的时候，自己设定自动token相当于sessionID，以token为key存入到cookie中。下次在登录之前，首先获取cookie，找到token为key的cookie，然后得到对应的token值，从数据库中查找用户是否存在，若存在则直接返回用户，若不存在则进行登录。这里后面使用拦截器，在请求执行之前尝试获取cookie中的user。</p>
+<h3 id="导航栏"><a href="#导航栏" class="headerlink" title="导航栏"></a>导航栏</h3><p>因为每个界面都用到导航栏，如果每个界面都去写的话，到时需要修改又要每个界面修改非常的麻烦。所以现在将导航栏的部分封装成一个单独的html，然后其他的html导入即可。</p>
+<h3 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h3><h4 id="文章发布"><a href="#文章发布" class="headerlink" title="文章发布"></a>文章发布</h4><p>点击发布文章按钮会来到文章发布的页面<br>给每个要输入的框如title、description、tag设置变量用于接收。在文章发布页面点击发布时，会发送publish请求，然后对应框的内容会被对应的参数接收存储。首先将这些内容存入到Model中，以防再次回到页面时需要重新写入<strong><span style = "color : red">（一个难点？）</span></strong>。然后判断每个内容是否符合规范，若不符合规范则会往Model中传入error和相应的信息，之后会再次返回到这个页面，之前写的内容因为存入过Model中，所以会复现，然后在不合规范的地方会出现如何不合规范。若符合规范，则将对应的数据存入到数据库中，然后返回到主页。这里注意后面修改文章也同样用一个方法，所以这里我们还定义参数id来获取请求的id，但是新建文章是没有id的，所以通过这一点来判断存入数据库是create还是update</p>
+<p>数据库存放的东西有文章的id、标题、内容、创建时间、修改时间、创建者id、评论数、浏览数、点赞数、tag</p>
+<h4 id="文章修改编辑"><a href="#文章修改编辑" class="headerlink" title="文章修改编辑"></a>文章修改编辑</h4><p>首先通过文章标题的超链接请求上的参数获取文章的id，通过id获取文章的具体数据，如标题，内容，tag，然后回显在页面上。然后和文章发布一样，修改内容。在存入数据库时，因为id是有值的，所以调用update的方法更新数据库中的内容。</p>
+<h3 id="首页"><a href="#首页" class="headerlink" title="首页"></a>首页</h3><h4 id="左栏展示问题列表"><a href="#左栏展示问题列表" class="headerlink" title="左栏展示问题列表"></a>左栏展示问题列表</h4><p>从数据库中获取所有的问题，并按时间顺序倒序排列展示在主页上，并显示其他信息如阅读量、评论数、点赞数等。为每个问题标题都设置超链接，href为question/id。</p>
+<h4 id="右栏是热点话题等"><a href="#右栏是热点话题等" class="headerlink" title="右栏是热点话题等"></a>右栏是热点话题等</h4><p>热点话题后面会讲</p>
+<h4 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h4><p>因为问题多的话，一个页面就会变得很长，所以需要进行分页处理。</p>
+<p>先前使用自定义的逻辑实现分页<strong><span style = "color : red">（一个难点？）</span></strong></p>
+<p>后面使用pageHelper实现分页，简单实用<br>使用方法：<br>在调用mapper进行查询的代码上上方写入PageHelper.startPage(page, size);然后在mapper代码下面获得通过获取的集合得到PageInfo如下所示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PageHelper.startPage(page, size);</span><br><span class="line">questions = questionMapper.selectQuestions2();</span><br><span class="line">info = <span class="keyword">new</span> PageInfo&lt;&gt;(questions, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+<p>PageInfo里面有许多信息，比如pageNum、pageSize、pages、prePage、nextPage等。可以通过这些信息设置下面的选择页数。</p>
+<h3 id="文章详情"><a href="#文章详情" class="headerlink" title="文章详情"></a>文章详情</h3><p>左栏通过每篇文章的标题上的链接，可以进入到文章详情页面。通过question/{id}请求，controller使用@PathVariable获取到id，这样就可以通过id获取到指定文章内容。同样通过id获取一级评论内容。</p>
+<p>右栏通过本章的标签来获取同标签的问题，实现获取相关问题的页面。</p>
+<h3 id="个人中心（我的问题、我的通知）"><a href="#个人中心（我的问题、我的通知）" class="headerlink" title="个人中心（我的问题、我的通知）"></a>个人中心（我的问题、我的通知）</h3><p>因为设置的时候，个人中心是有两个的即我的问题和我的回复，所以要实现点击不同的进入到不同页面，但是要在同一个controller的方法中完成。这里同样使用@PathVariable获取到profile/{action}请求的参数action，通过action判定是点击哪个<br>若是我的问题，则通过用户id从数据库中搜索出全部的由该id创建的文章/问题<br>若是我的通知，则通过用户id从数据库中搜索出全部的回复该id的评论，并标注已读与未读。</p>
+<h3 id="错误页面处理"><a href="#错误页面处理" class="headerlink" title="错误页面处理"></a>错误页面处理</h3><p>首先自定制一个错误页面</p>
+<p>使用@ControllerAdvice专门处理异常的类来加入到ioc容器中，在该类方法上使用@ExceptionHandler(Exception.class)处理通用异常，然后在方法中根据异常类型返回不同的ModelAndView。<br>若是404,500这些异常，则需要建立一个Controller继承ErrorController来进行处理。</p>
+<h3 id="回复功能"><a href="#回复功能" class="headerlink" title="回复功能"></a>回复功能</h3><p>功能实现效果是：当进去问题界面时，会出现回复列表，按照某一顺序排序。<br>下面有个回复框，可以回复问题。点击提交时，异步调用服务端的请求。请求成功后局部刷新，把回复追加上来，然后增加回复数。</p>
+<p>这里实现一个前后端交互的接口。当前端内容提交时调用服务器端的一个接口，成功以后直接呈现在页面上。</p>
+<p>使用json的方式去做</p>
+<p>Json可以理解为网络传输的一种数据结构，可以用来js和java的互相交流</p>
+<p>从前端传过来一个json，服务器端接收到反序列化成一个对象来做操作。回给前端的时候，返回一个java object，然后spring把object转换成json</p>
+<p>这种方式可以将前端以JSON形式传过来的数据封装到CommentDTO中，只要里面属性能一一对上。RequestBody可以接收json格式的数据存到对象中。ReponseBody可以将对象变成json发送出去。网页调试可以用<strong>postman</strong>来做</p>
+<p><strong>回复功能是使用js来完成的</strong></p>
+<h4 id="一级回复功能"><a href="#一级回复功能" class="headerlink" title="一级回复功能"></a>一级回复功能</h4><p>获取问题id和回复内容，将内容通过POST请求发送给后端服务器，后端服务器接收到后，使用RequestBody将JSON格式的数据存到对象中，即CommentDTO中，然后根据CommentDTO的内容创建comment对象，并再设置其他属性如建立时间，评论人id等。之后存入到数据库中。</p>
+<h4 id="获取回复"><a href="#获取回复" class="headerlink" title="获取回复"></a>获取回复</h4><p>获取评论回复，创建一个类除了之前的评论回复的属性之外，再加一个user信息。通过questionID获取评论，返回一个List集合，存入model中</p>
+<h4 id="二级回复功能"><a href="#二级回复功能" class="headerlink" title="二级回复功能"></a>二级回复功能</h4><p>较为复杂，先暂时略<br>获取过程就是用GET来请求，因为一级回复是用POST来请求，这里来区分一下。然后传入本条评论的id，在mapper中通过parentId（这里就是要回复的评论的id）和评论类型即二级评论，从数据库中查找。<br>这里说明一下评论的数据表字段：id、parent_id、type、commentator、gmt_create、gmt_modified、like_count、content。不论是查找一级回复还是二级回复，均为通过parent_id和type来查询。其中一级评论的parent_id是问题的id，二级评论的parent_id是评论的那个评论id。</p>
+<h3 id="通知功能"><a href="#通知功能" class="headerlink" title="通知功能"></a>通知功能</h3><p>就是将回复问题还是回复评论的信息通知到用户，有新的通知，并标注通知的数量。在数据库中创建通知表，创建的字段有id、notifier、receiver、outerId、通知类型（是回复问题的还是回复评论的）、创建时间、状态（分为已读和未读）、通知者的名字、通知涉及的文章的名。<br>当有新评论时，就创建一个通知，存入数据库。然后用户通过个人中心查看通知时，转到相应的问题详情页面，并将状态由未读转成已读。</p>
+<h3 id="添加富文本编辑"><a href="#添加富文本编辑" class="headerlink" title="添加富文本编辑"></a>添加富文本编辑</h3><h3 id="日志"><a href="#日志" class="headerlink" title="日志"></a>日志</h3><h3 id="热点话题"><a href="#热点话题" class="headerlink" title="热点话题"></a>热点话题</h3><p>使用spring定时器。随着数据量增多，响应时长增加的功能应该使用异步的方法。<br>Spring boot schedule<br><a href="https://spring.io/guides/gs/scheduling-tasks/" target="_blank" rel="noopener">https://spring.io/guides/gs/scheduling-tasks/</a></p>
+<p>获取热点标签算法<br>关注的点<br>1.当前标签的问题数<br>2.每一个问题的回复数</p>
+<p>优先值计算（自定义）<br>5+当前标签的问题数+每个问题的回复数<br>搜索功能</p>
+<p>设定一个定时器，每6小时更新一次，更新的时候从数据库中取出每个问题，然后得到每个问题对应的标签，以标签为键，自定义的优先值为值存到map中。根据自定义的优先值，故还要取出每个问题的回复数。然后将该map根据里面的优先值存放到大根堆中。将在大根堆中的tag取出单独存放在一个list中，返回该list。</p>
+<h3 id="搜索功能"><a href="#搜索功能" class="headerlink" title="搜索功能"></a>搜索功能</h3><p><strong>这里使用ElasticSearch进行检索</strong><br>在ES中先手动创建关于问题的索引<br>创建java对象，对应于ES中的问题索引<br>创建QuestionRepository接口，用来自定义查询，这样直接使用该接口的方法即可查询<br>在SpringBoot的test中手动初始化es中的问题索引，将添加ES之前就存在的问题放入索引中<br>将原来到数据库查询的语句更换为到es查询</p>
+<p><strong>使用RabbitMQ实现问题内容改变或者新添问题后对ES中的索引异步更新</strong><br>创建RabbitMQ的配置类<br>定义队列、交换机、路由键<br>更新问题或添加新问题时，异步发送消息更新ES<br>在publishController原来的代码上添加发送消息的代码<br>设置消息对象<br>创建消息发送对象及相关发送方法<br>创建消息接收对象并创建处理方法</p>
+<h1 id="秒杀项目"><a href="#秒杀项目" class="headerlink" title="秒杀项目"></a>秒杀项目</h1><h2 id="技术栈-1"><a href="#技术栈-1" class="headerlink" title="技术栈"></a>技术栈</h2><p>前端：Thymeleaf、Bootstrap、JQuery<br>后端：SpringBoot、JSR303、MyBatis<br>中间件：RabbitMQ、Redis、Druid</p>
+<h2 id="功能实现-1"><a href="#功能实现-1" class="headerlink" title="功能实现"></a>功能实现</h2><p>分布式会话、商品列表页、商品详情页、订单详情页<br>系统压测、缓存优化、消息队列、接口安全</p>
+<h3 id="登录功能"><a href="#登录功能" class="headerlink" title="登录功能"></a>登录功能</h3><h4 id="明文密码两个MD5处理"><a href="#明文密码两个MD5处理" class="headerlink" title="明文密码两个MD5处理"></a>明文密码两个MD5处理</h4><p>两次MD5<br>1.用户端：PASS=MD5(明文+固定Salt)<br>是因为用户在HTTP上输入的明文密码不作任何处理，明文密码会在网络上进行传输。容易被恶意用户得到明文密码。所以需要把MD5处理后的密码传给服务端</p>
+<p>2.服务端：PASS=MD5(用户输入+随机Salt)<br>服务端接收到的密码和生成随机的Salt拼装，再经过MD5，再写到数据库中。主要是防止数据库被盗，通过反查表得到密码。</p>
+<h4 id="分布式Session"><a href="#分布式Session" class="headerlink" title="分布式Session"></a>分布式Session</h4><p>用户的第一个请求落在第一个服务器上，第二个请求落在第二个服务器上，这样第二个请求用户的session信息就会全部丢失。可以使用session同步解决，但是性能有问题，且比较复杂。</p>
+<p>用户登录成功，如何实现session功能</p>
+<p>登录成功，给这个用户生成一个session ID，称之为token来标识这个用户，然后写到cookie当中，传递给客户端。然后客户端在随后的访问当中都在cookie中上传这个token。服务端拿到token后，根据token取到用户的session信息。</p>
+<p><strong>这里我们将得到的token存在redis中，这就是分布式Session。</strong></p>
+<h3 id="实现秒杀功能"><a href="#实现秒杀功能" class="headerlink" title="实现秒杀功能"></a>实现秒杀功能</h3><p>数据库设计、商品列表、商品详情页 略</p>
+<h4 id="秒杀功能实现（初步）"><a href="#秒杀功能实现（初步）" class="headerlink" title="秒杀功能实现（初步）"></a>秒杀功能实现（初步）</h4><p>点击秒杀按钮，首先判断商品库存是否还有。<br>其次判断是否已经秒杀到，防止一人多次秒杀。<br>两步均判断通过则认为是可以秒杀。开始减库存、下订单、写入秒杀订单，这三种应该是同时成功或者同时失败，所以使用事务。<br>最后下订单将订单信息存入数据库，然后返回至订单详情</p>
+<h3 id="使用JMeter初步压测"><a href="#使用JMeter初步压测" class="headerlink" title="使用JMeter初步压测"></a>使用JMeter初步压测</h3><p>使用方法见word笔记</p>
+<p>结果（在600个线程同时访问，循环15次的情况下）<br>访问/goods/to_list页面吞吐量为554.2/sec<br>访问/miaosha/do_miaosha即秒杀，吞吐量为606.8/sec</p>
+<h3 id="页面优化技术"><a href="#页面优化技术" class="headerlink" title="页面优化技术"></a>页面优化技术</h3><h4 id="页面缓存"><a href="#页面缓存" class="headerlink" title="页面缓存"></a>页面缓存</h4><p>访问页面的时候，不是直接让系统帮我们去渲染，而是说先从缓存里面取，如果找到了，直接返回客户端，如果没有，就手动去渲染这个模板。渲染出来之后再输出客户端，同时把这个结果缓存到redis中，这样就可以优化访问速度，应对高并发</p>
+<p>这里面在redis中缓存的是HTML的源代码，找到就直接返回该源代码由浏览器解析，没有就自己手动渲染，存入缓存中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果缓存中没有，就手工渲染。方法参数为：模板名称，模板需要的参数如request等</span></span><br><span class="line"><span class="comment">//因为项目使用的是thymeleaf.spring5的版本把SpringWebContext大部分的功能移到了IWebContext下面</span></span><br><span class="line"><span class="comment">//用来区分边界。剔除了ApplicationContext 过多的依赖，现在thymeleaf渲染不再过多依赖spring容器</span></span><br><span class="line">IWebContext ctx = <span class="keyword">new</span> WebContext(request, response, request.getServletContext(),</span><br><span class="line">                                 request.getLocale(), model.asMap());</span><br><span class="line">String html = thymeleafViewResolver.getTemplateEngine().process(<span class="string">"goods_list"</span>, ctx);</span><br></pre></td></tr></table></figure>
+
+<p>给页面存进redis中设置过期时间时，页面缓存的时间非常短，因为页面缓存主要是为了解决短时间内的大量访问；如果时间设置太长，则会失去即时性，所以需要作出取舍。</p>
+<h4 id="URL缓存"><a href="#URL缓存" class="headerlink" title="URL缓存"></a>URL缓存</h4><p>url缓存跟页面缓存类似，不同的是，比如访问具体的商品信息，不同的商品url是不一样的，就根据url来分别存入redis缓存中。</p>
+<p>获取某商品的详细信息时，先通过访问的url来尝试从缓存中获取，因为url带有商品的id信息等。若有就直接取出返回界面。若没有则先获取商品信息，然后手动渲染，以商品id为键存入到redis中。</p>
+<h4 id="对象缓存"><a href="#对象缓存" class="headerlink" title="对象缓存"></a>对象缓存</h4><p>用户信息同样也可以存在缓存中，若登录的用户在缓存中有，则从缓存中取出信息。若没有则从数据库中取出，并存入缓存中</p>
+<h3 id="页面缓存压测"><a href="#页面缓存压测" class="headerlink" title="页面缓存压测"></a>页面缓存压测</h3><p>对/goods/to_list压测<br>参数：线程600，循环15次<br>结果：吞吐量1655.9/sec，比之前提高了198.9%</p>
+<h3 id="页面静态化"><a href="#页面静态化" class="headerlink" title="页面静态化"></a>页面静态化</h3><p>直接将页面缓存到用户的浏览器上<br>HTML+ajax来实现，就是点击链接直接返回相应的htm文件。在文件中不变的直接用HTML来实现，动态的资源就用ajax来调用服务端的数据。</p>
+<h3 id="静态资源优化和CDN优化"><a href="#静态资源优化和CDN优化" class="headerlink" title="静态资源优化和CDN优化"></a>静态资源优化和CDN优化</h3><p>1.JS/CSS压缩，减少流量<br>2.多个JS/CSS组合，减少连接数<br>3.CDN就近访问<br>CDN全称是Content Delivery Network，即内容分发网络。CDN是构建在现有网络基础上的智能虚拟网络，依靠部署在各地的边缘服务器，通过中心平台的负载均衡、内容分发、调度等功能模块，使用户就近获取所需内容，降低网络拥塞，提高用户访问响应速度和命中率。CDN的关键技术主要有内容存储和分发技术</p>
+<h3 id="超卖问题"><a href="#超卖问题" class="headerlink" title="超卖问题"></a>超卖问题</h3><p>解决超卖：</p>
+<p>1.数据库加唯一索引：防止用户重复购买</p>
+<p>2.SQL加库存数量判断：防止库存变为负数</p>
+<h3 id="接口优化"><a href="#接口优化" class="headerlink" title="接口优化"></a>接口优化</h3><p>思路：减少数据库的访问，将同步下单改成异步下单<br>1.系统初始化，把商品库存数量加载到Redis<br>2.收到请求，Redis预减库存，库存不足，直接返回，否则进入3<br>3.请求入队，立即返回排队中（异步下单）<br>4.请求出队，生成订单，减少库存（异步的）<br>5.客户端轮询，是否秒杀成功</p>
+<p>使用到RabbitMQ消息队列</p>
+<p>服务端上，Redis预减库存减少数据库的访问、内存标记减少Redis访问</p>
+<p>系统初始化，将库存存到redis缓存中，然后设计一个内存标记，即若库存没有了，就直接返回没有库存，不用再访问Redis，然后将商品存入到redis中</p>
+<p>访问内存标记，判断秒杀是否结束，若结束则不用再去访问Redis</p>
+<p>若没有结束，则判断是否已经秒杀到，防止一人秒杀多次</p>
+<p>若判断没有秒杀到，则将库存减少，返回减少后的库存量<br>这里判断返回后减少的库存量是否小于0，如果小于零则无法秒杀。==注意：==这里若小于需要进行库存补充，这样redis里面库存的数量不会是负数。</p>
+<p>将下订单的消息入队，异步处理</p>
+<p>生产端将请求入队</p>
+<p>消费端对队列接收，消费消息。接收到消息后进行异步处理，判断库存，这里可以访问数据库，因为从进队列的就很少了。若库存没有，则返回秒杀失败消息。</p>
+<p>再次判断是否秒杀到，若秒杀到则返回失败消息。==注意：==这里也需要进行库存补充。</p>
+<p>最终判断可以秒杀，则进行减库存、下订单、写入秒杀订单。</p>
+<h3 id="这里涉及到消息可靠性传递的问题。"><a href="#这里涉及到消息可靠性传递的问题。" class="headerlink" title="这里涉及到消息可靠性传递的问题。"></a>这里涉及到消息可靠性传递的问题。</h3><p><a href="https://www.cnblogs.com/refuge/p/10356750.html" target="_blank" rel="noopener">https://www.cnblogs.com/refuge/p/10356750.html</a></p>
+<p><a href="https://blog.csdn.net/Unknownfuture/article/details/107993937" target="_blank" rel="noopener">https://blog.csdn.net/Unknownfuture/article/details/107993937</a></p>
+<p>RabbitMQ消息丢失的3种情况：<br>1.消息在生产者传入broker的过程中丢失<br>2.RabbitMQ收到消息，暂存内存中，还没消费，自己挂掉，内存中的数据搞丢<br>3.消费者消费到了这个消息，但还没来得及处理，就挂了，RabbitMQ以为消息已经被处理</p>
+<p><strong>解决方案</strong><br>1.使用生产者确认模式，使用异步confirm，前提是处理的消息可以被交换机路由到队列上<br>2.使用RabbitMQ持久化解决第二种情况。但在持久化中宕机仍导致消息丢失<br>3.使用接收方确认机制：ackMode = manual，即消费者接受消息后，手动确认/拒绝消息，响应给Broker<br>但因为rabbitMQ<strong>没有超时机制</strong>。<br>因此Broker判断是否重发消息的唯一标准是：<strong>连接是否中断</strong></p>
+<ul>
+<li><p>连接未断开，但也未收到任何确认/拒绝。</p>
+<p>则认为该消费者繁忙，不再给该消费者分发更多的消息。</p>
+<p><strong>但也不会给其他消费者发送该信息，直到消费者回复，或者连接断开</strong>（断开处理如下）</p>
+</li>
+<li><p>在收到ack / nack 前，连接断开（<strong>无论哪一方</strong>），认为消息没有被消费，会重新分发给下一个订阅的消费者。</p>
+<p>（也可能是同一个消费者。但不管如何，都会<strong>存在重复消费的隐患</strong>，需要去重等处理）</p>
+</li>
+</ul>
+<h2 id="安全优化"><a href="#安全优化" class="headerlink" title="安全优化"></a>安全优化</h2><h3 id="秒杀接口地址隐藏"><a href="#秒杀接口地址隐藏" class="headerlink" title="秒杀接口地址隐藏"></a>秒杀接口地址隐藏</h3><p>思路：秒杀开始之前，先去请求接口，获取秒杀地址<br>1.接口改造，带上PathVariable参数<br>2.添加生成地址的接口<br>3.秒杀收到请求，先验证PathVariable<br>总结：不直接通过本来的秒杀地址/miaosha/do_miaosha 来进行秒杀请求，而是先去生成一个path，然后将path拼接到本来的秒杀地址中，即/miaosha + path + /do_miaosha 来进行秒杀请求。</p>
+<p>首先原本访问的是/miaosha/do_miaosha，现在是先访问/miaosha/path，但是要带上秒杀商品的id。然后在方法内随机生成path，并将这个path和id存入到redis中，之后将path返回。成功返回的话，就在前端使用js直接使用方法doMiaosha(path)，请求的url是/miaosha/ + path + /do_miaosha。在服务端的controller上，会首先验证这个path，验证成功则进行秒杀操作。</p>
+<h3 id="数学公式验证码"><a href="#数学公式验证码" class="headerlink" title="数学公式验证码"></a>数学公式验证码</h3><p>思路：点击秒杀之前，先输入验证码，分散用户的请求<br>1.添加生成验证码的接口<br>2.在获取秒杀路径的时候，验证验证码<br>3.ScriptEngine使用</p>
+<p>在前端js中，若是正在秒杀，则会调用/miaosha/verifyCode?goodsId=… 的url，然后就会去获取验证码。这里用到BufferedImage来创建验证啊，会将随机生成的数字和加减乘的组合变成一个图片返回。返回之前回将加减乘的结果存到redis中，验证的时候从缓存中取出验证，是否验证成功，该结果都应该从缓存中移除。</p>
+<h3 id="接口限流防刷"><a href="#接口限流防刷" class="headerlink" title="接口限流防刷"></a>接口限流防刷</h3><p>思路：对接口做限流<br>将功能放在缓存中。<br>一个用户访问页面或者就接口时，将访问次数放入缓存中，同时给数据加上有效期。有效期之内，要是有访问，就加1。在有效期内，访问超过设定值，就返回失败。但是有效期没有超过次数，然后又到了下一个有效期，就重新计数。</p>
+<h2 id="未添加的支付功能"><a href="#未添加的支付功能" class="headerlink" title="未添加的支付功能"></a>未添加的支付功能</h2><p>自己的想法：<br>在订单成功生成时，发送订单id加TTL至队列中，但不对其消费。当过了TTL，该信息就会被转到死信队列中，让监听死信队列的消费者来消费这则消息。若订单id对应的支付状态为未支付，则将其失效，并增加该商品库存。若支付状态为已支付，不做处理。</p>
+<h1 id="坦克大战"><a href="#坦克大战" class="headerlink" title="坦克大战"></a>坦克大战</h1><h2 id="技术栈-2"><a href="#技术栈-2" class="headerlink" title="技术栈"></a>技术栈</h2><p>JavaSE、Netty</p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><p>创建坦克模型（区分敌我坦克）、子弹发射、物体碰撞检测、边界碰撞检测、网络版的连接通信</p>
+<h2 id="涉及到的设计模式"><a href="#涉及到的设计模式" class="headerlink" title="涉及到的设计模式"></a>涉及到的设计模式</h2><h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><p>GameModel的创建一个单例，因为坦克、子弹等都是创建在一个模型上的，所以这个GM是不能有多个的。</p>
+<h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><p>子弹发射的策略是根据不同阵营的坦克进行发射的。比如己方坦克可以向四周发射子弹，而敌方坦克只能向前进的方向发射坦克。<br>实现方式就是先建立一个子弹发射策略的接口，里面有个抽象方法fire()；<br>然后创建两个类实现该接口，一个是己方子弹发射策略，复写fire()方法，里面自定义子弹的创建，如直接创建4个方向的子弹；一个是敌方子弹发射策略，复写fire()方法，只创建一个方向的子弹。<br>之后在坦克类中定义一个属性为子弹发射策略，类为接口类。在new的时候，根据坦克的阵营，来为这个属性初始化。后面调用该属性的fire()方法时，就是想要的策略发出的子弹了。</p>
+<h3 id="装饰模式"><a href="#装饰模式" class="headerlink" title="装饰模式"></a>装饰模式</h3><p>给子弹进行装饰，发出不同样式的子弹。这里需要先将子弹类和抽象装饰器类均继承同一个父类，即GameObject。<br>其次在抽象类中定义一个抽象方法即paint()方法，这是用来在GameModel上画图的，即在页面上显示物体。这里注意，要创建一个类为GameObject的属性，然后抽象类的构造器里面传入GameObject，这里就是之后的子弹类通过构造器传入装饰类。<br>然后创建装饰器类实现该接口，里面复写paint()方法。先调用传入的子弹类的paint()方法构建出子弹，然后再自己实现一些对子弹的装饰。<br>最后在创建子弹的代码为：new 指定的装饰器(new 子弹())；</p>
+<h3 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h3><p>创建一个碰撞器接口，来进行碰撞检测。不同物体间的碰撞使用不同的碰撞器<br>用责任链将<strong>每个Collider</strong>串起来，这样当进行碰撞检测时，先检测是否满足第一个collider，不满足就检测链上的第二个collider。<br>ColliderChain也实现Collider接口的话，两个chain可以并成一个chain，即chain1.add(chain2);</p>
+<h3 id="门面模式"><a href="#门面模式" class="headerlink" title="门面模式"></a>门面模式</h3><h2 id="网络版坦克大战"><a href="#网络版坦克大战" class="headerlink" title="网络版坦克大战"></a>网络版坦克大战</h2><p>使用Netty进行网络连接。</p>
+<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Server</span> </span>&#123;</span><br><span class="line">	<span class="comment">//创建一个通道组,将连接通道都存在这个组中。</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> ChannelGroup clients = <span class="keyword">new</span> DefaultChannelGroup(GlobalEventExecutor.INSTANCE);</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">serverStart</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">//负责接收客户端的连接</span></span><br><span class="line">		EventLoopGroup bossGroup = <span class="keyword">new</span> NioEventLoopGroup(<span class="number">1</span>);</span><br><span class="line">		<span class="comment">//负责连接上的客户端的处理，比如一些IO事件</span></span><br><span class="line">		EventLoopGroup workerGroup = <span class="keyword">new</span> NioEventLoopGroup(<span class="number">2</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			ServerBootstrap b = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">			ChannelFuture f = b.group(bossGroup, workerGroup)</span><br><span class="line">			.channel(NioServerSocketChannel<span class="class">.<span class="keyword">class</span>)//指定<span class="title">channel</span>类型</span></span><br><span class="line"><span class="class">			//<span class="title">childHandler</span>就是用于当连接的客户端上发生事件时，进行处理</span></span><br><span class="line"><span class="class">			.<span class="title">childHandler</span>(<span class="title">new</span> <span class="title">ChannelInitializer</span>&lt;<span class="title">SocketChannel</span>&gt;()</span>&#123;</span><br><span class="line">				<span class="meta">@Override</span></span><br><span class="line">				<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line"><span class="comment">//					System.out.println(ch);</span></span><br><span class="line">					ChannelPipeline p1 = ch.pipeline();<span class="comment">//获得该channel的责任链</span></span><br><span class="line">					p1.addLast(<span class="keyword">new</span> MsgDecoder())<span class="comment">//将接收到的ByteBuf解码成Msg</span></span><br><span class="line">					.addLast(<span class="keyword">new</span> MsgEncoder())</span><br><span class="line">					.addLast(<span class="keyword">new</span> ServerChildHandler());<span class="comment">//往责任链上增加Handler，</span></span><br><span class="line">														<span class="comment">//一旦往这个上面写数据，则用Handler来处理。</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;)</span><br><span class="line">			.bind(<span class="number">8888</span>)<span class="comment">//监听8888端口</span></span><br><span class="line">			.sync();<span class="comment">//用于判断bind是否成功进行阻塞。若没有阻塞则还没判断就进行下面操作。</span></span><br><span class="line"><span class="comment">//			System.out.println("server started");</span></span><br><span class="line">			ServerFrame.INSTANCE.updateServerMsg(<span class="string">"server started"</span>);</span><br><span class="line">			f.channel().closeFuture().sync();<span class="comment">//起到阻塞作用。</span></span><br><span class="line">											<span class="comment">//closeFuture()是等待channel调用close，然后这句话才会往下执行。</span></span><br><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			workerGroup.shutdownGracefully();</span><br><span class="line">			bossGroup.shutdownGracefully();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//ChannelInboundHandlerAdapter也继承了ChannelHandler，</span></span><br><span class="line"><span class="comment">//所以ServerChildHandler也继承了ChannelHandler</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ServerChildHandler</span> <span class="keyword">extends</span> <span class="title">ChannelInboundHandlerAdapter</span></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelActive</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		Server.clients.add(ctx.channel());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="comment">//用来读客户端写进来的数据</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">//服务器端接收到后就直接转发。</span></span><br><span class="line">		Server.clients.writeAndFlush(msg);		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		cause.printStackTrace();</span><br><span class="line">		<span class="comment">//删除出现异常的客户端channel，并关闭连接</span></span><br><span class="line">		Server.clients.remove(ctx.channel());</span><br><span class="line">		ctx.close();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Client INSTANCE = <span class="keyword">new</span> Client();</span><br><span class="line">	<span class="keyword">private</span> Channel channel = <span class="keyword">null</span>;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Client</span><span class="params">()</span></span>&#123;&#125;;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">connect</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="comment">//线程池，循环事件不断处理的组。默认值很多，客户端的话传一个线程进去即可</span></span><br><span class="line">		EventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup(<span class="number">1</span>);<span class="comment">//线程封装在此</span></span><br><span class="line">		Bootstrap b = <span class="keyword">new</span> Bootstrap();<span class="comment">//辅助启动类		</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			<span class="comment">//连接</span></span><br><span class="line"><span class="comment">//			b.group(group)//将线程池放入</span></span><br><span class="line"><span class="comment">//				.channel(NioSocketChannel.class)//指定将来连接到服务器的channel的类型，</span></span><br><span class="line"><span class="comment">//												//这里是NIO的channel类型，非阻塞版</span></span><br><span class="line"><span class="comment">//				//在channel上发生事件，交给handler来处理</span></span><br><span class="line"><span class="comment">//				.handler(new ClientChannelInitializer())//调用connect之后，handler才开始执行，才开始初始化。</span></span><br><span class="line"><span class="comment">//				.connect("localhost", 8888)//连得远程服务器的id和端口号</span></span><br><span class="line"><span class="comment">////				.addListener(null)//加入监听者，连接结束后判断是否成功</span></span><br><span class="line"><span class="comment">//				.sync();//netty里面的方法均为异步方法，所以connect是异步方法，</span></span><br><span class="line"><span class="comment">//						//执行完之后就可以去做别的事，若要等着connect执行完，那么就需要用sync()方法。</span></span><br><span class="line"><span class="comment">//						//这调用的是future的sync。不能让其继续执行，</span></span><br><span class="line"><span class="comment">//						//是使之成为同步本来在connect后返回的是一个future对象。若没有sync方法，则用下面的形式</span></span><br><span class="line"><span class="comment">//						//sync是将其阻塞住，不让其再继续下去。</span></span><br><span class="line">			</span><br><span class="line">			  ChannelFuture f = b.group(group)</span><br><span class="line">				.channel(NioSocketChannel<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">				.<span class="title">handler</span>(<span class="title">new</span> <span class="title">ClientChannelInitializer</span>())</span></span><br><span class="line">				.connect("localhost", 8888);</span><br><span class="line">				f.addListener(<span class="keyword">new</span> ChannelFutureListener()&#123;</span><br><span class="line">					<span class="meta">@Override</span></span><br><span class="line">					<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operationComplete</span><span class="params">(ChannelFuture future)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">						<span class="keyword">if</span>(!future.isSuccess())&#123;</span><br><span class="line">							System.out.println(<span class="string">"not connected"</span>);</span><br><span class="line">						&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">							System.out.println(<span class="string">"connected"</span>);</span><br><span class="line">							<span class="comment">//连接成功将channel初始化</span></span><br><span class="line">							channel = future.channel();</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;);</span><br><span class="line">				f.sync();				</span><br><span class="line">			 </span><br><span class="line">			f.channel().closeFuture().sync();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			group.shutdownGracefully();<span class="comment">//结束客户端</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">(Msg msg)</span></span>&#123;</span><br><span class="line">		<span class="comment">//将写好的字符串msg转成ByteBuf，通过channel并写给服务器</span></span><br><span class="line">		channel.writeAndFlush(msg);</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClientChannelInitializer</span> <span class="keyword">extends</span> <span class="title">ChannelInitializer</span>&lt;<span class="title">SocketChannel</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		ch.pipeline()</span><br><span class="line">			.addLast(<span class="keyword">new</span> MsgEncoder())<span class="comment">//将msg编码发出去</span></span><br><span class="line">			.addLast(<span class="keyword">new</span> MsgDecoder())<span class="comment">//用于对接收的数据解码</span></span><br><span class="line">			.addLast(<span class="keyword">new</span> ClientHandler());</span><br><span class="line">			<span class="comment">//.addLast(new ClientChildHandler());</span></span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//若接收到的消息类型确定，就可以继承这个类</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 接收坦克的逻辑处理</span></span><br><span class="line"><span class="comment"> 1.判断是不是自己</span></span><br><span class="line"><span class="comment"> 2.列表是不是已经有了</span></span><br><span class="line"><span class="comment"> 3.发自己的一个TankJoinMsg，是为了发给新加入的客户端，使之产生本客户端的对象。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClientHandler</span> <span class="keyword">extends</span> <span class="title">SimpleChannelInboundHandler</span>&lt;<span class="title">Msg</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">channelRead0</span><span class="params">(ChannelHandlerContext ctx, Msg msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">//将接收到的消息自己进行处理</span></span><br><span class="line">		msg.handle();		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//这个Handler启用了，就可以往外写数据</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelActive</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		ctx.writeAndFlush(<span class="keyword">new</span> TankJoinMsg(TankFrame.INSTANCE.getMainTank()));</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="编码器"><a href="#编码器" class="headerlink" title="编码器"></a>编码器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//编码器</span></span><br><span class="line"><span class="comment">//首先给包写一个信息头，如信息的类型即MsgType；第二个是消息的长度；第三个是消息体；</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MsgEncoder</span> <span class="keyword">extends</span> <span class="title">MessageToByteEncoder</span>&lt;<span class="title">Msg</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">encode</span><span class="params">(ChannelHandlerContext ctx, Msg msg, ByteBuf buf)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"><span class="comment">//		buf.writeBytes(msg.toBytes());</span></span><br><span class="line">		buf.writeInt(msg.getMsgType().ordinal());<span class="comment">//消息类型</span></span><br><span class="line">		<span class="keyword">byte</span>[] bytes = msg.toBytes();<span class="comment">//将消息体变成字节数组</span></span><br><span class="line">		buf.writeInt(bytes.length);<span class="comment">//消息的长度也就是字节数组的长度</span></span><br><span class="line">		buf.writeBytes(bytes);<span class="comment">//消息体</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解码器"><a href="#解码器" class="headerlink" title="解码器"></a>解码器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解码器</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MsgDecoder</span> <span class="keyword">extends</span> <span class="title">ByteToMessageDecoder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">decode</span><span class="params">(ChannelHandlerContext ctx, ByteBuf in, List&lt;Object&gt; out)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		<span class="comment">//判断是否读全，读全才处理。这里解决了TCP的拆包和粘包的问题</span></span><br><span class="line"><span class="comment">//		if(in.readableBytes() &lt; 33) return;</span></span><br><span class="line">		<span class="comment">//Type类型4个字节，消息长度4个字节</span></span><br><span class="line">		<span class="keyword">if</span>(in.readableBytes() &lt; <span class="number">8</span>) <span class="keyword">return</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//读到哪了，做个标记。</span></span><br><span class="line">		in.markReaderIndex();</span><br><span class="line">		</span><br><span class="line">		MsgType msgType = MsgType.values()[in.readInt()];		</span><br><span class="line">		<span class="keyword">int</span> length = in.readInt();</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//若可读的部分小于length，表明消息没有完全传过来</span></span><br><span class="line">		<span class="keyword">if</span>(in.readableBytes() &lt; length)&#123;</span><br><span class="line">			<span class="comment">//将指针回到最早的标记好的位置，也就是0的位置</span></span><br><span class="line">			in.resetReaderIndex();</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[length];</span><br><span class="line">		in.readBytes(bytes);</span><br><span class="line">		</span><br><span class="line">		Msg msg = <span class="keyword">null</span>;		</span><br><span class="line">		<span class="keyword">switch</span>(msgType)&#123;</span><br><span class="line">		<span class="keyword">case</span> TankJoin:</span><br><span class="line">			msg = <span class="keyword">new</span> TankJoinMsg();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> TankStartMoving:</span><br><span class="line">			msg = <span class="keyword">new</span> TankStartMovingMsg();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> TankStop:</span><br><span class="line">			msg = <span class="keyword">new</span> TankStopMsg();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> BulletNew:</span><br><span class="line">			msg = <span class="keyword">new</span> BulletNewMsg();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> TankDie:</span><br><span class="line">			msg = <span class="keyword">new</span> TankDieMsg();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> TankDirChanged:</span><br><span class="line">			msg = <span class="keyword">new</span> TankDirChangedMsg();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		msg.parse(bytes);<span class="comment">//根据bytes将各个属性填写好</span></span><br><span class="line">		out.add(msg);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="消息的抽象类"><a href="#消息的抽象类" class="headerlink" title="消息的抽象类"></a>消息的抽象类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建msg抽象类，将所有消息都继承于此，这样每种消息都有自己处理的方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Msg</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">()</span></span>;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">byte</span>[] toBytes();</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">parse</span><span class="params">(<span class="keyword">byte</span>[] bytes)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> MsgType <span class="title">getMsgType</span><span class="params">()</span></span>;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="其中一种消息的具体实现类"><a href="#其中一种消息的具体实现类" class="headerlink" title="其中一种消息的具体实现类"></a>其中一种消息的具体实现类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TankJoinMsg</span> <span class="keyword">extends</span> <span class="title">Msg</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span> x, y;</span><br><span class="line">	<span class="keyword">public</span> Dir dir;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">boolean</span> moving;</span><br><span class="line">	<span class="keyword">public</span> Group group;</span><br><span class="line">	<span class="keyword">public</span> UUID id;<span class="comment">//UUID是一个128位的数字，通过专门的算法生成，独一无二的</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TankJoinMsg</span><span class="params">(Tank t)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.x = t.x;</span><br><span class="line">		<span class="keyword">this</span>.y = t.y;</span><br><span class="line">		<span class="keyword">this</span>.dir = t.getDir();</span><br><span class="line">		<span class="keyword">this</span>.group = t.getGroup();</span><br><span class="line">		<span class="keyword">this</span>.id = t.getId();</span><br><span class="line">		<span class="keyword">this</span>.moving = t.isMoving();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TankJoinMsg</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y, Dir dir, <span class="keyword">boolean</span> moving, Group group, UUID id)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.x = x;</span><br><span class="line">		<span class="keyword">this</span>.y = y;</span><br><span class="line">		<span class="keyword">this</span>.dir = dir;</span><br><span class="line">		<span class="keyword">this</span>.group = group;</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">		<span class="keyword">this</span>.moving = moving;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TankJoinMsg</span><span class="params">()</span></span>&#123;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//根据bytes填写好属性</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">parse</span><span class="params">(<span class="keyword">byte</span>[] bytes)</span></span>&#123;</span><br><span class="line">		DataInputStream dis = <span class="keyword">new</span> DataInputStream(<span class="keyword">new</span> ByteArrayInputStream(bytes));</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.x = dis.readInt();</span><br><span class="line">			<span class="keyword">this</span>.y = dis.readInt();</span><br><span class="line">			<span class="keyword">this</span>.dir = Dir.values()[dis.readInt()];</span><br><span class="line">			<span class="keyword">this</span>.moving = dis.readBoolean();</span><br><span class="line">			<span class="keyword">this</span>.group = Group.values()[dis.readInt()];</span><br><span class="line">			<span class="keyword">this</span>.id = <span class="keyword">new</span> UUID(dis.readLong(), dis.readLong());</span><br><span class="line">			</span><br><span class="line">		&#125;<span class="keyword">catch</span>(IOException e)&#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				dis.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">				<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//将整个消息转化成byte数组</span></span><br><span class="line">	<span class="comment">//这里不用ByteBuf的原因是防止哪天不用netty也能照常使用。</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">byte</span>[] toBytes()&#123;</span><br><span class="line">		ByteArrayOutputStream baos = <span class="keyword">null</span>;</span><br><span class="line">		DataOutputStream dos = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">byte</span>[] bytes = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			baos = <span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">			dos = <span class="keyword">new</span> DataOutputStream(baos);<span class="comment">//用这个来往外写</span></span><br><span class="line">			</span><br><span class="line">			<span class="comment">//将信息写入</span></span><br><span class="line">			dos.writeInt(x);</span><br><span class="line">			dos.writeInt(y);</span><br><span class="line">			dos.writeInt(dir.ordinal());<span class="comment">//枚举类里面可以当做数组，将当前数值的下标传入</span></span><br><span class="line">			dos.writeBoolean(moving);<span class="comment">//布尔类型往外写是一个字节</span></span><br><span class="line">			dos.writeInt(group.ordinal());</span><br><span class="line">			dos.writeLong(id.getMostSignificantBits());<span class="comment">//因为UUID是128位。所以这里高64位写出来</span></span><br><span class="line">			dos.writeLong(id.getLeastSignificantBits());<span class="comment">//这里写低64位</span></span><br><span class="line">			</span><br><span class="line">			dos.flush();</span><br><span class="line">			bytes = baos.toByteArray();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">			<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="keyword">if</span>(baos != <span class="keyword">null</span>)&#123;</span><br><span class="line">				baos.close();	</span><br><span class="line">				&#125;</span><br><span class="line">					</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="keyword">if</span>(dos != <span class="keyword">null</span>)&#123;</span><br><span class="line">				dos.close();	</span><br><span class="line">				&#125;</span><br><span class="line">					</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">					<span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">					e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> bytes;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"TankMsg"</span> + x + <span class="string">","</span> + y;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">//判断接收到的坦克是否是自己的坦克或者是列表中存在的坦克</span></span><br><span class="line">		<span class="keyword">if</span>(<span class="keyword">this</span>.id.equals(TankFrame.INSTANCE.getMainTank().getId()) ||</span><br><span class="line">				TankFrame.INSTANCE.findByUUID(<span class="keyword">this</span>.id)!= <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line"><span class="comment">//		System.out.println(111);</span></span><br><span class="line">		<span class="comment">//通过msg初始化一个坦克，然后将坦克加入列表</span></span><br><span class="line">		Tank t = <span class="keyword">new</span> Tank(<span class="keyword">this</span>);</span><br><span class="line">		TankFrame.INSTANCE.addTank(t);</span><br><span class="line">		<span class="comment">//将自己的坦克信息传出去</span></span><br><span class="line">		Client.INSTANCE.send(<span class="keyword">new</span> TankJoinMsg(TankFrame.INSTANCE.getMainTank()));</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//返回消息的类型</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> MsgType <span class="title">getMsgType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> MsgType.TankJoin;</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="对上面消息使用-Netty中的EmbeddedChannel-进行单元测试"><a href="#对上面消息使用-Netty中的EmbeddedChannel-进行单元测试" class="headerlink" title="对上面消息使用 Netty中的EmbeddedChannel 进行单元测试"></a>对上面消息使用 Netty中的EmbeddedChannel 进行单元测试</h3><p>对于 Netty 的 ChannelHandler 进行单元测试，Netty 提供了 EmbeddedChannel 嵌入式通道来完成这一过程，主要使用该通道来测试数据的入站出站过程是否合法；</p>
+<p>该通道提供以下常用的 API：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>writeInbound</td>
+<td>写一个入站消息到 EmbeddedChannel。 如果数据能从 EmbeddedChannel 通过 readInbound() 读到，则返回 true；</td>
+</tr>
+<tr>
+<td>readInbound</td>
+<td>从 EmbeddedChannel 读到入站消息。任何返回遍历整个ChannelPipeline。如果读取还没有准备，则此方法返回 null；</td>
+</tr>
+<tr>
+<td>writeOutbound</td>
+<td>写一个出站消息到 EmbeddedChannel。 如果数据能从 EmbeddedChannel 通过 readOutbound() 读到，则返回 true；</td>
+</tr>
+<tr>
+<td>readOutbound</td>
+<td>从 EmbeddedChannel 读到出站消息。任何返回遍历整个ChannelPipeline。如果读取还没有准备，则此方法返回 null；</td>
+</tr>
+<tr>
+<td>Finish</td>
+<td>如果从入站或者出站中能读到数据，标记 EmbeddedChannel 完成并且返回。这同时会调用 EmbeddedChannel 的关闭方法；</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TankJoinMsgCodecTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestEncoder</span><span class="params">()</span></span>&#123;</span><br><span class="line">		EmbeddedChannel ch = <span class="keyword">new</span> EmbeddedChannel();</span><br><span class="line">		</span><br><span class="line">		UUID id = UUID.randomUUID();</span><br><span class="line">		TankJoinMsg msg = <span class="keyword">new</span> TankJoinMsg(<span class="number">5</span>, <span class="number">10</span>, Dir.DOWN, </span><br><span class="line">				<span class="keyword">true</span>, Group.BAD, id);</span><br><span class="line">		ch.pipeline()</span><br><span class="line">			.addLast(<span class="keyword">new</span> MsgEncoder());</span><br><span class="line">		ch.writeOutbound(msg);</span><br><span class="line">		</span><br><span class="line">		ByteBuf buf = (ByteBuf)ch.readOutbound();</span><br><span class="line">		MsgType msgType = MsgType.values()[buf.readInt()];</span><br><span class="line">		assertEquals(MsgType.TankJoin, msgType);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> length = buf.readInt();</span><br><span class="line">		assertEquals(<span class="number">33</span>, length);</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> x = buf.readInt();</span><br><span class="line">		<span class="keyword">int</span> y = buf.readInt();</span><br><span class="line">		<span class="keyword">int</span> dirOrdinal = buf.readInt();</span><br><span class="line">		Dir dir = Dir.values()[dirOrdinal];</span><br><span class="line">		<span class="keyword">boolean</span> moving = buf.readBoolean();</span><br><span class="line">		<span class="keyword">int</span> groupOrdinal = buf.readInt();</span><br><span class="line">		Group g = Group.values()[groupOrdinal];</span><br><span class="line">		UUID uuid = <span class="keyword">new</span> UUID(buf.readLong(), buf.readLong());</span><br><span class="line">		</span><br><span class="line">		assertEquals(<span class="number">5</span>, x);</span><br><span class="line">		assertEquals(<span class="number">10</span>, y);</span><br><span class="line">		assertEquals(Dir.DOWN, dir);</span><br><span class="line">		assertEquals(<span class="keyword">true</span>, moving);</span><br><span class="line">		assertEquals(Group.BAD, g);</span><br><span class="line">		assertEquals(id, uuid);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">TestDecoder</span><span class="params">()</span></span>&#123;</span><br><span class="line">		EmbeddedChannel ch = <span class="keyword">new</span> EmbeddedChannel();</span><br><span class="line">		</span><br><span class="line">		UUID id = UUID.randomUUID();</span><br><span class="line">		TankJoinMsg msg = <span class="keyword">new</span> TankJoinMsg(<span class="number">5</span>, <span class="number">10</span>, Dir.DOWN, </span><br><span class="line">				<span class="keyword">true</span>, Group.BAD, id);</span><br><span class="line">		ch.pipeline()</span><br><span class="line">			.addLast(<span class="keyword">new</span> MsgDecoder());</span><br><span class="line">		ByteBuf buf = Unpooled.buffer();</span><br><span class="line">		buf.writeInt(MsgType.TankJoin.ordinal());</span><br><span class="line">		<span class="keyword">byte</span>[] bytes = msg.toBytes();</span><br><span class="line">		buf.writeInt(bytes.length);</span><br><span class="line">		buf.writeBytes(bytes);</span><br><span class="line">		</span><br><span class="line"><span class="comment">//		buf.writeBytes(msg.toBytes());</span></span><br><span class="line">		</span><br><span class="line">		ch.writeInbound(buf.duplicate());</span><br><span class="line">		TankJoinMsg msgR = (TankJoinMsg)ch.readInbound();</span><br><span class="line">		</span><br><span class="line">		assertEquals(<span class="number">5</span>, msgR.x);</span><br><span class="line">		assertEquals(<span class="number">10</span>, msgR.y);</span><br><span class="line">		assertEquals(Dir.DOWN, msgR.dir);</span><br><span class="line">		assertEquals(<span class="keyword">true</span>, msgR.moving);</span><br><span class="line">		assertEquals(Group.BAD, msgR.group);</span><br><span class="line">		assertEquals(id, msgR.id);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+	  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	
+   </div>
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/15/%E8%87%AA%E5%B7%B1%E9%9D%A2%E7%BB%8F/" rel="prev" title="自己面经">
+      <i class="fa fa-chevron-left"></i> 自己面经
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#论坛项目"><span class="nav-number">1.</span> <span class="nav-text">论坛项目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#技术栈"><span class="nav-number">1.1.</span> <span class="nav-text">技术栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能实现"><span class="nav-number">1.2.</span> <span class="nav-text">功能实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#登录"><span class="nav-number">1.2.1.</span> <span class="nav-text">登录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用GitHub登录"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">使用GitHub登录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#登录状态持久化"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">登录状态持久化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导航栏"><span class="nav-number">1.2.2.</span> <span class="nav-text">导航栏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文章"><span class="nav-number">1.2.3.</span> <span class="nav-text">文章</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文章发布"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">文章发布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文章修改编辑"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">文章修改编辑</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首页"><span class="nav-number">1.2.4.</span> <span class="nav-text">首页</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#左栏展示问题列表"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">左栏展示问题列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#右栏是热点话题等"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">右栏是热点话题等</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分页"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">分页</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文章详情"><span class="nav-number">1.2.5.</span> <span class="nav-text">文章详情</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#个人中心（我的问题、我的通知）"><span class="nav-number">1.2.6.</span> <span class="nav-text">个人中心（我的问题、我的通知）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#错误页面处理"><span class="nav-number">1.2.7.</span> <span class="nav-text">错误页面处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回复功能"><span class="nav-number">1.2.8.</span> <span class="nav-text">回复功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一级回复功能"><span class="nav-number">1.2.8.1.</span> <span class="nav-text">一级回复功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取回复"><span class="nav-number">1.2.8.2.</span> <span class="nav-text">获取回复</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二级回复功能"><span class="nav-number">1.2.8.3.</span> <span class="nav-text">二级回复功能</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通知功能"><span class="nav-number">1.2.9.</span> <span class="nav-text">通知功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加富文本编辑"><span class="nav-number">1.2.10.</span> <span class="nav-text">添加富文本编辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日志"><span class="nav-number">1.2.11.</span> <span class="nav-text">日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#热点话题"><span class="nav-number">1.2.12.</span> <span class="nav-text">热点话题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搜索功能"><span class="nav-number">1.2.13.</span> <span class="nav-text">搜索功能</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#秒杀项目"><span class="nav-number">2.</span> <span class="nav-text">秒杀项目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#技术栈-1"><span class="nav-number">2.1.</span> <span class="nav-text">技术栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能实现-1"><span class="nav-number">2.2.</span> <span class="nav-text">功能实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#登录功能"><span class="nav-number">2.2.1.</span> <span class="nav-text">登录功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#明文密码两个MD5处理"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">明文密码两个MD5处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布式Session"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">分布式Session</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现秒杀功能"><span class="nav-number">2.2.2.</span> <span class="nav-text">实现秒杀功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#秒杀功能实现（初步）"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">秒杀功能实现（初步）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用JMeter初步压测"><span class="nav-number">2.2.3.</span> <span class="nav-text">使用JMeter初步压测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页面优化技术"><span class="nav-number">2.2.4.</span> <span class="nav-text">页面优化技术</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#页面缓存"><span class="nav-number">2.2.4.1.</span> <span class="nav-text">页面缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#URL缓存"><span class="nav-number">2.2.4.2.</span> <span class="nav-text">URL缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象缓存"><span class="nav-number">2.2.4.3.</span> <span class="nav-text">对象缓存</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页面缓存压测"><span class="nav-number">2.2.5.</span> <span class="nav-text">页面缓存压测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页面静态化"><span class="nav-number">2.2.6.</span> <span class="nav-text">页面静态化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态资源优化和CDN优化"><span class="nav-number">2.2.7.</span> <span class="nav-text">静态资源优化和CDN优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#超卖问题"><span class="nav-number">2.2.8.</span> <span class="nav-text">超卖问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口优化"><span class="nav-number">2.2.9.</span> <span class="nav-text">接口优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#这里涉及到消息可靠性传递的问题。"><span class="nav-number">2.2.10.</span> <span class="nav-text">这里涉及到消息可靠性传递的问题。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全优化"><span class="nav-number">2.3.</span> <span class="nav-text">安全优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#秒杀接口地址隐藏"><span class="nav-number">2.3.1.</span> <span class="nav-text">秒杀接口地址隐藏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数学公式验证码"><span class="nav-number">2.3.2.</span> <span class="nav-text">数学公式验证码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口限流防刷"><span class="nav-number">2.3.3.</span> <span class="nav-text">接口限流防刷</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#未添加的支付功能"><span class="nav-number">2.4.</span> <span class="nav-text">未添加的支付功能</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#坦克大战"><span class="nav-number">3.</span> <span class="nav-text">坦克大战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#技术栈-2"><span class="nav-number">3.1.</span> <span class="nav-text">技术栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能"><span class="nav-number">3.2.</span> <span class="nav-text">功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#涉及到的设计模式"><span class="nav-number">3.3.</span> <span class="nav-text">涉及到的设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单例模式"><span class="nav-number">3.3.1.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#策略模式"><span class="nav-number">3.3.2.</span> <span class="nav-text">策略模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰模式"><span class="nav-number">3.3.3.</span> <span class="nav-text">装饰模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#责任链模式"><span class="nav-number">3.3.4.</span> <span class="nav-text">责任链模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#门面模式"><span class="nav-number">3.3.5.</span> <span class="nav-text">门面模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络版坦克大战"><span class="nav-number">3.4.</span> <span class="nav-text">网络版坦克大战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#服务端"><span class="nav-number">3.4.1.</span> <span class="nav-text">服务端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客户端"><span class="nav-number">3.4.2.</span> <span class="nav-text">客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编码器"><span class="nav-number">3.4.3.</span> <span class="nav-text">编码器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解码器"><span class="nav-number">3.4.4.</span> <span class="nav-text">解码器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息的抽象类"><span class="nav-number">3.4.5.</span> <span class="nav-text">消息的抽象类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其中一种消息的具体实现类"><span class="nav-number">3.4.6.</span> <span class="nav-text">其中一种消息的具体实现类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对上面消息使用-Netty中的EmbeddedChannel-进行单元测试"><span class="nav-number">3.4.7.</span> <span class="nav-text">对上面消息使用 Netty中的EmbeddedChannel 进行单元测试</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="詹智健"
+      src="/images/A%20lemon.jpg">
+  <p class="site-author-name" itemprop="name">詹智健</p>
+  <div class="site-description" itemprop="description">今天也是很多个开心日子里开心的一天呀</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SsssshiFT-96" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SsssshiFT-96" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">詹智健</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共189.3k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

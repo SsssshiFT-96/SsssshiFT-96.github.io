@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*��������ɫ*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*��Ӱ��ɫ*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*�ϱ߿���ɫ*/
+        border-left-color: #1E92FB;    /*��߿���ɫ*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/Z_Letter.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/Z_Letter.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"ssssshift-96.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="字节一面（25min）强烈怀疑是为了刷kpi才面试的我，这时间也太短了1.死锁的四个特征2.讲一下拥塞控制3.讲一下MySQL事务的4个特性4.系统调用5.线程比进程轻量的原因手撕：找出01矩阵中，1最多的区域，返回1的数量 拼多多超级提前批一面（50min）自我介绍怼项目学习组件，自己有什么难点三个项目在学习的时候印象最深的地方有哪些？ 坦克大战用到哪些设计模式子弹与坦克碰撞检测能否不用责任链策">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自己面经">
+<meta property="og:url" content="https://ssssshift-96.github.io/2020/09/15/%E8%87%AA%E5%B7%B1%E9%9D%A2%E7%BB%8F/index.html">
+<meta property="og:site_name" content="SsssshiFT-96">
+<meta property="og:description" content="字节一面（25min）强烈怀疑是为了刷kpi才面试的我，这时间也太短了1.死锁的四个特征2.讲一下拥塞控制3.讲一下MySQL事务的4个特性4.系统调用5.线程比进程轻量的原因手撕：找出01矩阵中，1最多的区域，返回1的数量 拼多多超级提前批一面（50min）自我介绍怼项目学习组件，自己有什么难点三个项目在学习的时候印象最深的地方有哪些？ 坦克大战用到哪些设计模式子弹与坦克碰撞检测能否不用责任链策">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-15T11:21:17.205Z">
+<meta property="article:modified_time" content="2020-09-15T07:59:41.546Z">
+<meta property="article:author" content="詹智健">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://ssssshift-96.github.io/2020/09/15/%E8%87%AA%E5%B7%B1%E9%9D%A2%E7%BB%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true
+  };
+</script>
+
+  <title>自己面经 | SsssshiFT-96</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">SsssshiFT-96</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">6</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">0</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">50</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="search-pop-overlay">
+  <div class="popup search-popup">
+      <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/09/15/%E8%87%AA%E5%B7%B1%E9%9D%A2%E7%BB%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/A%20lemon.jpg">
+      <meta itemprop="name" content="詹智健">
+      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="SsssshiFT-96">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          自己面经
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-15 19:21:17 / 修改时间：15:59:41" itemprop="dateCreated datePublished" datetime="2020-09-15T19:21:17+08:00">2020-09-15</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="字节一面（25min）"><a href="#字节一面（25min）" class="headerlink" title="字节一面（25min）"></a>字节一面（25min）</h1><p>强烈怀疑是为了刷kpi才面试的我，这时间也太短了<br>1.死锁的四个特征<br>2.讲一下拥塞控制<br>3.讲一下MySQL事务的4个特性<br>4.系统调用<br>5.线程比进程轻量的原因<br>手撕：找出01矩阵中，1最多的区域，返回1的数量</p>
+<h1 id="拼多多超级提前批一面（50min）"><a href="#拼多多超级提前批一面（50min）" class="headerlink" title="拼多多超级提前批一面（50min）"></a>拼多多超级提前批一面（50min）</h1><p>自我介绍<br>怼项目<br>学习组件，自己有什么难点<br>三个项目在学习的时候印象最深的地方有哪些？</p>
+<p><strong>坦克大战</strong><br>用到哪些设计模式<br>子弹与坦克碰撞检测能否不用责任链<br>策略模式用的java原生的还是spring的<br>spring里面的策略模式有了解吗（没有。。。）</p>
+<p><strong>秒杀系统</strong></p>
+<p>讲一下秒杀的具体场景和过程<br>在库存都为1的情况下，同时有两个用户进行秒杀，且都通过了库存判断和有无重复秒杀，那么是怎么处理的（超卖问题）<br>减库存的操作是在哪里操作的（redis还是数据库）<br>高并发下，如果两个都操作的话，是否有必要</p>
+<p><strong>算法题</strong><br>递归完成二叉树层序遍历</p>
+<h1 id="拼多多超级提前批二面（56min）"><a href="#拼多多超级提前批二面（56min）" class="headerlink" title="拼多多超级提前批二面（56min）"></a>拼多多超级提前批二面（56min）</h1><p>自我介绍<br><strong>怼项目</strong><br>三个项目讲一下（讲完第一个坦克大战就没让我讲了）<br>对设计模式的理解</p>
+<p><strong>Redis</strong><br>redis是否可以持久化<br>详细讲一下rdb和aof<br>持久化的一些参数了解哪些<br>redis必须要持久化吗<br>redis进行持久化会对性能有影响吗</p>
+<p><strong>RabbitMQ</strong><br>讲一下AMQP协议<br>了解MQTT吗（不了解）<br>RabbitMQ的特性<br>RabbitMQ与其他消息中间件的区别</p>
+<p><strong>Java</strong><br>现在Java出到哪个版本了<br>了解新版本Java的特性吗（不了解）<br>1.8中ConcurrentHashMap与之前的不同点<br>CAS讲一下，底层如何保证并发安全的</p>
+<p><strong>JVM</strong><br>讲一下垃圾回收（讲了如何判断对象是否存活和回收算法）<br>哪些对象可以作为GC Root</p>
+<p><strong>多线程</strong><br>线程池的参数<br>阻塞队列有哪些</p>
+<p><strong>算法</strong><br>实现一个二叉查找树（实现插入和查询功能）<br>如果存入的值是任意对象如何处理<br>如何删除一个节点如何处理</p>
+<p><strong>非技术相关</strong><br>如何了解到拼多多这个产品的<br>对我们工作强度了解吗</p>
+<p><strong>反问</strong><br>拼多多用到的技术栈<br>认为拼多多有哪些技术难点<br>对自己的评价（面试官说不方便评价）</p>
+<h1 id="拼多多客户端一面（60min）"><a href="#拼多多客户端一面（60min）" class="headerlink" title="拼多多客户端一面（60min）"></a>拼多多客户端一面（60min）</h1><p><strong>科研项目</strong><br>讲自己科研的东西，讲了十几分钟自己的研究生课题</p>
+<p><strong>怼项目</strong><br>为什么选择这三个项目来做<br>秒杀系统为什么想到要做压测<br>压测系统是如何知道你的QPS是多少<br>为什么改变之后QPS会上升<br>除了加缓存还有什么提高的QPS的方法吗</p>
+<p><strong>操作系统</strong><br>进程和线程的区别<br>线程的生命周期<br>为什么会有就绪状态</p>
+<p><strong>Java</strong><br>讲一下HashMap的底层结构<br>哈希冲突只用链表吗？<br>为什么后面转成红黑树</p>
+<p><strong>SQL语句</strong><br>给了一个消息表，查询最近一个月由a发出的消息，并按时间降序排序</p>
+<p><strong>算法</strong><br>查询一个int数二进制含1的个数</p>
+<h1 id="拼多多客户端hr面（30min）"><a href="#拼多多客户端hr面（30min）" class="headerlink" title="拼多多客户端hr面（30min）"></a>拼多多客户端hr面（30min）</h1><p>何时返校<br>研究生是保研还是考研<br>为什么不去实习呢<br>为什么考虑转行<br>考虑转行的话是如何选择互联网行业的<br>自己做的项目有什么收获或者体验<br>希望的工作地点<br>家庭情况<br>有无女朋友<br>是否有其他公司的意向书或者在流程中<br>选择第一份工作公司考虑的因素<br>我们工作强度很大，如何看待<br>进入公司你最顾忌的点是什么<br>期望的薪资</p>
+<p>反问</p>
+<h1 id="携程提前批一面（50min）"><a href="#携程提前批一面（50min）" class="headerlink" title="携程提前批一面（50min）"></a>携程提前批一面（50min）</h1><p>自我介绍<br>请问为什么要转行<br>有参加过计算机相关的竞赛吗<br><strong>怼项目</strong><br>项目的难点<br>讲的具体一点<br>使用elasticsearch设置了几个节点（项目太小了，用不到集群就设置了一个）</p>
+<p><strong>JVM</strong><br>讲一下垃圾回收算法（这里断网，导致重进了面试间好几次…)</p>
+<p><strong>Spring/Spring boot</strong><br>如果让你来设计一个Spring，你会如何设计<br>spring中的Bean都是单例的吗</p>
+<p><strong>多线程</strong><br>多线程用到的包是什么<br>讲一个这个包里面的东西<br>线程安全的集合<br>线程池、线程池种类、线程池里面的参数<br>AQS（state、CLB队列等）<br>线程越多，效率就好吗<br>在使用多线程的时候最消耗CPU的是哪里<br>线程使用的资源在哪里（不知道为什么知识点就跑到操作系统上去了）</p>
+<p><strong>算法</strong><br>判断一个链表有无环（用哈希不用哈希）<br>反转单向链表</p>
+<p><strong>反问</strong><br>携程的业务（主要是做旅游方面的）<br>自己需要提高的地方（计算机的基础知识有所欠缺，多看一下操作系统和计算机组成原理）</p>
+<h1 id="美团一面（1h7min）"><a href="#美团一面（1h7min）" class="headerlink" title="美团一面（1h7min）"></a>美团一面（1h7min）</h1><p><strong>自我介绍</strong><br><strong>怼项目</strong><br>秒杀<br>Redis缓存页面说一下<br>缓存的key是什么<br>使用RabbitMQ如果消息传递失败了是重新传递还是其他？</p>
+<p><strong>Java基础</strong><br>ArrayList和LinkedList区别以及扩容机制<br>HashMap的底层数据结构和put过程<br>红黑树是什么时候有的<br>为什么使用红黑树而不是平衡树之类的（当时有点懵）<br>HashMap如何判断key值相同<br>如果key是String类型equal怎么判断，如果是自定义对象呢<br>为什么hash和equal均要重写<br>异常体系了解吗（忘了）</p>
+<p><strong>JVM</strong><br>内存模型（这里先答成了JMM，后面提醒回答堆栈）<br>GC发生在哪些区域<br>判断对象死亡的方法有哪些</p>
+<p><strong>多线程</strong><br>线程的状态<br>就绪是什么状态（这里可能和操作系统的搞混了）<br>让线程处于time-waiting状态有什么方法<br>sleep和wait方法有什么不同<br>线程池创建的参数有哪些<br>线程池一创建就有核心线程数那么多的线程数量吗<br>什么时候会创建超过核心线程数的线程<br>如果队列满了、线程也满了会执行什么策略<br>讲一下ThreadLocal<br>ThreadLocal使用需要注意什么</p>
+<p><strong>算法</strong><br>找出最长回文子串（写完讲了思路，面试官没太懂，万幸给的样例都过了）</p>
+<p><strong>反问</strong><br>有什么需要提高的（没回答）<br>美团用的技术栈</p>
+<h1 id="美团二面（53min）"><a href="#美团二面（53min）" class="headerlink" title="美团二面（53min）"></a>美团二面（53min）</h1><p><strong>算法题4道</strong><br>在一个数组里找到第m小的value，打印出来</p>
+<p>从n个不重复数字里边随机的选出m个不重复的数，打印出来。其中n&gt;=m<br>要求：每个数字最多被选择一次<br>时间：O（m）</p>
+<p>输入：一个文本串<br>输出：最长重复子串<br>示例：<br> - Ask not what your country can do for you, but what your can do for your country.<br>最长重复子串：can do for you</p>
+<p>有一个有序数组n个元素（升序），循环移动m位后，找出最小值的位置<br>n=4,m=2<br>1,2,3,4 -&gt; 2,3,4,1 -&gt; 3,4,1,2</p>
+<p>1.线程安全的单例模式</p>
+<p>2.static关键字的作用</p>
+<p> - public static class A {</p>
+<p>​    private static String s;</p>
+<p>​    public static void func() {}</p>
+<p>  }</p>
+<p>进程A和B</p>
+<p>A:<br>  *(0X123AA) = 10;</p>
+<p>B:<br>  *(0X123AA) = 20;</p>
+<p>问题：<br> - 在多core cpu环境下，A和B进程同时运行时，会不会出现写冲突、数据被覆盖的情况</p>
+<h1 id="用友一面（36min）"><a href="#用友一面（36min）" class="headerlink" title="用友一面（36min）"></a>用友一面（36min）</h1><p>自我介绍</p>
+<p><strong>怼项目</strong><br>秒杀<br>如何解决超卖问题<br>rabbitMQ消费端出现异常如何处理</p>
+<p>论坛<br>如何设计管理员和非管理员<br>若管理员分为超级管理员、普通管理员如何设计</p>
+<p><strong>Java</strong><br>如何高效遍历map集合中的key-value<br>如果map中key的值是自定义的User，会有什么问题</p>
+<p><strong>MySQL</strong><br>left join<br>如果left join后面不加on会出现什么问题<br>给出一个联合索引，判断下面哪个查询使用到了索引<br>手写SQL，根据表求出每个学校学生的数量，如果要求学生数量大于20呢<br>MySQL索引底层结构，为什么使用B+树</p>
+<p><strong>计网</strong><br>如果POST请求传过来一个JSON格式的数据，Spring中的Controller如何接受这个数据<br>Cookie是存放在http协议中的哪个位置<br>Cookie和Session的区别</p>
+<p><strong>Linux</strong><br>查询进程日志用的指令</p>
+<p><strong>Maven</strong><br>Maven有哪些指令</p>
+<p><strong>Git</strong><br>使用过Git吗</p>
+<p><strong>反问</strong><br>用友的业务</p>
+<h1 id="58同城一面（23min）"><a href="#58同城一面（23min）" class="headerlink" title="58同城一面（23min）"></a>58同城一面（23min）</h1><p><strong>怼项目</strong><br><strong>坦克大战</strong><br>讲一下坦克大战的技术难点(用到什么算法、数据结构)<br>如果坦克、子弹很多的话，物体碰撞如何优化</p>
+<p><strong>秒杀项目</strong><br>讲一下秒杀项目如何优化的<br>Redis为什么快（这里讲到Redis是在内存上使用的，MySQL是数据存在磁盘上的。面试官打断说MySQL也是存在内存上的）<br>Redis是单线程，若是多核会不会浪费了</p>
+<p><strong>ElasticSearch</strong><br>用来做什么<br>全文索引MySQL为什么不能做</p>
+<p><strong>操作系统</strong><br>讲一下内存管理</p>
+<h1 id="顺丰一面（24min）"><a href="#顺丰一面（24min）" class="headerlink" title="顺丰一面（24min）"></a>顺丰一面（24min）</h1><p><strong>JVM</strong><br>JVM的内存结构<br>堆栈的区别<br>哪些是线程共享的<br>双亲委派模型<br>如果自己写一个类和JDK重名了，加载器加载哪个类</p>
+<p><strong>Java</strong><br>反射，什么场合会用到反射</p>
+<p><strong>Spring</strong><br>讲一下Spring用到的注解有哪些？SpringMVC、Spring Boot也行</p>
+<p><strong>MySQL</strong><br>讲一下MySQL索引</p>
+<p><strong>Redis</strong><br>讲一下对Redis的了解<br>Redis为什么这么快<br>还知道其他用作缓存的技术吗</p>
+<p><strong>RabbitMQ</strong><br>讲一下具体的使用</p>
+<p><strong>ElasticSearch</strong><br>ElasticSearch的索引了解吗</p>
+<p><strong>多线程</strong><br>使用多线程的方式<br>线程池的拒绝策略</p>
+<p><strong>计算机网路</strong><br>TCP和UDP的区别</p>
+<h1 id="顺丰二面（24min）"><a href="#顺丰二面（24min）" class="headerlink" title="顺丰二面（24min）"></a>顺丰二面（24min）</h1><p><strong>项目</strong><br><strong>秒杀系统</strong><br>讲一下在项目中Redis和RabbitMQ的使用<br>RabbitMQ中业务处理的逻辑是什么<br>如果用户能够秒杀订单，但支付时放弃如何处理<br>如果限定30分钟后不支付自动取消订单，如何处理</p>
+<p><strong>论坛项目</strong><br>回复文章的评论、回复评论的评论是如何设计的<br>返回给前端的评论的数据结构是什么样子的</p>
+<p><strong>设计模式</strong><br>讲一下你了解的设计模式</p>
+<h1 id="华为校招一面（30min）"><a href="#华为校招一面（30min）" class="headerlink" title="华为校招一面（30min）"></a>华为校招一面（30min）</h1><p><strong>项目</strong><br><strong>秒杀系统</strong><br>介绍一下秒杀系统<br>是否存在缓存未命中的情况<br>redis中大量键失效如何处理</p>
+<p><strong>计算机网络</strong><br>讲一下http协议</p>
+<p><strong>算法</strong><br>将字符串中的*移到最前面</p>
+<h1 id="华为校招二面（50min）"><a href="#华为校招二面（50min）" class="headerlink" title="华为校招二面（50min）"></a>华为校招二面（50min）</h1><p><strong>项目</strong><br>如何去学习和做项目的<br>平常语言学习是如何进行的</p>
+<p><strong>Spring Boot</strong><br>讲一下Spring Boot的特点<br>用过哪些Spring Boot的组件</p>
+<p><strong>多线程</strong><br>讲一下线程同步的方式<br>volatile的禁止指令重排具体讲一下（学过计算机体系结构吗？，没有，跳过）<br>countDownCatch具体如何使用<br>ThreadLocal了解吗<br>如何删除里面的对象</p>
+<p><strong>JVM</strong><br>讲一下GC（自己从判断对象存活到GC算法到常见的垃圾回收器讲了一遍）<br>G1中每个Region里都可能会有跨区域的引用，G1是如何去操作的<br>CMS中存在Stop the World 的阶段有哪些</p>
+<p><strong>MySQL</strong><br>写一个语句，有一张表有学生id字段、课程字段和成绩字段，找出有两门以上大于80分的学生的ID</p>
+<p><strong>算法</strong><br>写一个快速排序，最坏和最好的时间复杂度是多少？</p>
+<h1 id="华为校招主管面（15min）"><a href="#华为校招主管面（15min）" class="headerlink" title="华为校招主管面（15min）"></a>华为校招主管面（15min）</h1><p><strong>项目</strong><br><strong>科研项目</strong><br>讲一下你的科研情况</p>
+<p><strong>秒杀系统</strong><br>主要做了什么</p>
+<p><strong>论坛项目</strong><br>论坛项目具体有什么功能</p>
+<p><strong>坦克大战</strong><br>为什么做这个</p>
+<p><strong>职业规划</strong><br>今后的职业规划发展<br>你觉得架构师需要具备什么</p>
+<p><strong>反问</strong></p>
+<h1 id="OPPO一面（34min）"><a href="#OPPO一面（34min）" class="headerlink" title="OPPO一面（34min）"></a>OPPO一面（34min）</h1><p><strong>科研</strong><br>讲一下科研项目</p>
+<p><strong>项目</strong><br><strong>坦克大战</strong><br>netty连接用到的协议<br>讲一下自己对netty的理解<br>讲一下自己对IO多路复用的理解</p>
+<p><strong>秒杀系统</strong><br>Redis存的数据什么<br>RabbitMQ的解耦削峰在项目中的应用</p>
+<p><strong>JVM</strong><br>讲一下JVM的内存结构<br>讲一个堆的结构</p>
+<p><strong>多线程</strong><br>有哪些同步的手段或方法<br>讲一下ThreadLocal</p>
+<p><strong>学习</strong><br>平时如何学习<br>看过哪些书<br>实习有过吗<br>硕士期间的排名为什么填的其他<br>本科的一等奖学金每年都有拿吗</p>
+<p><strong>反问</strong></p>
+<h1 id="OPPO二面（25min）"><a href="#OPPO二面（25min）" class="headerlink" title="OPPO二面（25min）"></a>OPPO二面（25min）</h1><p><strong>项目</strong><br><strong>秒杀系统</strong><br>关于秒杀和库存这方面的业务逻辑是怎样的？</p>
+<p><strong>操作系统</strong><br>进程的通信方式<br>两个进程同时拥有一个共享内存，一个进程退出了，该共享内存是否会释放<br>哪些区域是线程共享的</p>
+<p><strong>JVM</strong><br>讲一下GC的过程</p>
+<p><strong>MySQL</strong><br>讲一下MySQL的特性<br>讲一下事务隔离机制</p>
+<p><strong>计算机网络</strong><br>了解哪些网络协议<br>TCP中MSS了解吗<br>MSS和MTU的区别<br>TCP中的重传和快速重传</p>
+<p><strong>反问</strong></p>
+<h1 id="海康威视电话面（24min）"><a href="#海康威视电话面（24min）" class="headerlink" title="海康威视电话面（24min）"></a>海康威视电话面（24min）</h1><p><strong>Spring Boot</strong><br>Spring的两大特性是什么？<br>AOP讲一下，主要应用的场景<br>日志功能为什么要用到AOP<br>AOP的底层原理讲一下，具体如何实现</p>
+<p><strong>MySQL</strong><br>项目中使用到MySQL碰到那些问题<br>MySQL语句如何优化<br>如何查看SQL语句是否命中索引</p>
+<p><strong>MyBatis</strong><br>#{}和${}的区别</p>
+<p><strong>Java</strong><br>JDK源码有看过哪些<br>HashMap的底层数据结构<br>HashMap的数组长度设置为13是否正确<br>HashMap的数组长度为什么要为2的幂次</p>
+<p><strong>多线程</strong><br>线程同步的方式<br>可重入锁的实现<br>AQS的使用到的主要结构<br>可重入锁的公平锁和非公平锁的如何实现</p>
+<p><strong>学习生活</strong><br>有什么你努力了但结果还是不理想的事情<br>如何解决</p>
+<p><strong>反问</strong></p>
+
+    </div>
+
+    
+    
+    
+
+    <div>
+	
+	  <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+	
+   </div>
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/" rel="prev" title="面经面试题汇总">
+      <i class="fa fa-chevron-left"></i> 面经面试题汇总
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/15/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/" rel="next" title="项目复盘">
+      项目复盘 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#字节一面（25min）"><span class="nav-number">1.</span> <span class="nav-text">字节一面（25min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#拼多多超级提前批一面（50min）"><span class="nav-number">2.</span> <span class="nav-text">拼多多超级提前批一面（50min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#拼多多超级提前批二面（56min）"><span class="nav-number">3.</span> <span class="nav-text">拼多多超级提前批二面（56min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#拼多多客户端一面（60min）"><span class="nav-number">4.</span> <span class="nav-text">拼多多客户端一面（60min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#拼多多客户端hr面（30min）"><span class="nav-number">5.</span> <span class="nav-text">拼多多客户端hr面（30min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#携程提前批一面（50min）"><span class="nav-number">6.</span> <span class="nav-text">携程提前批一面（50min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#美团一面（1h7min）"><span class="nav-number">7.</span> <span class="nav-text">美团一面（1h7min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#美团二面（53min）"><span class="nav-number">8.</span> <span class="nav-text">美团二面（53min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用友一面（36min）"><span class="nav-number">9.</span> <span class="nav-text">用友一面（36min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#58同城一面（23min）"><span class="nav-number">10.</span> <span class="nav-text">58同城一面（23min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#顺丰一面（24min）"><span class="nav-number">11.</span> <span class="nav-text">顺丰一面（24min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#顺丰二面（24min）"><span class="nav-number">12.</span> <span class="nav-text">顺丰二面（24min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#华为校招一面（30min）"><span class="nav-number">13.</span> <span class="nav-text">华为校招一面（30min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#华为校招二面（50min）"><span class="nav-number">14.</span> <span class="nav-text">华为校招二面（50min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#华为校招主管面（15min）"><span class="nav-number">15.</span> <span class="nav-text">华为校招主管面（15min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OPPO一面（34min）"><span class="nav-number">16.</span> <span class="nav-text">OPPO一面（34min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OPPO二面（25min）"><span class="nav-number">17.</span> <span class="nav-text">OPPO二面（25min）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#海康威视电话面（24min）"><span class="nav-number">18.</span> <span class="nav-text">海康威视电话面（24min）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="詹智健"
+      src="/images/A%20lemon.jpg">
+  <p class="site-author-name" itemprop="name">詹智健</p>
+  <div class="site-description" itemprop="description">今天也是很多个开心日子里开心的一天呀</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/SsssshiFT-96" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;SsssshiFT-96" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">詹智健</span>
+</div>
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共189.3k字</span>
+</div>
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
