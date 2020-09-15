@@ -43,7 +43,7 @@
 <meta property="og:description" content="网络层IP数据报的格式一个 IP 数据报由首部和数据两部分组成。 首部的前一部分是固定长度，共 20 字节，是所有 IP 数据报必须具有的。 在首部的固定部分的后面是一些可选字段，其长度是可变的。 ip首部格式  版本    首部长度    区分服务    总长度 ​                    标        识                标志    片偏移 生存时间">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-04-03T12:08:01.000Z">
-<meta property="article:modified_time" content="2020-04-23T01:24:12.566Z">
+<meta property="article:modified_time" content="2020-09-01T08:08:21.124Z">
 <meta property="article:author" content="詹智健">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
@@ -146,7 +146,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">47</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">48</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -235,7 +235,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-23 09:24:12" itemprop="dateModified" datetime="2020-04-23T09:24:12+08:00">2020-04-23</time>
+                <time title="修改时间：2020-09-01 16:08:21" itemprop="dateModified" datetime="2020-09-01T16:08:21+08:00">2020-09-01</time>
               </span>
 
           
@@ -294,14 +294,14 @@
 <p>在IP首部有4个字节是用于分片的。前16位是IP数据报的标识，同一个数据报的各个分片的标识是一样的，目的端会根据这个标识来判断IP分片是否属于同一个IP数据报。中间3位是标志位，其中有1位用来表示是否有更多的分片，如果是最后一个分片，该标志位为0，否则为1。后面13位表示分片在原始数据的偏移，这里的原始数据是IP层收到的传输的TCP或UDP数据，不包含IP首部。</p>
 <p>需要注意的，在分片的数据中，传输层的首部只会出现在第一个分片中。因为传输层的数据格式对IP层是透明的，传输层的首部只有在传输层才会有它的作用，IP层不知道也不需要保证在每个分片中都有传输层首部。所以，在网络上传输的数据包是有可能没有传输层首部的。</p>
 <p><strong>避免ip分片</strong></p>
-<p>在网络编程中，我们要避免出现IP分片，那么为什么要避免呢？原因是IP层是没有超时重传机制的，如果IP层对一个数据包进行了分片，只要有一个分片丢失了，只能依赖于传输层进行重传，结果是所有的分片都要重传一遍，这个代价有点大。由此可见，IP分片会大大降低传输层传送数据的成功率，所以我们要避免IP分片。</p>
+<p>在网络编程中，我们要避免出现IP分片，那么为什么要避免呢？==原因是IP层是没有超时重传机制的，如果IP层对一个数据包进行了分片，只要有一个分片丢失了，只能依赖于传输层进行重传，结果是所有的分片都要重传一遍==，这个代价有点大。由此可见，IP分片会大大降低传输层传送数据的成功率，所以我们要避免IP分片。</p>
 <p><strong>如何避免</strong></p>
 <p>对于UDP包，我们需要在应用层去限制每个包的大小，一般不要超过1472字节，即以太网MTU（1500）—UDP首部（8）—IP首部（20）。</p>
 <p>对于TCP数据，应用层就不需要考虑这个问题了，因为传输层已经帮我们做了。在建立连接的三次握手的过程中，连接双方会相互通告MSS（Maximum Segment Size，最大报文段长度），MSS一般是MTU—IP首部（20）—TCP首部（20），每次发送的TCP数据都不会超过双方MSS的最小值，所以就保证了IP数据报不会超过MTU，避免了IP分片。</p>
 <p><strong>分片顺序</strong></p>
 <p>有标识字段可以确定分片属于哪一个报文，13位的片偏移可以确定分片的顺序。</p>
 <p><strong>接收端如何确定分片均到达</strong></p>
-<p>1）如果收到的包IP头中Fragmentation Flags为0且有UDP字段，则未分片<br>2）如果收到的包IP头中Fragmentation Flags为1且有UDP字段，则为第一片<br>3）如果收到的包IP头中Fragmentation Flags为1且无UDP字段，则为中间片<br>4）如果如果收到的包IP头中Fragmentation Flags为0且无UDP字段，则为最后一片</p>
+<p>1）如果收到的包IP头中Fragmentation Flags为0且有UDP字段，则未分片<br>2）如果收到的包IP头中Fragmentation Flags为1且有UDP字段，则为第一片<br>3）如果收到的包IP头中Fragmentation Flags为1且无UDP字段，则为中间片<br>4）如果收到的包IP头中Fragmentation Flags为0且无UDP字段，则为最后一片</p>
 <p><strong>IP选路</strong></p>
 <p>IP选路，即IP寻路，就是根据路由表中的记录，来决定当前数据报是直接交付（目的地址属于当前局域网）还是发往下一跳路由（隶属于不同的局域网）。</p>
 <p><strong>搜索匹配路由表步骤</strong></p>
@@ -319,8 +319,7 @@
 <li>interface：输出接口，说明IP包将从该路由器哪个接口转发。</li>
 <li>nexthop：下一跳IP地址，说明IP包所经过的下一个路由器。</li>
 </ul>
-<p><strong>网际控制报文协议ICMP</strong></p>
-<p>为了提高 IP 数据报交付成功的机会，在网际层使用了<strong>网际控制报文协议 ICMP (Internet Control Message Protocol)</strong>。</p>
+<h2 id="网际控制报文协议ICMP"><a href="#网际控制报文协议ICMP" class="headerlink" title="网际控制报文协议ICMP"></a>网际控制报文协议ICMP</h2><p>为了提高 IP 数据报交付成功的机会，在网际层使用了<strong>网际控制报文协议 ICMP (Internet Control Message Protocol)</strong>。</p>
 <p>ICMP是为了解决两大问题：</p>
 <p>1.反馈分组传送和到达中出现的各种错误</p>
 <p>2.查询主机或路由器信息</p>
@@ -447,7 +446,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络层"><span class="nav-number">1.</span> <span class="nav-text">网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IP数据报的格式"><span class="nav-number">1.1.</span> <span class="nav-text">IP数据报的格式</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络层"><span class="nav-number">1.</span> <span class="nav-text">网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IP数据报的格式"><span class="nav-number">1.1.</span> <span class="nav-text">IP数据报的格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网际控制报文协议ICMP"><span class="nav-number">1.2.</span> <span class="nav-text">网际控制报文协议ICMP</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -463,7 +462,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -513,7 +512,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共76.1k字</span>
+  <span class="post-count">博客全站共177.1k字</span>
 </div>
         
 <div class="busuanzi-count">

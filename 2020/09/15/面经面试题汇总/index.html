@@ -35,29 +35,103 @@
     var CONFIG = {"hostname":"ssssshift-96.github.io","root":"/","scheme":"Gemini","version":"7.7.2","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="今天也是很多个开心日子里开心的一天呀">
-<meta property="og:type" content="website">
-<meta property="og:title" content="SsssshiFT-96">
-<meta property="og:url" content="https://ssssshift-96.github.io/index.html">
+  <meta name="description" content="JavaSE讲一下java的三个特性、多态*2、封装有什么用封装、继承、多态封装就是将对象的属性和方法封装起来，隐藏对象属性和方法实现细节，仅提供公共访问方式。好处就是可以信息隐藏和模块化，提高安全性。 继承就是使用已存在的类的定义作为基础建立新类的技术，新类的定义可以增加新的数据或新的功能，也可以用父类的功能，但不能选择性地继承父类。可以在父类的基础上更改方法或者添加方法属性。提高代码的复用性同">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面经面试题汇总">
+<meta property="og:url" content="https://ssssshift-96.github.io/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/index.html">
 <meta property="og:site_name" content="SsssshiFT-96">
-<meta property="og:description" content="今天也是很多个开心日子里开心的一天呀">
+<meta property="og:description" content="JavaSE讲一下java的三个特性、多态*2、封装有什么用封装、继承、多态封装就是将对象的属性和方法封装起来，隐藏对象属性和方法实现细节，仅提供公共访问方式。好处就是可以信息隐藏和模块化，提高安全性。 继承就是使用已存在的类的定义作为基础建立新类的技术，新类的定义可以增加新的数据或新的功能，也可以用父类的功能，但不能选择性地继承父类。可以在父类的基础上更改方法或者添加方法属性。提高代码的复用性同">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C64.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C65.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C66.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C67.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C17.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C18.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C19.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C20.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C21.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C16.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C11.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C12.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C13.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C14.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C15.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C%E5%BB%B6%E6%97%B6%E9%98%9F%E5%88%97%E7%A4%BA%E6%84%8F.webp">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C31.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C22.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C23.png">
+<meta property="og:image" content="c:%5CUsers%5CZHAN%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200812164959345.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C25.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C26.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C27.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C28.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C29.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C30.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C57.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C63.png">
+<meta property="og:image" content="https://ssssshift-96.github.io/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/%E5%9B%BE%E7%89%87/10.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C58.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C59.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C60.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C61.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C62.png">
+<meta property="og:image" content="https://ssssshift-96.github.io/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/.%5C%E5%9B%BE%E7%89%87%5C1.png">
+<meta property="og:image" content="https://ssssshift-96.github.io/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/.%5C%E5%9B%BE%E7%89%87%5C2.png">
+<meta property="og:image" content="https://ssssshift-96.github.io/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/.%5C%E5%9B%BE%E7%89%87%5C3.png">
+<meta property="og:image" content="https://ssssshift-96.github.io/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/.%5C%E5%9B%BE%E7%89%87%5C4.png">
+<meta property="og:image" content="https://ssssshift-96.github.io/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/.%5C%E5%9B%BE%E7%89%87%5C5.png">
+<meta property="og:image" content="https://ssssshift-96.github.io/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/.%5C%E5%9B%BE%E7%89%87%5C6.png">
+<meta property="og:image" content="https://ssssshift-96.github.io/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/.%5C%E5%9B%BE%E7%89%87%5C8.png">
+<meta property="og:image" content="https://ssssshift-96.github.io/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/.%5C%E5%9B%BE%E7%89%87%5C7.png">
+<meta property="og:image" content="https://ssssshift-96.github.io/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/.%5C%E5%9B%BE%E7%89%87%5C9.png">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="https://common.cnblogs.com/images/copycode.gif">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C32.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C33.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C34.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C35.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C36.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C37.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C38.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C41.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C39.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C40.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C42.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C43.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C44.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C45.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C46.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C47.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C48.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C49.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C50.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C51.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C52.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C53.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C54.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C55.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C56.png">
+<meta property="og:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5CTCPIP%E5%8D%8F%E8%AE%AE.gif">
+<meta property="article:published_time" content="2020-09-15T11:12:16.799Z">
+<meta property="article:modified_time" content="2020-09-15T11:08:06.676Z">
 <meta property="article:author" content="詹智健">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="h:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C64.png">
 
-<link rel="canonical" href="https://ssssshift-96.github.io/">
+<link rel="canonical" href="https://ssssshift-96.github.io/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false
+    isHome : false,
+    isPost : true
   };
 </script>
 
-  <title>SsssshiFT-96</title>
+  <title>面经面试题汇总 | SsssshiFT-96</title>
   
 
 
@@ -198,10 +272,10 @@
             
 
   <div class="posts-expand">
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -215,8 +289,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/15/%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB/" class="post-title-link" itemprop="url">面经面试题汇总</a>
+          面经面试题汇总
         </h1>
 
         <div class="post-meta">
@@ -231,6 +304,13 @@
             </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -241,7 +321,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="JavaSE"><a href="#JavaSE" class="headerlink" title="JavaSE"></a>JavaSE</h1><h2 id="讲一下java的三个特性、多态-2、封装有什么用"><a href="#讲一下java的三个特性、多态-2、封装有什么用" class="headerlink" title="讲一下java的三个特性、多态*2、封装有什么用"></a>讲一下java的三个特性、多态*2、封装有什么用</h2><p>封装、继承、多态<br><strong>封装</strong>就是将对象的属性和方法封装起来，隐藏对象属性和方法实现细节，仅提供公共访问方式。好处就是可以信息隐藏和模块化，提高安全性。</p>
+        <h1 id="JavaSE"><a href="#JavaSE" class="headerlink" title="JavaSE"></a>JavaSE</h1><h2 id="讲一下java的三个特性、多态-2、封装有什么用"><a href="#讲一下java的三个特性、多态-2、封装有什么用" class="headerlink" title="讲一下java的三个特性、多态*2、封装有什么用"></a>讲一下java的三个特性、多态*2、封装有什么用</h2><p>封装、继承、多态<br><strong>封装</strong>就是将对象的属性和方法封装起来，隐藏对象属性和方法实现细节，仅提供公共访问方式。好处就是可以信息隐藏和模块化，提高安全性。</p>
 <p><strong>继承</strong>就是使用已存在的类的定义作为基础建立新类的技术，新类的定义可以增加新的数据或新的功能，也可以用父类的功能，但不能选择性地继承父类。可以在父类的基础上更改方法或者添加方法属性。提高代码的复用性<br>同时在使用继承时需要记住三句话：<br>1、子类拥有父类非private的属性和方法。<br>2、子类可以拥有自己属性和方法，即子类可以对父类进行扩展。<br>3、子类可以用自己的方式实现父类的方法。</p>
 <p><strong>多态</strong>就是程序中定义的引用变量所指向的具体类型和通过该引用变量发出的方法调用在编程时并不确定，而是程序运行时期才确定，即一个引用变量到底会指向哪个类的实例对象，该引用变量发出的方法调用到底是哪个类中的实现方法，必须由程序运行期间才能决定。因为在程序运行时才确定具体的类，这样不用修改源程序代码，就可以让引用变量绑定到不同的类的实现上，从而导致该引用调用的具体方法随之改变，即不修改程序代码就可以改变程序运行时所绑定的具体代码，让程序可以选择多个运行状态。</p>
 <h2 id="int和Integer区别"><a href="#int和Integer区别" class="headerlink" title="int和Integer区别"></a>int和Integer区别</h2><p>1、Integer是int的包装类，int则是java的一种基本数据类型<br>2、Integer变量必须实例化后才能使用，而int变量不需要<br>3、Integer实际是对象的引用，当new一个Integer时，实际上是生成一个指针指向此对象；而int则是直接存储数据值<br>4、Integer的默认值是null，int的默认值是0<br>二者比较：<br>1.两个通过new生成的Integer变量是永远不相等的<br>2.Integer和int比较时，Integer会自动拆箱为int，自动拆箱的代码为i.intValue()，所以只要值相同，这两个就相同<br>3.非new生成的Integer和new生成的Integer不会相等<br>4.两个非new生成的Integer对象比较，如果变量的值在区间-128到127之间，则会为true。如果不是则为false。因为非new生成的Integer会自动装箱，即Integer i= 100；就会变成 Integer i= Integer.valueOf(100)；这个方法在-128到127之间是从常量池中取值，而不在这个范围的则是通过new来取值。</p>
@@ -2179,7 +2259,6 @@
 <h2 id="论坛"><a href="#论坛" class="headerlink" title="论坛"></a>论坛</h2><p>如何设计管理员和非管理员<br>若管理员分为超级管理员、普通管理员如何设计<br>回复文章的评论、回复评论的评论是如何设计的<br>返回给前端的评论的数据结构是什么样子的</p>
 <h1 id="场景题"><a href="#场景题" class="headerlink" title="场景题"></a>场景题</h1><h2 id="海量评论系统，实现以下功能-提交评论，查看热门评论，查看最新评论，查看我的评论。从数据库，缓存的应用、服务器，到前端如何实现。"><a href="#海量评论系统，实现以下功能-提交评论，查看热门评论，查看最新评论，查看我的评论。从数据库，缓存的应用、服务器，到前端如何实现。" class="headerlink" title="海量评论系统，实现以下功能 提交评论，查看热门评论，查看最新评论，查看我的评论。从数据库，缓存的应用、服务器，到前端如何实现。"></a>海量评论系统，实现以下功能 提交评论，查看热门评论，查看最新评论，查看我的评论。从数据库，缓存的应用、服务器，到前端如何实现。</h2><h2 id="12306抢票设计"><a href="#12306抢票设计" class="headerlink" title="12306抢票设计"></a>12306抢票设计</h2><p>1.存储位置：存到redis被引导了一波，可以直接存到物理内存上，如何保证分布式一致性？不超卖？<br>2.票如何设置原子性，怎么划分？</p>
 <h2 id="停车系统"><a href="#停车系统" class="headerlink" title="停车系统"></a>停车系统</h2>
-      
     </div>
 
     
@@ -2188,756 +2267,36 @@
 
     <div>
 	
-   </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/05/14/%E5%8D%8E%E4%B8%BA%E5%AE%9E%E4%B9%A0%E9%9D%A2%E7%BB%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/A%20lemon.jpg">
-      <meta itemprop="name" content="詹智健">
-      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SsssshiFT-96">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/14/%E5%8D%8E%E4%B8%BA%E5%AE%9E%E4%B9%A0%E9%9D%A2%E7%BB%8F/" class="post-title-link" itemprop="url">华为实习面经</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-05-14 10:53:30 / 修改时间：11:28:51" itemprop="dateCreated datePublished" datetime="2020-05-14T10:53:30+08:00">2020-05-14</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
+	  <div>
     
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
     
-    
-    <div class="post-body" itemprop="articleBody">
+</div>
 
-      
-          <h1 id="华为实习面试"><a href="#华为实习面试" class="headerlink" title="华为实习面试"></a>华为实习面试</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/14/%E5%8D%8E%E4%B8%BA%E5%AE%9E%E4%B9%A0%E9%9D%A2%E7%BB%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <div>
 	
    </div>
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/04/08/MySQL%E5%9F%BA%E7%A1%80-%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/A%20lemon.jpg">
-      <meta itemprop="name" content="詹智健">
-      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SsssshiFT-96">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/08/MySQL%E5%9F%BA%E7%A1%80-%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">MySQL基础-常见函数</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-08 21:21:04" itemprop="dateCreated datePublished" datetime="2020-04-08T21:21:04+08:00">2020-04-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-23 09:24:56" itemprop="dateModified" datetime="2020-04-23T09:24:56+08:00">2020-04-23</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="常见函数"><a href="#常见函数" class="headerlink" title="常见函数"></a>常见函数</h1><p>常见函数介绍</p>
-<p>概念：类似于java的方法，将一组逻辑语句封装在方法体中，对外暴露方法名</p>
-<p>好处：</p>
-<p>1.隐藏了实现细节</p>
-<p>2.提高代码的重用性</p>
-<p>调用：select 函数名(实参列表) 【from 表】;</p>
-<p>特点：</p>
-<p>1.叫什么（函数名）</p>
-<p>2.干什么（函数功能）</p>
-<p>分类：</p>
-<p>1.单行函数</p>
-<p>如concat、length、ifnull等</p>
-<p>2.分组函数</p>
-<p>功能：做统计使用，又称为统计函数、聚合函数、组函数。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/08/MySQL%E5%9F%BA%E7%A1%80-%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/14/%E5%8D%8E%E4%B8%BA%E5%AE%9E%E4%B9%A0%E9%9D%A2%E7%BB%8F/" rel="prev" title="华为实习面经">
+      <i class="fa fa-chevron-left"></i> 华为实习面经
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-
-    <div>
-	
-   </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/04/08/MySQL%E5%9F%BA%E7%A1%80-%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/A%20lemon.jpg">
-      <meta itemprop="name" content="詹智健">
-      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SsssshiFT-96">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/08/MySQL%E5%9F%BA%E7%A1%80-%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2/" class="post-title-link" itemprop="url">MySQL基础-条件查询&排序查询</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-08 20:13:27" itemprop="dateCreated datePublished" datetime="2020-04-08T20:13:27+08:00">2020-04-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-23 09:24:48" itemprop="dateModified" datetime="2020-04-23T09:24:48+08:00">2020-04-23</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="条件查询-amp-排序查询"><a href="#条件查询-amp-排序查询" class="headerlink" title="条件查询&amp;排序查询"></a>条件查询&amp;排序查询</h1><h2 id="条件查询"><a href="#条件查询" class="headerlink" title="条件查询"></a>条件查询</h2><p>语法：</p>
-<p>​    select</p>
-<p>​       查询列表</p>
-<p>​    from</p>
-<p>​       表名</p>
-<p>​    where</p>
-<p>​       筛选条件;</p>
-<p>执行顺序：表名、筛选条件、查询列表</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/08/MySQL%E5%9F%BA%E7%A1%80-%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-	
-   </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/04/07/MySQL%E5%9F%BA%E7%A1%80-%E5%9F%BA%E7%A1%80%E6%9F%A5%E8%AF%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/A%20lemon.jpg">
-      <meta itemprop="name" content="詹智健">
-      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SsssshiFT-96">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/07/MySQL%E5%9F%BA%E7%A1%80-%E5%9F%BA%E7%A1%80%E6%9F%A5%E8%AF%A2/" class="post-title-link" itemprop="url">MySQL基础-基础查询</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-07 21:22:06" itemprop="dateCreated datePublished" datetime="2020-04-07T21:22:06+08:00">2020-04-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-23 09:24:41" itemprop="dateModified" datetime="2020-04-23T09:24:41+08:00">2020-04-23</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="基础查询"><a href="#基础查询" class="headerlink" title="基础查询"></a>基础查询</h1><p>介绍</p>
-<p>语法：</p>
-<p>select 查询列表 from 表名;</p>
-<p>类似于：System.out.println(打印东西);</p>
-<p>特点：</p>
-<p>1.查询列表可以是：表中的字段、常量值、表达式、函数。</p>
-<p>2.查询结果是虚拟的表格。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/07/MySQL%E5%9F%BA%E7%A1%80-%E5%9F%BA%E7%A1%80%E6%9F%A5%E8%AF%A2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-	
-   </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/04/07/MySQL%E5%9F%BA%E7%A1%80-%E5%BC%95%E5%85%A5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/A%20lemon.jpg">
-      <meta itemprop="name" content="詹智健">
-      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SsssshiFT-96">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/07/MySQL%E5%9F%BA%E7%A1%80-%E5%BC%95%E5%85%A5/" class="post-title-link" itemprop="url">MySQL基础-引入</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-07 20:25:30" itemprop="dateCreated datePublished" datetime="2020-04-07T20:25:30+08:00">2020-04-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-23 09:24:35" itemprop="dateModified" datetime="2020-04-23T09:24:35+08:00">2020-04-23</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h1><p><strong>数据库的好处</strong></p>
-<p>实现数据持久化</p>
-<p>使用完整的管理系统统一管理，易于查询。</p>
-<p><strong>数据库概念</strong></p>
-<p>DB：数据库（Database）:存储数据的仓库。它保存了一系列有组织的数据。</p>
-<p>DBMS：数据库管理系统（Database Management System）数据库是通过DBMS创建和操作的容器。</p>
-<p>常见的数据库管理系统：MySQL、Oracle、DB2、SqlServer等。</p>
-<p>SQL：结构化查询语言（Structure Query Language）专门用来与DBMS通信的语言。</p>
-<p>SQL特点：</p>
-<p>1.不是某个特定数据库供应商专有的语言，几乎所有DBMS都支持SQL。</p>
-<p>2.简单易学。</p>
-<p>3.虽然简单，但是实际上是一种强有力的语言，灵活使用其语言元素，可以进行非常复杂和高级的数据库操作。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/07/MySQL%E5%9F%BA%E7%A1%80-%E5%BC%95%E5%85%A5/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-	
-   </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/04/04/%E8%AE%A1%E7%BD%91-%E5%BA%94%E7%94%A8%E5%B1%82/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/A%20lemon.jpg">
-      <meta itemprop="name" content="詹智健">
-      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SsssshiFT-96">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/04/%E8%AE%A1%E7%BD%91-%E5%BA%94%E7%94%A8%E5%B1%82/" class="post-title-link" itemprop="url">计网-应用层</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-04 22:04:56" itemprop="dateCreated datePublished" datetime="2020-04-04T22:04:56+08:00">2020-04-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-15 18:53:34" itemprop="dateModified" datetime="2020-07-15T18:53:34+08:00">2020-07-15</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h1><p>应用层的具体内容就是规定应用进程在通信时所遵循的协议。</p>
-<p>每个应用层协议都是为了解决某一类应用问题，而问题的解决又往往是通过位于不同主机中的多个应用进程之间的通信和协同工作来完成的。</p>
-<p>应用层的许多协议都是基于客户服务器方式。客户(client)和服务器(server)都是指通信中所涉及的两个应用进程。客户服务器方式所描述的是进程之间服务和被服务的关系。客户是服务请求方，服务器是服务提供方。 </p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/04/%E8%AE%A1%E7%BD%91-%E5%BA%94%E7%94%A8%E5%B1%82/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-	
-   </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/04/04/%E8%AE%A1%E7%BD%91-%E4%BC%A0%E8%BE%93%E5%B1%82/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/A%20lemon.jpg">
-      <meta itemprop="name" content="詹智健">
-      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SsssshiFT-96">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/04/%E8%AE%A1%E7%BD%91-%E4%BC%A0%E8%BE%93%E5%B1%82/" class="post-title-link" itemprop="url">计网-传输层</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-04 19:43:43" itemprop="dateCreated datePublished" datetime="2020-04-04T19:43:43+08:00">2020-04-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-15 18:57:09" itemprop="dateModified" datetime="2020-07-15T18:57:09+08:00">2020-07-15</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h1><h2 id="UDP（User-Datagram-Protocol）协议"><a href="#UDP（User-Datagram-Protocol）协议" class="headerlink" title="UDP（User Datagram Protocol）协议"></a>UDP（User Datagram Protocol）协议</h2><p>当运输层采用无连接的 UDP 协议时，这种逻辑通信信道是一条<strong>不可靠信道</strong>。 </p>
-<p>UDP 传送的<strong>数据单位协议是 UDP 报文或用户数据报</strong>。 </p>
-<p>UDP 在传送数据之前不需要先建立连接。对方的运输层在收到 UDP 报文后，不需要给出任何确认。虽然 UDP 不提供可靠交付，但在某些情况下 UDP 是一种最有效的工作方式。</p>
-<p>运输层的 UDP 用户数据报与网际层的IP数据报有很大区别。IP 数据报要经过互连网中许多路由器的存储转发，但 UDP 用户数据报是在运输层的端到端抽象的逻辑信道中传送的。</p>
-<p>UDP 只在 IP 的数据报服务之上增加了很少一点的功能，即端口的功能和差错检测的功能。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/04/%E8%AE%A1%E7%BD%91-%E4%BC%A0%E8%BE%93%E5%B1%82/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-	
-   </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/04/03/%E8%AE%A1%E7%BD%91-%E7%BD%91%E7%BB%9C%E5%B1%82/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/A%20lemon.jpg">
-      <meta itemprop="name" content="詹智健">
-      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SsssshiFT-96">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/03/%E8%AE%A1%E7%BD%91-%E7%BD%91%E7%BB%9C%E5%B1%82/" class="post-title-link" itemprop="url">计网-网络层</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-03 20:08:01" itemprop="dateCreated datePublished" datetime="2020-04-03T20:08:01+08:00">2020-04-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-01 16:08:21" itemprop="dateModified" datetime="2020-09-01T16:08:21+08:00">2020-09-01</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h1><h2 id="IP数据报的格式"><a href="#IP数据报的格式" class="headerlink" title="IP数据报的格式"></a><strong>IP数据报的格式</strong></h2><p><strong>一个 IP 数据报由首部和数据两部分组成。</strong></p>
-<p>首部的前一部分是固定长度，共 20 字节，是所有 IP 数据报必须具有的。</p>
-<p>在首部的固定部分的后面是一些可选字段，其长度是可变的。</p>
-<p>ip首部格式</p>
-<p> 版本    首部长度    区分服务    总长度</p>
-<p>​                    标        识                标志    片偏移</p>
-<p>生存时间                    协议         首部检验和</p>
-<p>​                                源地址</p>
-<p>​                                目的地址</p>
-<p>​            可选字段（长度可变）            填充</p>
-<p>前五行为固定部分，最后一行为可变部分</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/03/%E8%AE%A1%E7%BD%91-%E7%BD%91%E7%BB%9C%E5%B1%82/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-	
-   </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://ssssshift-96.github.io/2020/04/02/%E8%AE%A1%E7%BD%91-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/A%20lemon.jpg">
-      <meta itemprop="name" content="詹智健">
-      <meta itemprop="description" content="今天也是很多个开心日子里开心的一天呀">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="SsssshiFT-96">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/02/%E8%AE%A1%E7%BD%91-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/" class="post-title-link" itemprop="url">计网-数据链路层</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-02 20:46:16" itemprop="dateCreated datePublished" datetime="2020-04-02T20:46:16+08:00">2020-04-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-15 10:22:41" itemprop="dateModified" datetime="2020-07-15T10:22:41+08:00">2020-07-15</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h1><p>按照CodeSheep讲的重点编写</p>
-<h2 id="以太网帧的格式"><a href="#以太网帧的格式" class="headerlink" title="以太网帧的格式"></a>以太网帧的格式</h2><p><strong>封装成帧</strong>(framing)就是在一段数据的前后分别添加首部和尾部，然后就构成一个帧。确定帧的界限。</p>
-<p>首部和尾部的一个<strong>重要作用</strong>就是进行帧定界。</p>
-<p>常用的以太网MAC帧格式有两种标准 ：<br>DIX Ethernet V2 标准<br>IEEE 的 802.3 标准</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/02/%E8%AE%A1%E7%BD%91-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <div>
-	
-   </div>
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
   </article>
   
   
   
 
   </div>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
 
 
           </div>
@@ -2988,6 +2347,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaSE"><span class="nav-number">1.</span> <span class="nav-text">JavaSE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#讲一下java的三个特性、多态-2、封装有什么用"><span class="nav-number">1.1.</span> <span class="nav-text">讲一下java的三个特性、多态*2、封装有什么用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#int和Integer区别"><span class="nav-number">1.2.</span> <span class="nav-text">int和Integer区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#i-i-、i-、i-i、-i"><span class="nav-number">1.3.</span> <span class="nav-text">i &#x3D; i++、i++、i&#x3D;++i、++i</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深拷贝、浅拷贝"><span class="nav-number">1.4.</span> <span class="nav-text">深拷贝、浅拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接口和抽象类有什么区别"><span class="nav-number">1.4.1.</span> <span class="nav-text">接口和抽象类有什么区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#讲一下String三个类的区别"><span class="nav-number">1.5.</span> <span class="nav-text">讲一下String三个类的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String拼接怎么做到的"><span class="nav-number">1.6.</span> <span class="nav-text">String拼接怎么做到的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组和链表的区别"><span class="nav-number">1.7.</span> <span class="nav-text">数组和链表的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Arraylist和LinkedList区别，ArrayList的初始大小"><span class="nav-number">1.8.</span> <span class="nav-text">Arraylist和LinkedList区别，ArrayList的初始大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java泛型机制了解吗"><span class="nav-number">1.9.</span> <span class="nav-text">Java泛型机制了解吗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JDK源码看过哪些-2"><span class="nav-number">1.10.</span> <span class="nav-text">JDK源码看过哪些*2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap遍历键值对的方法，哪种方式速度最快？"><span class="nav-number">1.11.</span> <span class="nav-text">HashMap遍历键值对的方法，哪种方式速度最快？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap的键如果是自定义类，会有什么问题？"><span class="nav-number">1.12.</span> <span class="nav-text">HashMap的键如果是自定义类，会有什么问题？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap底层实现原理，如何进行put的"><span class="nav-number">1.13.</span> <span class="nav-text">HashMap底层实现原理，如何进行put的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何计算Hash值"><span class="nav-number">1.14.</span> <span class="nav-text">如何计算Hash值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap线程安全吗？为什么不安全？"><span class="nav-number">1.15.</span> <span class="nav-text">HashMap线程安全吗？为什么不安全？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap内部是怎么实现的（数组-红黑树-链表）-2"><span class="nav-number">1.16.</span> <span class="nav-text">HashMap内部是怎么实现的（数组+红黑树&#x2F;链表）*2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希冲突怎么办？为什么都用链地址法？"><span class="nav-number">1.17.</span> <span class="nav-text">哈希冲突怎么办？为什么都用链地址法？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap底层扩容（扩容因子为什么是0-75？扩容之后的数组落在哪？为啥容量一定是2的倍数？为什么引入红黑树？红黑树的参数？并发的时候怎么处理）-2"><span class="nav-number">1.18.</span> <span class="nav-text">HashMap底层扩容（扩容因子为什么是0.75？扩容之后的数组落在哪？为啥容量一定是2的倍数？为什么引入红黑树？红黑树的参数？并发的时候怎么处理）*2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#想获得线程安全的HashMap有哪些方式"><span class="nav-number">1.19.</span> <span class="nav-text">想获得线程安全的HashMap有哪些方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConcurrentHashMap如何保证线程安全，如何分段，锁粒度，扩容rehash的过程，size如何计算-3"><span class="nav-number">1.20.</span> <span class="nav-text">ConcurrentHashMap如何保证线程安全，如何分段，锁粒度，扩容rehash的过程，size如何计算*3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap和concurrentHashMap分别的应用场景，区别？"><span class="nav-number">1.21.</span> <span class="nav-text">HashMap和concurrentHashMap分别的应用场景，区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WeakHashMap的使用场景，实现原理"><span class="nav-number">1.22.</span> <span class="nav-text">WeakHashMap的使用场景，实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反射了解吗"><span class="nav-number">1.23.</span> <span class="nav-text">反射了解吗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阐述一下java-jar-main的整个运行过程"><span class="nav-number">1.24.</span> <span class="nav-text">阐述一下java jar main的整个运行过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何读入文档最后N行？"><span class="nav-number">1.25.</span> <span class="nav-text">如何读入文档最后N行？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java的异常体系"><span class="nav-number">1.26.</span> <span class="nav-text">Java的异常体系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#static关键字的作用（在类上、方法上、变量上）"><span class="nav-number">1.27.</span> <span class="nav-text">static关键字的作用（在类上、方法上、变量上）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内部类"><span class="nav-number">1.28.</span> <span class="nav-text">内部类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重写equals方法"><span class="nav-number">1.29.</span> <span class="nav-text">重写equals方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM"><span class="nav-number">2.</span> <span class="nav-text">JVM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM的组成-内存结构？-3"><span class="nav-number">2.1.</span> <span class="nav-text">JVM的组成&#x2F;内存结构？*3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象创建的内存分配"><span class="nav-number">2.2.</span> <span class="nav-text">对象创建的内存分配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象的内存布局"><span class="nav-number">2.3.</span> <span class="nav-text">对象的内存布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常量池存在的意义"><span class="nav-number">2.4.</span> <span class="nav-text">常量池存在的意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CPU过高的原因有哪些？"><span class="nav-number">2.5.</span> <span class="nav-text">CPU过高的原因有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哪些区域会出现OOM？遇见OOM该如何分析？"><span class="nav-number">2.6.</span> <span class="nav-text">哪些区域会出现OOM？遇见OOM该如何分析？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM的调优工具有哪些？"><span class="nav-number">2.7.</span> <span class="nav-text">JVM的调优工具有哪些？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存泄漏是什么？怎么解决？内存泄漏的场景有哪些？如何处理内存泄漏的场景？-2"><span class="nav-number">2.8.</span> <span class="nav-text">内存泄漏是什么？怎么解决？内存泄漏的场景有哪些？如何处理内存泄漏的场景？*2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何判断对象需要被回收"><span class="nav-number">2.9.</span> <span class="nav-text">如何判断对象需要被回收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垃圾收集算法-2"><span class="nav-number">2.10.</span> <span class="nav-text">垃圾收集算法*2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么分为新生代和老年代"><span class="nav-number">2.11.</span> <span class="nav-text">为什么分为新生代和老年代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象何时晋升到老年代"><span class="nav-number">2.12.</span> <span class="nav-text">对象何时晋升到老年代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么不在新生代使用标记整理算法？或者在老年代使用复制算法？"><span class="nav-number">2.13.</span> <span class="nav-text">为什么不在新生代使用标记整理算法？或者在老年代使用复制算法？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新生代中为什么要分为Eden和Survivor？区域的比例？为什么要设置两个Survivor区？"><span class="nav-number">2.14.</span> <span class="nav-text">新生代中为什么要分为Eden和Survivor？区域的比例？为什么要设置两个Survivor区？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发可达性分析"><span class="nav-number">2.15.</span> <span class="nav-text">并发可达性分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何时会触发full-gc"><span class="nav-number">2.16.</span> <span class="nav-text">何时会触发full gc</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMS垃圾回收器"><span class="nav-number">2.17.</span> <span class="nav-text">CMS垃圾回收器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Garbage-First收集器"><span class="nav-number">2.18.</span> <span class="nav-text">Garbage First收集器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Java的内存模型？"><span class="nav-number">2.19.</span> <span class="nav-text">什么是Java的内存模型？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java如何做到并发三要素的？"><span class="nav-number">2.20.</span> <span class="nav-text">Java如何做到并发三要素的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有了解过Volatile么？谈谈你对Volatile的理解"><span class="nav-number">2.21.</span> <span class="nav-text">有了解过Volatile么？谈谈你对Volatile的理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Volatile如何保证可见性的？以及如何实现可见性的机制。"><span class="nav-number">2.22.</span> <span class="nav-text">Volatile如何保证可见性的？以及如何实现可见性的机制。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果大量的使用Volatile存在什么问题？"><span class="nav-number">2.23.</span> <span class="nav-text">如果大量的使用Volatile存在什么问题？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有人说JVM拖累了java效率，你是怎么理解的，JVM的设计理念有哪里让你感觉比较惊艳，感触比较深？（面试官说JVM的推出是为了跨平台，JVM何去何从，怎么演变，及变化趋势）"><span class="nav-number">2.24.</span> <span class="nav-text">有人说JVM拖累了java效率，你是怎么理解的，JVM的设计理念有哪里让你感觉比较惊艳，感触比较深？（面试官说JVM的推出是为了跨平台，JVM何去何从，怎么演变，及变化趋势）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何打破双亲委派机制"><span class="nav-number">2.25.</span> <span class="nav-text">如何打破双亲委派机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java的四种引用"><span class="nav-number">2.26.</span> <span class="nav-text">Java的四种引用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多线程"><span class="nav-number">3.</span> <span class="nav-text">多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#synchronized的底层原理"><span class="nav-number">3.1.</span> <span class="nav-text">synchronized的底层原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#synchronized锁状态的转换"><span class="nav-number">3.2.</span> <span class="nav-text">synchronized锁状态的转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一般创建线程的几种方式"><span class="nav-number">3.3.</span> <span class="nav-text">一般创建线程的几种方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍一下线程池"><span class="nav-number">3.4.</span> <span class="nav-text">介绍一下线程池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池创建的方法有哪些（线程池的主要参数），如果没有达到设定最大线程数，等待队列满了如何进行操作"><span class="nav-number">3.5.</span> <span class="nav-text">线程池创建的方法有哪些（线程池的主要参数），如果没有达到设定最大线程数，等待队列满了如何进行操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池原理"><span class="nav-number">3.6.</span> <span class="nav-text">线程池原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大空闲时间是用来做什么的？"><span class="nav-number">3.7.</span> <span class="nav-text">最大空闲时间是用来做什么的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阻塞队列有哪些"><span class="nav-number">3.8.</span> <span class="nav-text">阻塞队列有哪些</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池的submit策略操作如何实现"><span class="nav-number">3.9.</span> <span class="nav-text">线程池的submit策略操作如何实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池的饱和策略（拒绝策略）"><span class="nav-number">3.10.</span> <span class="nav-text">线程池的饱和策略（拒绝策略）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#乐观锁和悲观锁的区别"><span class="nav-number">3.11.</span> <span class="nav-text">乐观锁和悲观锁的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AQS"><span class="nav-number">3.12.</span> <span class="nav-text">AQS</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#AQS底层使用了模板方法模式"><span class="nav-number">3.12.0.0.1.</span> <span class="nav-text">AQS底层使用了模板方法模式</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#讲一下ThreadLocal"><span class="nav-number">3.13.</span> <span class="nav-text">讲一下ThreadLocal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS原理"><span class="nav-number">3.14.</span> <span class="nav-text">CAS原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读写锁介绍一下？并手写一个读写锁"><span class="nav-number">3.15.</span> <span class="nav-text">读写锁介绍一下？并手写一个读写锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ReentrantLock的实现原理"><span class="nav-number">3.16.</span> <span class="nav-text">ReentrantLock的实现原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#synchronized和重入锁的区别"><span class="nav-number">3.17.</span> <span class="nav-text">synchronized和重入锁的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现线程同步的方法"><span class="nav-number">3.18.</span> <span class="nav-text">实现线程同步的方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL"><span class="nav-number">4.</span> <span class="nav-text">MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL的整体结构"><span class="nav-number">4.1.</span> <span class="nav-text">MySQL的整体结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inner-join、right-join、left-join的区别"><span class="nav-number">4.2.</span> <span class="nav-text">inner join、right join、left join的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL的底层索引结构，InnoDB里面的B-Tree？"><span class="nav-number">4.3.</span> <span class="nav-text">MySQL的底层索引结构，InnoDB里面的B+Tree？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB和MyISAM区别"><span class="nav-number">4.4.</span> <span class="nav-text">InnoDB和MyISAM区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB是通过什么支持事务的？"><span class="nav-number">4.5.</span> <span class="nav-text">InnoDB是通过什么支持事务的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-Tree-和-B-Tree的区别-3"><span class="nav-number">4.6.</span> <span class="nav-text">B Tree 和 B+ Tree的区别*3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库表删除数据，B-树的空洞问题。"><span class="nav-number">4.7.</span> <span class="nav-text">数据库表删除数据，B+树的空洞问题。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何用select语句创建索引（可能记错，是如何用SQL语句创建）？"><span class="nav-number">4.8.</span> <span class="nav-text">如何用select语句创建索引（可能记错，是如何用SQL语句创建）？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#百万级别或以上的数据如何删除"><span class="nav-number">4.9.</span> <span class="nav-text">百万级别或以上的数据如何删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#联合索引、联合查询"><span class="nav-number">4.10.</span> <span class="nav-text">联合索引、联合查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主键索引和非主键索引有什么区别"><span class="nav-number">4.11.</span> <span class="nav-text">主键索引和非主键索引有什么区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聊聊MySQL索引的发展过程？是一来就是B-Tree的么？从-没有索引、hash、二叉排序树、AVL树、B树、B-树-聊。"><span class="nav-number">4.12.</span> <span class="nav-text">聊聊MySQL索引的发展过程？是一来就是B+Tree的么？从 没有索引、hash、二叉排序树、AVL树、B树、B+树 聊。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主键使用自增ID还是UUID？"><span class="nav-number">4.13.</span> <span class="nav-text">主键使用自增ID还是UUID？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL中如果使用like进行模糊匹配的时候，是否会使用索引？一定不会用么？"><span class="nav-number">4.14.</span> <span class="nav-text">MySQL中如果使用like进行模糊匹配的时候，是否会使用索引？一定不会用么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL-的having，order-by如何走索引"><span class="nav-number">4.15.</span> <span class="nav-text">MySQL 的having，order by如何走索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hash索引和B-树所有有什么区别或者说优劣呢"><span class="nav-number">4.16.</span> <span class="nav-text">Hash索引和B+树所有有什么区别或者说优劣呢?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谈谈MySQL里面的事务，说说什么是事务？"><span class="nav-number">4.17.</span> <span class="nav-text">谈谈MySQL里面的事务，说说什么是事务？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务四大特性ACID讲一讲-2"><span class="nav-number">4.18.</span> <span class="nav-text">事务四大特性ACID讲一讲*2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ACID如何实现"><span class="nav-number">4.19.</span> <span class="nav-text">ACID如何实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL里面有哪些事务级别，并且不同的事务级别会出现什么问题？-2"><span class="nav-number">4.20.</span> <span class="nav-text">MySQL里面有哪些事务级别，并且不同的事务级别会出现什么问题？*2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务并发有哪些问题？"><span class="nav-number">4.21.</span> <span class="nav-text">事务并发有哪些问题？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谈谈可重复读和幻读的区别？"><span class="nav-number">4.22.</span> <span class="nav-text">谈谈可重复读和幻读的区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务通过什么回滚删除插入失败的数据"><span class="nav-number">4.23.</span> <span class="nav-text">事务通过什么回滚删除插入失败的数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库有哪些锁？"><span class="nav-number">4.24.</span> <span class="nav-text">数据库有哪些锁？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql的锁，什么情况下会锁住整张表？"><span class="nav-number">4.25.</span> <span class="nav-text">mysql的锁，什么情况下会锁住整张表？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是页锁？"><span class="nav-number">4.26.</span> <span class="nav-text">什么是页锁？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库MVCC的实现"><span class="nav-number">4.27.</span> <span class="nav-text">数据库MVCC的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快照发生在什么时候？"><span class="nav-number">4.28.</span> <span class="nav-text">快照发生在什么时候？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么保证update的正确性？"><span class="nav-number">4.29.</span> <span class="nav-text">怎么保证update的正确性？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是间隙锁"><span class="nav-number">4.30.</span> <span class="nav-text">什么是间隙锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可重复读是怎么解决幻读的问题的"><span class="nav-number">4.31.</span> <span class="nav-text">可重复读是怎么解决幻读的问题的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聊聊索引，我给你写个表，看看下面的查询语句，走了那些索引？"><span class="nav-number">4.32.</span> <span class="nav-text">聊聊索引，我给你写个表，看看下面的查询语句，走了那些索引？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如果你在MySQL中遇到一些慢查询，有什么解决方法么？"><span class="nav-number">4.33.</span> <span class="nav-text">如果你在MySQL中遇到一些慢查询，有什么解决方法么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谈谈explain即执行计划？执行的explain后，出现的哪些字段，能够帮助我们呢？"><span class="nav-number">4.34.</span> <span class="nav-text">谈谈explain即执行计划？执行的explain后，出现的哪些字段，能够帮助我们呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库连接池"><span class="nav-number">4.35.</span> <span class="nav-text">数据库连接池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JTA事务和普通事务"><span class="nav-number">4.36.</span> <span class="nav-text">JTA事务和普通事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL一条语句的执行过程，解析过程？查询缓存？怎么判断是否命中？"><span class="nav-number">4.37.</span> <span class="nav-text">MySQL一条语句的执行过程，解析过程？查询缓存？怎么判断是否命中？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL的执行计划"><span class="nav-number">4.38.</span> <span class="nav-text">MySQL的执行计划</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL注入"><span class="nav-number">4.39.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库的三大范式"><span class="nav-number">4.40.</span> <span class="nav-text">数据库的三大范式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java与数据库的连接"><span class="nav-number">4.41.</span> <span class="nav-text">Java与数据库的连接</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis"><span class="nav-number">5.</span> <span class="nav-text">Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关系型数据库和非关系型数据库的区别，有哪些非关系型数据库？"><span class="nav-number">5.1.</span> <span class="nav-text">关系型数据库和非关系型数据库的区别，有哪些非关系型数据库？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis的应用场景有哪些"><span class="nav-number">5.2.</span> <span class="nav-text">Redis的应用场景有哪些</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis为什么采用单线程而不是多线程以及为什么Redis这么快"><span class="nav-number">5.3.</span> <span class="nav-text">Redis为什么采用单线程而不是多线程以及为什么Redis这么快</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String类型的底层原理讲一下"><span class="nav-number">5.4.</span> <span class="nav-text">String类型的底层原理讲一下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis的ZSet底层是什么结构？跳表，介绍一下，画一下基本结构，搜索插入数据过程，时间复杂度"><span class="nav-number">5.5.</span> <span class="nav-text">Redis的ZSet底层是什么结构？跳表，介绍一下，画一下基本结构，搜索插入数据过程，时间复杂度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis字典的实现"><span class="nav-number">5.6.</span> <span class="nav-text">Redis字典的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重哈希怎么实现，重哈希是同步还是异步，哈希键还有用什么数据结构"><span class="nav-number">5.7.</span> <span class="nav-text">重哈希怎么实现，重哈希是同步还是异步，哈希键还有用什么数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis，它会存在线程切换的问题么"><span class="nav-number">5.8.</span> <span class="nav-text">Redis，它会存在线程切换的问题么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谈谈Redis单线程模型和IO多路复用"><span class="nav-number">5.9.</span> <span class="nav-text">谈谈Redis单线程模型和IO多路复用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis的大Key的问题，如果有个Value的大小是2M，会有什么问题么？最大支持的Value大小是多少？（实际开发中最大支持的value是多少仍需查找）"><span class="nav-number">5.10.</span> <span class="nav-text">Redis的大Key的问题，如果有个Value的大小是2M，会有什么问题么？最大支持的Value大小是多少？（实际开发中最大支持的value是多少仍需查找）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从复制原理"><span class="nav-number">5.11.</span> <span class="nav-text">主从复制原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谈谈Redis集群-Redis-Cluster？"><span class="nav-number">5.12.</span> <span class="nav-text">谈谈Redis集群 Redis Cluster？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说说Redis中的哨兵，即Redis-Sentinel"><span class="nav-number">5.13.</span> <span class="nav-text">说说Redis中的哨兵，即Redis Sentinel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对于Redis来说，使用悲观锁更吃力还是使用乐观锁更吃力"><span class="nav-number">5.14.</span> <span class="nav-text">对于Redis来说，使用悲观锁更吃力还是使用乐观锁更吃力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谈谈Redis如何实现分布式锁？-3"><span class="nav-number">5.15.</span> <span class="nav-text">谈谈Redis如何实现分布式锁？*3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#谈谈Redis中缓存穿透的问题，以及解决的方法？布隆过滤器有了解过么？"><span class="nav-number">5.16.</span> <span class="nav-text">谈谈Redis中缓存穿透的问题，以及解决的方法？布隆过滤器有了解过么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis中大面积的缓存失效，然后请求全部打到数据库，有什么解决方法？"><span class="nav-number">5.17.</span> <span class="nav-text">Redis中大面积的缓存失效，然后请求全部打到数据库，有什么解决方法？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#当你通过jedis进行连接redis的时候，已经和一个进程连接了-，redis还能够和其它的进程进行通信么？"><span class="nav-number">5.18.</span> <span class="nav-text">当你通过jedis进行连接redis的时候，已经和一个进程连接了 ，redis还能够和其它的进程进行通信么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis每秒能够处理处理十万请求，如果按照你上面说的，那说明它每次交互只在-1-十万-秒内完成？"><span class="nav-number">5.19.</span> <span class="nav-text">Redis每秒能够处理处理十万请求，如果按照你上面说的，那说明它每次交互只在 1&#x2F;十万 秒内完成？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis源码是否看过"><span class="nav-number">5.20.</span> <span class="nav-text">Redis源码是否看过</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么Nosql比sql快？主要有什么优缺点"><span class="nav-number">5.21.</span> <span class="nav-text">为什么Nosql比sql快？主要有什么优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL用了B-Tree，Redis中的SortSet内部用了跳跃表，他们之间有什么差别？为什么MySQL不用跳跃表，或者是Redis不用B-Tree呢？（还得再查询资料）"><span class="nav-number">5.22.</span> <span class="nav-text">MySQL用了B+Tree，Redis中的SortSet内部用了跳跃表，他们之间有什么差别？为什么MySQL不用跳跃表，或者是Redis不用B+Tree呢？（还得再查询资料）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何保证Redis的高可用"><span class="nav-number">5.23.</span> <span class="nav-text">如何保证Redis的高可用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis的ttl指令底层实现，Redis过期策略"><span class="nav-number">5.24.</span> <span class="nav-text">Redis的ttl指令底层实现，Redis过期策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis持久化，各个持久化的参数，开启持久化会影响性能吗"><span class="nav-number">5.25.</span> <span class="nav-text">Redis持久化，各个持久化的参数，开启持久化会影响性能吗</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RabbitMQ"><span class="nav-number">6.</span> <span class="nav-text">RabbitMQ</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用MQ？"><span class="nav-number">6.1.</span> <span class="nav-text">为什么使用MQ？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ和其它消息队列，比如ActiveMQ，RocketMQ，Kafka有什么区别"><span class="nav-number">6.2.</span> <span class="nav-text">RabbitMQ和其它消息队列，比如ActiveMQ，RocketMQ，Kafka有什么区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ有哪些组件-2"><span class="nav-number">6.3.</span> <span class="nav-text">RabbitMQ有哪些组件*2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主流MQ有哪些"><span class="nav-number">6.4.</span> <span class="nav-text">主流MQ有哪些</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何保证消息的顺序性"><span class="nav-number">6.5.</span> <span class="nav-text">如何保证消息的顺序性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息基于什么传输"><span class="nav-number">6.6.</span> <span class="nav-text">消息基于什么传输</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#讲讲消费模式和刷盘策略"><span class="nav-number">6.7.</span> <span class="nav-text">讲讲消费模式和刷盘策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ的特性"><span class="nav-number">6.8.</span> <span class="nav-text">RabbitMQ的特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RabbitMQ的延时队列"><span class="nav-number">6.9.</span> <span class="nav-text">RabbitMQ的延时队列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring"><span class="nav-number">7.</span> <span class="nav-text">Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring的IOC和DI"><span class="nav-number">7.1.</span> <span class="nav-text">Spring的IOC和DI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IOC初始化过程"><span class="nav-number">7.2.</span> <span class="nav-text">IOC初始化过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DI相关注解"><span class="nav-number">7.3.</span> <span class="nav-text">DI相关注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DI的过程"><span class="nav-number">7.4.</span> <span class="nav-text">DI的过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bean的生命周期"><span class="nav-number">7.5.</span> <span class="nav-text">bean的生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bean的作用范围-作用域"><span class="nav-number">7.6.</span> <span class="nav-text">bean的作用范围&#x2F;作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何通过XML方式创建Bean"><span class="nav-number">7.7.</span> <span class="nav-text">如何通过XML方式创建Bean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何通过注解创建Bean"><span class="nav-number">7.8.</span> <span class="nav-text">如何通过注解创建Bean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何通过注解配置文件"><span class="nav-number">7.9.</span> <span class="nav-text">如何通过注解配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BeanFactory、FactoryBean和ApplicationContext的区别"><span class="nav-number">7.10.</span> <span class="nav-text">BeanFactory、FactoryBean和ApplicationContext的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring的AOP"><span class="nav-number">7.11.</span> <span class="nav-text">Spring的AOP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP的相关注解有哪些"><span class="nav-number">7.12.</span> <span class="nav-text">AOP的相关注解有哪些</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP的相关术语有什么"><span class="nav-number">7.13.</span> <span class="nav-text">AOP的相关术语有什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP过程"><span class="nav-number">7.14.</span> <span class="nav-text">AOP过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring哪里用到了反射"><span class="nav-number">7.15.</span> <span class="nav-text">Spring哪里用到了反射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring循环依赖如何解决"><span class="nav-number">7.16.</span> <span class="nav-text">Spring循环依赖如何解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring生命周期"><span class="nav-number">7.17.</span> <span class="nav-text">Spring生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring用了哪些设计模式"><span class="nav-number">7.18.</span> <span class="nav-text">Spring用了哪些设计模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Resource和-Autowired的区别"><span class="nav-number">7.19.</span> <span class="nav-text">@Resource和@Autowired的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringMVC"><span class="nav-number">8.</span> <span class="nav-text">SpringMVC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC的处理流程"><span class="nav-number">8.1.</span> <span class="nav-text">SpringMVC的处理流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC有哪些组件"><span class="nav-number">8.2.</span> <span class="nav-text">SpringMVC有哪些组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SpringMVC的相关注解"><span class="nav-number">8.3.</span> <span class="nav-text">SpringMVC的相关注解</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MyBatis"><span class="nav-number">9.</span> <span class="nav-text">MyBatis</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis的优缺点"><span class="nav-number">9.1.</span> <span class="nav-text">MyBatis的优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis的XML文件有哪些标签属性"><span class="nav-number">9.2.</span> <span class="nav-text">MyBatis的XML文件有哪些标签属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis的一级缓存是什么"><span class="nav-number">9.3.</span> <span class="nav-text">MyBatis的一级缓存是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis的二级缓存是什么"><span class="nav-number">9.4.</span> <span class="nav-text">MyBatis的二级缓存是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis-和-的区别"><span class="nav-number">9.5.</span> <span class="nav-text">MyBatis#{}和${}的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis中Mapper标注的接口中的方法可以重载吗"><span class="nav-number">9.6.</span> <span class="nav-text">MyBatis中Mapper标注的接口中的方法可以重载吗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通常一个Xml映射文件，都会写一个Dao接口与之对应，请问，这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗"><span class="nav-number">9.7.</span> <span class="nav-text">通常一个Xml映射文件，都会写一个Dao接口与之对应，请问，这个Dao接口的工作原理是什么？Dao接口里的方法，参数不同时，方法能重载吗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL数据库里面有个自增主键，希望在MyBatis中新增的时候能够反返回数据库中的自增主键，怎么配置？如果是非自增主键呢？"><span class="nav-number">9.8.</span> <span class="nav-text">MySQL数据库里面有个自增主键，希望在MyBatis中新增的时候能够反返回数据库中的自增主键，怎么配置？如果是非自增主键呢？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-Boot"><span class="nav-number">10.</span> <span class="nav-text">Spring Boot</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-boot有哪些提升？"><span class="nav-number">10.1.</span> <span class="nav-text">spring boot有哪些提升？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring-boot-starter的过程"><span class="nav-number">10.2.</span> <span class="nav-text">spring boot starter的过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot-自动配置原理是什么？"><span class="nav-number">10.3.</span> <span class="nav-text">Spring Boot 自动配置原理是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot-是否可以使用-XML-配置"><span class="nav-number">10.4.</span> <span class="nav-text">Spring Boot 是否可以使用 XML 配置 ?</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ElasticSearch"><span class="nav-number">11.</span> <span class="nav-text">ElasticSearch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ElasticSearch为什么查询比MySQL快？"><span class="nav-number">11.1.</span> <span class="nav-text">ElasticSearch为什么查询比MySQL快？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络编程-Netty"><span class="nav-number">12.</span> <span class="nav-text">网络编程 Netty</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#介绍一下IO模型（BIO-NIO）"><span class="nav-number">12.1.</span> <span class="nav-text">介绍一下IO模型（BIO,NIO）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#select到epoll有哪些改进"><span class="nav-number">12.2.</span> <span class="nav-text">select到epoll有哪些改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll-IO多路复用模型实现机制详解"><span class="nav-number">12.3.</span> <span class="nav-text">epoll IO多路复用模型实现机制详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#select和poll之间的区别是什么"><span class="nav-number">12.4.</span> <span class="nav-text">select和poll之间的区别是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll套接字的实现"><span class="nav-number">12.5.</span> <span class="nav-text">epoll套接字的实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#水平触发和边缘触发"><span class="nav-number">12.6.</span> <span class="nav-text">水平触发和边缘触发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#除了阻塞I-O的其他I-O，用epoll来网络编程的客户端和服务端的步骤"><span class="nav-number">12.7.</span> <span class="nav-text">除了阻塞I&#x2F;O的其他I&#x2F;O，用epoll来网络编程的客户端和服务端的步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-NIO"><span class="nav-number">12.8.</span> <span class="nav-text">Java NIO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#负载均衡了解哪些算法"><span class="nav-number">12.9.</span> <span class="nav-text">负载均衡了解哪些算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一致性hash的好处，如果节点比较少会出现什么问题"><span class="nav-number">12.10.</span> <span class="nav-text">一致性hash的好处，如果节点比较少会出现什么问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reactor-模型有了解吗"><span class="nav-number">12.11.</span> <span class="nav-text">Reactor 模型有了解吗</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机网络"><span class="nav-number">13.</span> <span class="nav-text">计算机网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#应用层"><span class="nav-number">13.1.</span> <span class="nav-text">应用层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见应用层协议使用UDP或TCP来传输"><span class="nav-number">13.1.1.</span> <span class="nav-text">常见应用层协议使用UDP或TCP来传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下面聊聊Http-Code，你知道-3XX-状态码对应的是什么？"><span class="nav-number">13.1.2.</span> <span class="nav-text">下面聊聊Http Code，你知道 3XX 状态码对应的是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用状态码有哪些，分别什么意思？如404-302-502-503。503和502的区别"><span class="nav-number">13.1.3.</span> <span class="nav-text">常用状态码有哪些，分别什么意思？如404,302,502,503。503和502的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http报文结构"><span class="nav-number">13.1.4.</span> <span class="nav-text">http报文结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Http了解吗？讲一讲"><span class="nav-number">13.1.5.</span> <span class="nav-text">Http了解吗？讲一讲</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#详细介绍一下HTTP请求响应的过程"><span class="nav-number">13.1.6.</span> <span class="nav-text">详细介绍一下HTTP请求响应的过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Http1-0和Http1-1区别"><span class="nav-number">13.1.7.</span> <span class="nav-text">Http1.0和Http1.1区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http2-0、https了解吗？讲一下连接过程（非对称加密，对称加密）-2"><span class="nav-number">13.1.8.</span> <span class="nav-text">http2.0、https了解吗？讲一下连接过程（非对称加密，对称加密）*2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#http和https的区别"><span class="nav-number">13.1.9.</span> <span class="nav-text">http和https的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#https加密过程-2"><span class="nav-number">13.1.10.</span> <span class="nav-text">https加密过程*2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TLS-SSL的过程"><span class="nav-number">13.1.11.</span> <span class="nav-text">TLS&#x2F;SSL的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Client-Hello"><span class="nav-number">13.1.11.1.</span> <span class="nav-text">Client Hello</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Server-Hello"><span class="nav-number">13.1.11.2.</span> <span class="nav-text">Server Hello</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Certificate"><span class="nav-number">13.1.11.3.</span> <span class="nav-text">Certificate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Server-Key-Exchange"><span class="nav-number">13.1.11.4.</span> <span class="nav-text">Server Key Exchange</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Certificate-Request"><span class="nav-number">13.1.11.5.</span> <span class="nav-text">Certificate Request</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Server-Hello-Done"><span class="nav-number">13.1.11.6.</span> <span class="nav-text">Server Hello Done</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Certificate-Verify"><span class="nav-number">13.1.11.7.</span> <span class="nav-text">Certificate Verify</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Client-Key-Exchange"><span class="nav-number">13.1.11.8.</span> <span class="nav-text">Client Key Exchange</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Change-Cipher-Spec-Client"><span class="nav-number">13.1.11.9.</span> <span class="nav-text">Change Cipher Spec(Client)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Encrypted-Handshake-Message-Client"><span class="nav-number">13.1.11.10.</span> <span class="nav-text">Encrypted Handshake Message(Client)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Change-Cipher-Spec-Server"><span class="nav-number">13.1.11.11.</span> <span class="nav-text">Change Cipher Spec(Server)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Encrypted-Handshake-Message-Server"><span class="nav-number">13.1.11.12.</span> <span class="nav-text">Encrypted Handshake Message(Server)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Application-Data"><span class="nav-number">13.1.11.13.</span> <span class="nav-text">Application Data</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器输入URL到页面展示经历的过程"><span class="nav-number">13.1.12.</span> <span class="nav-text">浏览器输入URL到页面展示经历的过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#电子邮件系统中，用户代理把邮件发往发送发邮件服务器、发送方邮件服务器把邮件发往接收方邮件服务器以及用户使用用户代理从接收方邮件服务器上读取邮件时，使用的协议"><span class="nav-number">13.1.13.</span> <span class="nav-text">电子邮件系统中，用户代理把邮件发往发送发邮件服务器、发送方邮件服务器把邮件发往接收方邮件服务器以及用户使用用户代理从接收方邮件服务器上读取邮件时，使用的协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS的实现"><span class="nav-number">13.1.14.</span> <span class="nav-text">HTTPS的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Http中GET与POST的区别"><span class="nav-number">13.1.15.</span> <span class="nav-text">Http中GET与POST的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浏览器图片怎么加载的？"><span class="nav-number">13.1.16.</span> <span class="nav-text">浏览器图片怎么加载的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS详细说下？为啥要这么设计？为什么域名服务器要分级设计？"><span class="nav-number">13.1.17.</span> <span class="nav-text">DNS详细说下？为啥要这么设计？为什么域名服务器要分级设计？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件传送协议FTP"><span class="nav-number">13.1.18.</span> <span class="nav-text">文件传送协议FTP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie存放在http协议中的哪个位置"><span class="nav-number">13.1.19.</span> <span class="nav-text">Cookie存放在http协议中的哪个位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie和Session是什么以及区别"><span class="nav-number">13.1.20.</span> <span class="nav-text">Cookie和Session是什么以及区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发送邮件需要用到的协议"><span class="nav-number">13.1.21.</span> <span class="nav-text">发送邮件需要用到的协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传输层"><span class="nav-number">13.2.</span> <span class="nav-text">传输层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#端口号"><span class="nav-number">13.2.1.</span> <span class="nav-text">端口号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP、UDP区别-2"><span class="nav-number">13.2.2.</span> <span class="nav-text">TCP、UDP区别*2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP可靠连接用什么保证-2"><span class="nav-number">13.2.3.</span> <span class="nav-text">TCP可靠连接用什么保证*2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UDP如何实现可靠传输"><span class="nav-number">13.2.4.</span> <span class="nav-text">UDP如何实现可靠传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最大tcp连接数跟什么有关"><span class="nav-number">13.2.5.</span> <span class="nav-text">最大tcp连接数跟什么有关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP中的MSS和MTU"><span class="nav-number">13.2.6.</span> <span class="nav-text">TCP中的MSS和MTU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三次握手、四次挥手各个状态名称-2"><span class="nav-number">13.2.7.</span> <span class="nav-text">三次握手、四次挥手各个状态名称*2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器端大量出现close-wait是什么原因？"><span class="nav-number">13.2.8.</span> <span class="nav-text">服务器端大量出现close_wait是什么原因？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP三次握手，为什么是3次，不是2次，挥手为什么4次-2"><span class="nav-number">13.2.9.</span> <span class="nav-text">TCP三次握手，为什么是3次，不是2次，挥手为什么4次*2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP三次握手发了什么？syn的全名"><span class="nav-number">13.2.10.</span> <span class="nav-text">TCP三次握手发了什么？syn的全名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP三次握手对应哪些系统调用"><span class="nav-number">13.2.11.</span> <span class="nav-text">TCP三次握手对应哪些系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有个半连接、全连接状态，对应到具体哪步状态"><span class="nav-number">13.2.12.</span> <span class="nav-text">有个半连接、全连接状态，对应到具体哪步状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCP拥塞控制和流量控制-3"><span class="nav-number">13.2.13.</span> <span class="nav-text">TCP拥塞控制和流量控制*3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拥塞如何解决？"><span class="nav-number">13.2.14.</span> <span class="nav-text">拥塞如何解决？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TIME-WAIT的作用-2"><span class="nav-number">13.2.15.</span> <span class="nav-text">TIME_WAIT的作用*2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TIME-WAIT为什么是2MSL，如何解决TIME-WAIT状态过多"><span class="nav-number">13.2.16.</span> <span class="nav-text">TIME_WAIT为什么是2MSL，如何解决TIME_WAIT状态过多</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写过socket编程吗？"><span class="nav-number">13.2.17.</span> <span class="nav-text">写过socket编程吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#校园网都是局域网，怎么访问外网？NAT。-它又问NAT具体是怎么回事。"><span class="nav-number">13.2.18.</span> <span class="nav-text">校园网都是局域网，怎么访问外网？NAT。 它又问NAT具体是怎么回事。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用UDP传数据一次传4k好还是4次传1k好"><span class="nav-number">13.2.19.</span> <span class="nav-text">用UDP传数据一次传4k好还是4次传1k好</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何判断数据发送完了？"><span class="nav-number">13.2.20.</span> <span class="nav-text">如何判断数据发送完了？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计一种方法解决粘包问题"><span class="nav-number">13.2.21.</span> <span class="nav-text">设计一种方法解决粘包问题?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果客户端突然出现故障，tcp连接会怎么样"><span class="nav-number">13.2.22.</span> <span class="nav-text">如果客户端突然出现故障，tcp连接会怎么样</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络层"><span class="nav-number">13.3.</span> <span class="nav-text">网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ip数据报"><span class="nav-number">13.3.1.</span> <span class="nav-text">ip数据报</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP分片"><span class="nav-number">13.3.2.</span> <span class="nav-text">IP分片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP地址"><span class="nav-number">13.3.3.</span> <span class="nav-text">IP地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#划分子网"><span class="nav-number">13.3.4.</span> <span class="nav-text">划分子网</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网际控制报文协议ICMP"><span class="nav-number">13.3.5.</span> <span class="nav-text">网际控制报文协议ICMP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ICMP的应用举例"><span class="nav-number">13.3.6.</span> <span class="nav-text">ICMP的应用举例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由协议"><span class="nav-number">13.3.7.</span> <span class="nav-text">路由协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟专用网vpn"><span class="nav-number">13.3.8.</span> <span class="nav-text">虚拟专用网vpn</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络地址转换NAT"><span class="nav-number">13.3.9.</span> <span class="nav-text">网络地址转换NAT</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据链路层"><span class="nav-number">13.4.</span> <span class="nav-text">数据链路层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MTU的概念"><span class="nav-number">13.4.1.</span> <span class="nav-text">MTU的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ARP、RARP协议"><span class="nav-number">13.4.2.</span> <span class="nav-text">ARP、RARP协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用层、传输层、网络层、数据链路层的常用协议"><span class="nav-number">13.5.</span> <span class="nav-text">应用层、传输层、网络层、数据链路层的常用协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#物理层，数据链路层，网络层的硬件设备"><span class="nav-number">13.6.</span> <span class="nav-text">物理层，数据链路层，网络层的硬件设备</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设计模式"><span class="nav-number">14.</span> <span class="nav-text">设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对设计模式的理解"><span class="nav-number">14.1.</span> <span class="nav-text">对设计模式的理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计模式的原则"><span class="nav-number">14.2.</span> <span class="nav-text">设计模式的原则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux"><span class="nav-number">15.</span> <span class="nav-text">Linux</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#linux查看日志文件"><span class="nav-number">15.1.</span> <span class="nav-text">linux查看日志文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#操作系统"><span class="nav-number">16.</span> <span class="nav-text">操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#进程与线程"><span class="nav-number">16.1.</span> <span class="nav-text">进程与线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程和进程的区别？-2"><span class="nav-number">16.1.1.</span> <span class="nav-text">线程和进程的区别？*2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的生命周期"><span class="nav-number">16.1.2.</span> <span class="nav-text">进程的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的状态"><span class="nav-number">16.1.3.</span> <span class="nav-text">进程的状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的特点"><span class="nav-number">16.1.4.</span> <span class="nav-text">进程的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程隔离哪些资源"><span class="nav-number">16.1.5.</span> <span class="nav-text">进程隔离哪些资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的调度，进程的切换"><span class="nav-number">16.1.6.</span> <span class="nav-text">进程的调度，进程的切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程控制"><span class="nav-number">16.1.7.</span> <span class="nav-text">进程控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程调度"><span class="nav-number">16.1.8.</span> <span class="nav-text">线程调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程共享和独有的内容"><span class="nav-number">16.1.9.</span> <span class="nav-text">线程共享和独有的内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程、线程同步"><span class="nav-number">16.1.10.</span> <span class="nav-text">进程、线程同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程间通信"><span class="nav-number">16.1.11.</span> <span class="nav-text">进程间通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是守护进程"><span class="nav-number">16.1.12.</span> <span class="nav-text">什么是守护进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#孤儿进程和僵尸进程"><span class="nav-number">16.1.13.</span> <span class="nav-text">孤儿进程和僵尸进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个进程有哪些段"><span class="nav-number">16.1.14.</span> <span class="nav-text">一个进程有哪些段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理"><span class="nav-number">16.2.</span> <span class="nav-text">内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是地址空间"><span class="nav-number">16.2.1.</span> <span class="nav-text">什么是地址空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟内存"><span class="nav-number">16.2.2.</span> <span class="nav-text">虚拟内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序的局部性原理"><span class="nav-number">16.2.3.</span> <span class="nav-text">程序的局部性原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何完成虚拟地址到物理地址的映射？"><span class="nav-number">16.2.4.</span> <span class="nav-text">如何完成虚拟地址到物理地址的映射？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加速分页过程，转换检测缓冲区-TLB"><span class="nav-number">16.2.5.</span> <span class="nav-text">加速分页过程，转换检测缓冲区(TLB)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#针对大内存的页表（还得看）"><span class="nav-number">16.2.6.</span> <span class="nav-text">针对大内存的页表（还得看）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在操作系统中，有寄存器，高速缓存，主存，虚拟内存，外存，有知道它们之间有什么样的关系，以及它们的作用是啥？"><span class="nav-number">16.2.7.</span> <span class="nav-text">在操作系统中，有寄存器，高速缓存，主存，虚拟内存，外存，有知道它们之间有什么样的关系，以及它们的作用是啥？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#就是当我们的主存满了，或者虚存满了，那么需要存在一个换页操作，你知道有哪些换页算法么？"><span class="nav-number">16.2.8.</span> <span class="nav-text">就是当我们的主存满了，或者虚存满了，那么需要存在一个换页操作，你知道有哪些换页算法么？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户态、内核态-2"><span class="nav-number">16.3.</span> <span class="nav-text">用户态、内核态*2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO多路复用是什么？多路复用运用的场景？"><span class="nav-number">16.4.</span> <span class="nav-text">IO多路复用是什么？多路复用运用的场景？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#协程是什么？"><span class="nav-number">16.5.</span> <span class="nav-text">协程是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统调用"><span class="nav-number">16.6.</span> <span class="nav-text">系统调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软连接和硬链接区别？"><span class="nav-number">16.7.</span> <span class="nav-text">软连接和硬链接区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统中引入缓冲的主要原因"><span class="nav-number">16.8.</span> <span class="nav-text">操作系统中引入缓冲的主要原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程A和B，A-0X123AA-10-B-0X123AA-20-问题：在多core-cpu环境下，A和B进程同时运行时，会不会出现写冲突、数据被覆盖的情况"><span class="nav-number">16.9.</span> <span class="nav-text">进程A和B，A:  *(0X123AA) &#x3D; 10; B:  *(0X123AA) &#x3D; 20; 问题：在多core cpu环境下，A和B进程同时运行时，会不会出现写冲突、数据被覆盖的情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#死锁"><span class="nav-number">16.10.</span> <span class="nav-text">死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁的4个特征"><span class="nav-number">16.10.1.</span> <span class="nav-text">死锁的4个特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁处理办法"><span class="nav-number">16.10.2.</span> <span class="nav-text">死锁处理办法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据结构与基础"><span class="nav-number">17.</span> <span class="nav-text">数据结构与基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#排序算法哪些是稳定的，为什么直接插入排序是稳定的"><span class="nav-number">17.1.</span> <span class="nav-text">排序算法哪些是稳定的，为什么直接插入排序是稳定的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#各个排序的时间和空间复杂度"><span class="nav-number">17.2.</span> <span class="nav-text">各个排序的时间和空间复杂度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法题"><span class="nav-number">18.</span> <span class="nav-text">算法题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#10G文件的字典序排序、2G内存"><span class="nav-number">18.1.</span> <span class="nav-text">10G文件的字典序排序、2G内存</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#项目"><span class="nav-number">19.</span> <span class="nav-text">项目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#秒杀"><span class="nav-number">19.1.</span> <span class="nav-text">秒杀</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何解决超卖问题"><span class="nav-number">19.1.1.</span> <span class="nav-text">如何解决超卖问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如果限定30分钟后不支付自动取消订单，如何处理"><span class="nav-number">19.1.2.</span> <span class="nav-text">如果限定30分钟后不支付自动取消订单，如何处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论坛"><span class="nav-number">19.2.</span> <span class="nav-text">论坛</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#场景题"><span class="nav-number">20.</span> <span class="nav-text">场景题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#海量评论系统，实现以下功能-提交评论，查看热门评论，查看最新评论，查看我的评论。从数据库，缓存的应用、服务器，到前端如何实现。"><span class="nav-number">20.1.</span> <span class="nav-text">海量评论系统，实现以下功能 提交评论，查看热门评论，查看最新评论，查看我的评论。从数据库，缓存的应用、服务器，到前端如何实现。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12306抢票设计"><span class="nav-number">20.2.</span> <span class="nav-text">12306抢票设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#停车系统"><span class="nav-number">20.3.</span> <span class="nav-text">停车系统</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
