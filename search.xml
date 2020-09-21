@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>插入图片</title>
+    <url>/2020/09/21/%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/</url>
+    <content><![CDATA[<h1 id="尝试插入图片"><a href="#尝试插入图片" class="headerlink" title="尝试插入图片"></a>尝试插入图片</h1><p>第一张图片</p>
+<p><img src="%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%5Cbiaozhi.png" alt=""></p>
+]]></content>
+  </entry>
+  <entry>
     <title>项目复盘</title>
     <url>/2020/09/15/%E9%A1%B9%E7%9B%AE%E5%A4%8D%E7%9B%98/</url>
     <content><![CDATA[<h1 id="论坛项目"><a href="#论坛项目" class="headerlink" title="论坛项目"></a>论坛项目</h1><h2 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h2><p>Spring Boot、MySql、MyBatis、Maven、ElasticSearch、RabbitMQ</p>
