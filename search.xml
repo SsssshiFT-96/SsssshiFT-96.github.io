@@ -4,7 +4,9 @@
     <title>插入图片</title>
     <url>/2020/09/21/%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/</url>
     <content><![CDATA[<h1 id="尝试插入图片"><a href="#尝试插入图片" class="headerlink" title="尝试插入图片"></a>尝试插入图片</h1><p>第一张图片</p>
-<p><img src="%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%5Cbiaozhi.png" alt=""></p>
+<p><img src="%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%5Cbiaozhi.png" alt=""><img src="/2020/09/21/%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/biaozhi.png" class="" title="This is an example image"></p>
+<a id="more"></a>
+
 ]]></content>
   </entry>
   <entry>
@@ -13,6 +15,8 @@
     <content><![CDATA[<h1 id="论坛项目"><a href="#论坛项目" class="headerlink" title="论坛项目"></a>论坛项目</h1><h2 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h2><p>Spring Boot、MySql、MyBatis、Maven、ElasticSearch、RabbitMQ</p>
 <h2 id="功能实现"><a href="#功能实现" class="headerlink" title="功能实现"></a>功能实现</h2><h3 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h3><h4 id="使用GitHub登录"><a href="#使用GitHub登录" class="headerlink" title="使用GitHub登录"></a>使用GitHub登录</h4><p>1.用户登录论坛，点击登录，论坛就会调用github的authorize接口，就会出现一个授权画面，点击授权<br>2.授权后，github会重新访问论坛，使用GET访问的url是callback（所以要创建一个可以处理callback请求的controller）并会携带参数code和state。<br>3.创建一个可以处理callback请求的controller，将参数取出。使用第三方工具OkHttp使用POST方法来调用github的access_token接口即<a href="https://github.com/login/oauth/access_token，将之前获得的信息设置到一个对象中，然后转成JSON格式。手动创建Request的对象，设置url，请求体。通过OkHttp访问，将返回的响应体转换成字符串对象，通过切割获取access_token" target="_blank" rel="noopener">https://github.com/login/oauth/access_token，将之前获得的信息设置到一个对象中，然后转成JSON格式。手动创建Request的对象，设置url，请求体。通过OkHttp访问，将返回的响应体转换成字符串对象，通过切割获取access_token</a><br>4.根据access_token，用第3步同样的方法访问<a href="https://api.github.com/user?access_token=" target="_blank" rel="noopener">https://api.github.com/user?access_token=</a> + 上一步中得到的access_token。通过OkHttp发送请求，得到返回响应，将响应体转换为string类型，这时是JSON格式的string，可以将其转换成之前建立好的java对象。此时就获得了用户信息。<br>5.将得到的用户信息存入数据库中。</p>
 <h4 id="登录状态持久化"><a href="#登录状态持久化" class="headerlink" title="登录状态持久化"></a>登录状态持久化</h4><p>登录的时候，自己设定自动token相当于sessionID，以token为key存入到cookie中。下次在登录之前，首先获取cookie，找到token为key的cookie，然后得到对应的token值，从数据库中查找用户是否存在，若存在则直接返回用户，若不存在则进行登录。这里后面使用拦截器，在请求执行之前尝试获取cookie中的user。</p>
+<a id="more"></a>
+
 <h3 id="导航栏"><a href="#导航栏" class="headerlink" title="导航栏"></a>导航栏</h3><p>因为每个界面都用到导航栏，如果每个界面都去写的话，到时需要修改又要每个界面修改非常的麻烦。所以现在将导航栏的部分封装成一个单独的html，然后其他的html导入即可。</p>
 <h3 id="文章"><a href="#文章" class="headerlink" title="文章"></a>文章</h3><h4 id="文章发布"><a href="#文章发布" class="headerlink" title="文章发布"></a>文章发布</h4><p>点击发布文章按钮会来到文章发布的页面<br>给每个要输入的框如title、description、tag设置变量用于接收。在文章发布页面点击发布时，会发送publish请求，然后对应框的内容会被对应的参数接收存储。首先将这些内容存入到Model中，以防再次回到页面时需要重新写入<strong><span style = "color : red">（一个难点？）</span></strong>。然后判断每个内容是否符合规范，若不符合规范则会往Model中传入error和相应的信息，之后会再次返回到这个页面，之前写的内容因为存入过Model中，所以会复现，然后在不合规范的地方会出现如何不合规范。若符合规范，则将对应的数据存入到数据库中，然后返回到主页。这里注意后面修改文章也同样用一个方法，所以这里我们还定义参数id来获取请求的id，但是新建文章是没有id的，所以通过这一点来判断存入数据库是create还是update</p>
 <p>数据库存放的东西有文章的id、标题、内容、创建时间、修改时间、创建者id、评论数、浏览数、点赞数、tag</p>
@@ -169,6 +173,8 @@
     <title>自己面经</title>
     <url>/2020/09/15/%E8%87%AA%E5%B7%B1%E9%9D%A2%E7%BB%8F/</url>
     <content><![CDATA[<h1 id="字节一面（25min）"><a href="#字节一面（25min）" class="headerlink" title="字节一面（25min）"></a>字节一面（25min）</h1><p>强烈怀疑是为了刷kpi才面试的我，这时间也太短了<br>1.死锁的四个特征<br>2.讲一下拥塞控制<br>3.讲一下MySQL事务的4个特性<br>4.系统调用<br>5.线程比进程轻量的原因<br>手撕：找出01矩阵中，1最多的区域，返回1的数量</p>
+<a id="more"></a>
+
 <h1 id="拼多多超级提前批一面（50min）"><a href="#拼多多超级提前批一面（50min）" class="headerlink" title="拼多多超级提前批一面（50min）"></a>拼多多超级提前批一面（50min）</h1><p>自我介绍<br>怼项目<br>学习组件，自己有什么难点<br>三个项目在学习的时候印象最深的地方有哪些？</p>
 <p><strong>坦克大战</strong><br>用到哪些设计模式<br>子弹与坦克碰撞检测能否不用责任链<br>策略模式用的java原生的还是spring的<br>spring里面的策略模式有了解吗（没有。。。）</p>
 <p><strong>秒杀系统</strong></p>
@@ -308,6 +314,8 @@
     <content><![CDATA[<h1 id="JavaSE"><a href="#JavaSE" class="headerlink" title="JavaSE"></a>JavaSE</h1><h2 id="讲一下java的三个特性、多态-2、封装有什么用"><a href="#讲一下java的三个特性、多态-2、封装有什么用" class="headerlink" title="讲一下java的三个特性、多态*2、封装有什么用"></a>讲一下java的三个特性、多态*2、封装有什么用</h2><p>封装、继承、多态<br><strong>封装</strong>就是将对象的属性和方法封装起来，隐藏对象属性和方法实现细节，仅提供公共访问方式。好处就是可以信息隐藏和模块化，提高安全性。</p>
 <p><strong>继承</strong>就是使用已存在的类的定义作为基础建立新类的技术，新类的定义可以增加新的数据或新的功能，也可以用父类的功能，但不能选择性地继承父类。可以在父类的基础上更改方法或者添加方法属性。提高代码的复用性<br>同时在使用继承时需要记住三句话：<br>1、子类拥有父类非private的属性和方法。<br>2、子类可以拥有自己属性和方法，即子类可以对父类进行扩展。<br>3、子类可以用自己的方式实现父类的方法。</p>
 <p><strong>多态</strong>就是程序中定义的引用变量所指向的具体类型和通过该引用变量发出的方法调用在编程时并不确定，而是程序运行时期才确定，即一个引用变量到底会指向哪个类的实例对象，该引用变量发出的方法调用到底是哪个类中的实现方法，必须由程序运行期间才能决定。因为在程序运行时才确定具体的类，这样不用修改源程序代码，就可以让引用变量绑定到不同的类的实现上，从而导致该引用调用的具体方法随之改变，即不修改程序代码就可以改变程序运行时所绑定的具体代码，让程序可以选择多个运行状态。</p>
+<a id="more"></a>
+
 <h2 id="int和Integer区别"><a href="#int和Integer区别" class="headerlink" title="int和Integer区别"></a>int和Integer区别</h2><p>1、Integer是int的包装类，int则是java的一种基本数据类型<br>2、Integer变量必须实例化后才能使用，而int变量不需要<br>3、Integer实际是对象的引用，当new一个Integer时，实际上是生成一个指针指向此对象；而int则是直接存储数据值<br>4、Integer的默认值是null，int的默认值是0<br>二者比较：<br>1.两个通过new生成的Integer变量是永远不相等的<br>2.Integer和int比较时，Integer会自动拆箱为int，自动拆箱的代码为i.intValue()，所以只要值相同，这两个就相同<br>3.非new生成的Integer和new生成的Integer不会相等<br>4.两个非new生成的Integer对象比较，如果变量的值在区间-128到127之间，则会为true。如果不是则为false。因为非new生成的Integer会自动装箱，即Integer i= 100；就会变成 Integer i= Integer.valueOf(100)；这个方法在-128到127之间是从常量池中取值，而不在这个范围的则是通过new来取值。</p>
 <h2 id="i-i-、i-、i-i、-i"><a href="#i-i-、i-、i-i、-i" class="headerlink" title="i = i++、i++、i=++i、++i"></a>i = i++、i++、i=++i、++i</h2><p>i++在字节码文件中的过程是先将局部变量i的值压入操作数栈，然后自增，最后将压入操作数栈的值赋值。</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line">i = <span class="number">20</span>;</span><br><span class="line">j = i++;</span><br><span class="line"><span class="comment">/*具体过程：</span></span><br><span class="line"><span class="comment">1.将参数20压入操作数栈</span></span><br><span class="line"><span class="comment">2.从栈中弹出一个数赋值给局部变量i</span></span><br><span class="line"><span class="comment">3.将局部变量i的值压入栈中</span></span><br><span class="line"><span class="comment">4.局部变量i自增，i变为21</span></span><br><span class="line"><span class="comment">5.从栈中弹出一个数赋值给局部变量j</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">若为i=i++</span></span><br><span class="line"><span class="comment">那么就是最后一步变为从栈中弹出一个数赋值给局部变量i，即i的值又变回了20</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">--i则就是先自增再将值压入栈中。</span><br></pre></td></tr></table></figure>
@@ -323,7 +331,8 @@
 <p><strong>String 声明的是不可变的对象</strong>，每次操作都会生成新的 String 对象，然后将指针指向新的 String 对象，而 <strong>StringBuffer、StringBuilder 存储数据的字符数组没有被final修饰，说明值可以改变，且也是可变长度的，</strong>抽象类AbstractStringBuilder内部都提供了一个自动扩容机制，当发现长度不够的时候(初始默认长度是16)，会自动进行扩容工作，扩展为原数组长度的2倍加2，创建一个新的数组，并将数组的数据复制到新数组，所以对于拼接字符串效率要比String要高。</p>
 <p>线程安全性：StringBuffer由于很多方法都被 synchronized 修饰了所以线程安全，但是当多线程访问时，加锁和释放锁的过程很平凡，所以效率相比StringBuilder要低。StringBuilder相反执行效率高，但是线程不安全。所以单线程环境下推荐使用 StringBuilder，多线程环境下推荐使用 StringBuffer。</p>
 <p>执行速度:StringBuilder &gt; StringBuffer &gt; String。</p>
-<h2 id="String拼接怎么做到的"><a href="#String拼接怎么做到的" class="headerlink" title="String拼接怎么做到的"></a>String拼接怎么做到的</h2><p>1.如果是字面量常值拼接，即 s = “abc” + “qwer”; 则就是在常量池中进行，在字符串常量池中查找需要的字符串，如果找到，则指向给String引用，找不到则新建所需字符串，将地址指向给String引用。因为字符串常量池中不能存在相同字符串，每次拼接都要新建字符串，不能在原有字符串上进行修改。<br>2.如果拼接中带有变量，即 s = s + “abc”; 则会转成StringBuilder，然后使用append完成拼接，运算完成后转成String类型返回，该String是存放在堆中。<br><strong>字符串拼接原理：</strong>运行时， 两个字符串str1, str2的拼接首先会调用 String.valueOf(obj)，这个Obj为str1，而String.valueOf(Obj)中的实现是return obj == null ? “null” : obj.toString(), 然后产生StringBuilder， 调用的StringBuilder(str1)构造方法， 把StringBuilder初始化，长度为str1.length()+16，并且调用append(str1)！ 接下来调用StringBuilder.append(str2), 把第二个字符串拼接进去， 然后调用StringBuilder.toString返回结果！</p>
+<h2 id="String拼接怎么做到的"><a href="#String拼接怎么做到的" class="headerlink" title="String拼接怎么做到的"></a>String拼接怎么做到的</h2><p><a href="https://blog.csdn.net/itchuxuezhe_yang/article/details/89966303" target="_blank" rel="noopener">https://blog.csdn.net/itchuxuezhe_yang/article/details/89966303</a></p>
+<p>1.如果是字面量常值拼接，即 s = “abc” + “qwer”; 则就是在常量池中进行，在字符串常量池中查找需要的字符串，如果找到，则指向给String引用，找不到则新建所需字符串，将地址指向给String引用。因为字符串常量池中不能存在相同字符串，每次拼接都要新建字符串，不能在原有字符串上进行修改。<br>2.如果拼接中带有变量，即 s = s + “abc”; 则会转成StringBuilder，然后使用append完成拼接，运算完成后转成String类型返回，该String是存放在堆中。<br><strong>字符串拼接原理：</strong>运行时， 两个字符串str1, str2的拼接首先会调用 String.valueOf(obj)，这个Obj为str1，而String.valueOf(Obj)中的实现是return obj == null ? “null” : obj.toString(), 然后产生StringBuilder， 调用的StringBuilder(str1)构造方法， 把StringBuilder初始化，长度为str1.length()+16，并且调用append(str1)！ 接下来调用StringBuilder.append(str2), 把第二个字符串拼接进去， 然后调用StringBuilder.toString()返回结果！</p>
 <h2 id="数组和链表的区别"><a href="#数组和链表的区别" class="headerlink" title="数组和链表的区别"></a>数组和链表的区别</h2><p>数组：增删改慢，查询快<br>链表：查询慢，增删改快</p>
 <h2 id="Arraylist和LinkedList区别，ArrayList的初始大小"><a href="#Arraylist和LinkedList区别，ArrayList的初始大小" class="headerlink" title="Arraylist和LinkedList区别，ArrayList的初始大小"></a>Arraylist和LinkedList区别，ArrayList的初始大小</h2><p>区别同上</p>
 <p>Arraylist调动无参构造时，底层数组的容量为0；</p>
@@ -422,9 +431,11 @@
 <p><strong>内存分配完毕后</strong>，虚拟机必须将分配到的内存空间（但不包括对象头）都初始化为零值，如果使用了TLAB的话，这一项工作也可以提前至TLAB分配时顺便进行。这步操作保证了对象的实例字段在Java代码中可以不赋初始值就直接使用，使程序能访问到这些字段的数据类型所对应的零值。</p>
 <h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><p>在HotSpot虚拟机里，对象在堆内存中的存储布局可以划分为三个部分：<strong>对象头、实例数据和对齐填充</strong></p>
 <p><strong>对象头</strong><br>包含两类信息<br><strong>第一类</strong>是用于存储对象自身的运行时数据，如哈希码(HashCode)、GC分代年龄、锁状态标志、线程持有的锁、偏向线程ID、偏向时间戳等，这部分数据的长度在32位和64位虚拟机（未开启压缩指针）中分别为32个比特和64个比特，官方称它为“Mark Word”。Mark Word被设计成一个有着动态定义的数据结构，以便在极小的空间内存储尽量多的数据，根据对象的状态复用自己的存储空间。<br><strong>第二类</strong>是类型指针，即对象指向它的类型元数据的指针，Java虚拟机通过这个指针来确定该对象是哪个类的实例。并不是所有的虚拟机实现都必须在对象数据上保留类型指针。如果对象是个<strong>Java数组</strong>，在对象头中还必须有一块用于记录数组长度的数据，因为虚拟机可以通过普通Java对象的元数据信息确定Java对象的大小，但是如果数组的长度是不确定的，将无法通过元数据中的信息推断出数组的大小。</p>
-<p>在32位的HotSpot虚拟机中，如果对象处于<strong>未被锁定的状态下</strong>，那么Mark Word的32bit空间中的25bit用于存储对象哈希码，4bit用于存储对象分代年龄，2bit用于存储锁标志，1bit固定为0<br><img src="H:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C64.png" alt=""></p>
-<p>在32位系统下，存放Class指针的空间大小是4字节，Mark Word空间大小也是4字节，因此头部就是8字节，如果是数组就需要再加4字节表示数组的长度<br><img src="H:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C65.png" alt=""></p>
-<p>在64位系统及64位JVM下，开启指针压缩，那么头部存放Class指针的空间大小还是4字节，而Mark Word区域会变大，变成8字节，也就是头部最少为12字节<br><img src="H:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C66.png" alt=""></p>
+<p>在32位的HotSpot虚拟机中，如果对象处于<strong>未被锁定的状态下</strong>，那么Mark Word的32bit空间中的25bit用于存储对象哈希码，4bit用于存储对象分代年龄，2bit用于存储锁标志，1bit固定为0<br><img src="%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB%5C64.png" alt=""></p>
+
+
+<p>在32位系统下，存放Class指针的空间大小是4字节，Mark Word空间大小也是4字节，因此头部就是8字节，如果是数组就需要再加4字节表示数组的长度<br><img src="%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB%5C65.png" alt=""></p>
+<p>在64位系统及64位JVM下，开启指针压缩，那么头部存放Class指针的空间大小还是4字节，而Mark Word区域会变大，变成8字节，也就是头部最少为12字节<br><img src="%E9%9D%A2%E7%BB%8F%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB%5C66.png" alt=""></p>
 <p><strong>压缩指针：</strong>开启指针压缩使用算法开销带来内存节约，Java 对象都是以 8 字节对齐的，也就是以 8 字节为内存访问的基本单元，那么在地理处理上，就有 3 个位是空闲的，这 3 个位可以用来虚拟，利用 32 位的地址指针原本最多只能寻址 4GB，但是加上 3 个位的 8 种内部运算，就可以变化出 32GB 的寻址。</p>
 <p><strong>实例数据</strong><br>实例数据部分是对象真正存储的有效信息，即我们在程序中代码里面所定义的各种类型的字段内容，无论是从父类继承下来，还是在子类中定义的字段都必须记录起来。这部分的存储顺序会受到虚拟机分配策略参数（-XX：FieldsAllocationStyle参数）和字段在Java源码中定义顺序的影响。父类中定义的变量会出现在子类之前。如果HotSpot虚拟机的+XX：CompactFields参数值为true（默认为true），那子类之中较窄的变量也允许插入父类变量的空隙之中，以节省一点点空间。</p>
 <p><strong>对齐填充</strong><br>对齐填充不是必然存在的，仅仅起着占位符的作用。由于HotSpot虚拟机的自动内存管理系统要求对象起始地址必须是8字节的整数倍，换句话说就是任何对象的大小都必须是8字节的整数倍。对象头部分已经被精心设计成正好是8字节的倍数，因此如果对象实例数据部分没有对齐的话，就需要通过对齐填充来补全。</p>
@@ -648,8 +659,7 @@
 <p>对于Callable通过submit提交后，通过newTaskFor方法会被包装成RunnableFuture，其中RunnableFuture接口继承了Runnable和Future接口。然后将ftask作为参数传入execute方法执行，这里面会调用ftask的run方法。然后这对象的run方法会调用其call方法。最后submit方法返回ftask。调用RunnableFuture类型ftask的get方法可以得到返回值。</p>
 <h2 id="线程池的饱和策略（拒绝策略）"><a href="#线程池的饱和策略（拒绝策略）" class="headerlink" title="线程池的饱和策略（拒绝策略）"></a>线程池的饱和策略（拒绝策略）</h2><p>当线程池的等待队列已经排满，且线程池数量达到设置的最大值，则会进行拒绝策略也就是饱和策略。<br>AbortPolicy：该策略会直接抛出异常，阻止系统正常工作。<br>CallerRunsPolicy：只要线程池未关闭，该策略直接在调用者线程中运行当前被丢弃的任务。显然这样做不会真的丢弃任务，但是任务提交线程的性能极有可能会急剧下降<br>DiscardOldestPolicy：该策略将丢弃最老的一个请求，也就是即将诶执行的一个任务，并尝试再次提交当前任务<br>DiscardPolicy：该策略默默丢弃无法处理的任务，不予任何处理。</p>
 <h2 id="乐观锁和悲观锁的区别"><a href="#乐观锁和悲观锁的区别" class="headerlink" title="乐观锁和悲观锁的区别"></a>乐观锁和悲观锁的区别</h2><p>悲观锁：就是每次对数据进行操作时总是以最坏的情况去考虑。所以每次拿数据都要加上锁，这样其他线程想要去拿这个数据就会被阻塞。<br>乐观锁：就是每次对数据进行操作时总是以最好的情况去考虑。在最后提交的时候会判断一下在修改期间是否有别的线程进行了改动，如果没有就成功提交，如果有则驳回操作，重新修改。多适用于读的环境</p>
-<h2 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h2><p><a href="https://blog.csdn.net/mulinsen77/article/details/84583716" target="_blank" rel="noopener">https://blog.csdn.net/mulinsen77/article/details/84583716</a></p>
-<p><a href="https://www.jianshu.com/p/0f876ead2846" target="_blank" rel="noopener">https://www.jianshu.com/p/0f876ead2846</a></p>
+<h2 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h2><p><a href="https://blog.csdn.net/mulinsen77/article/details/84583716" target="_blank" rel="noopener">https://blog.csdn.net/mulinsen77/article/details/84583716</a><br><a href="https://www.jianshu.com/p/0f876ead2846" target="_blank" rel="noopener">https://www.jianshu.com/p/0f876ead2846</a><br><a href="https://segmentfault.com/a/1190000017372067" target="_blank" rel="noopener">https://segmentfault.com/a/1190000017372067</a></p>
 <p><strong>AQS指的是AbstractQueueSynchronizer（抽象的队列式同步器）</strong>，它提供了一种实现阻塞锁和一系列依赖FIFO等待队列的同步器的框架，ReentrantLock、Semaphore、CountDownLatch、CyclicBarrier等并发类均是基于AQS来实现的，具体用法是通过继承AQS实现其模板方法，然后将子类作为同步组件的内部类。</p>
 <p><strong>AQS的核心思想是</strong>：如果被请求的共享资源空间空闲，则将当前请求资源的线程设置为有效的工作线程，并将共享资源设置为锁定状态，如果被请求的共享资源被占用，那么就需要一套线程阻塞等待以及被唤醒时锁分配的机制，<strong>这个机制AQS是用CLH队列锁实现的</strong>，即将暂时获取不到锁的线程加入到队列中，这个队列是双向链表。<strong>AQS是用CAS去操作队列的head和tail，用CAS操作代替了锁整条双链链表的操作</strong><br>CLH（Craig，Landin，and Hagersten）队列是一个虚拟的双向队列，虚拟的双向队列即不存在队列实例，仅存在节点之间的关联关系。<br><strong>AQS是将每一条请求共享资源的线程封装成一个CLH锁队列的一个结点（Node），来实现锁的分配。</strong></p>
 <p>用大白话来说，AQS就是基于CLH队列，用volatile修饰共享变量state，线程通过CAS去改变状态符，成功则获取锁成功，失败则进入等待队列，等待被唤醒。</p>
@@ -1137,7 +1147,7 @@
 <p>在 populateBean方法中，注入过程主要分为两种情况：① 属性值类型不需要强制转换时，不需要解析属性值，直接进行依赖注入。② 属性值类型需要强制转换时，首先解析属性值，然后对解析后的属性值进行依赖注入。依赖注入的过程就是将 Bean 对象实例设置到它所依赖的 Bean 对象属性上，真正的依赖注入是通过 setPropertyValues 方法实现的，该方法使用了委派模式。</p>
 <p>BeanWrapperImpl 类负责对完成初始化的 Bean 对象进行依赖注入，对于非集合类型属性，使用 JDK 反射，通过属性的 setter 方法为属性设置注入后的值。对于集合类型的属性，将属性值解析为目标类型的集合后直接赋值给属性。</p>
 <p><a href="https://www.jianshu.com/p/96635555f756" target="_blank" rel="noopener">https://www.jianshu.com/p/96635555f756</a></p>
-<h2 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h2><p>生命周期：bean的创建和销毁<br>单实例bean：容器启动的时候就创建好，容器关闭销毁<br>容器开启，创建好bean（执行构造方法）——&gt; 初始化方法——&gt;容器关闭，销毁方法<br>多实例bean：获取该bean时才创建<br>容器开启——&gt;获取bean（创建bean，执行构造方法）——&gt;初始化方法——&gt;容器关闭（不会调用bean的销毁方法）<br>初始化方法和销毁方法可以自定义。<br>XML 方式通过配置 bean 标签中的 init-Method 和 destory-Method 指定自定义初始化和销毁方法。<br>注解方式通过 <code>@PreConstruct</code> 和 <code>@PostConstruct</code> 注解指定自定义初始化和销毁方法。</p>
+<h2 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h2><p>生命周期：bean的创建和销毁<br>单实例bean：容器启动的时候就创建好，容器关闭销毁<br>容器开启，创建好bean（执行构造方法）——&gt; 初始化方法——&gt;容器关闭，销毁方法<br>多实例bean：获取该bean时才创建<br>容器开启——&gt;获取bean（创建bean，执行构造方法）——&gt;初始化方法——&gt;容器关闭（不会调用bean的销毁方法）<br>初始化方法和销毁方法可以自定义。<br>XML 方式通过配置 bean 标签中的 init-Method 和 destroy-Method 指定自定义初始化和销毁方法。<br>注解方式通过 <code>@PreConstruct</code> 和 <code>@PostConstruct</code> 注解指定自定义初始化和销毁方法。</p>
 <p><img src="H:%5C1.5%E5%B9%B4%E8%AE%A1%E5%88%92%5C%E7%AC%94%E8%AE%B0%5C%E9%9D%A2%E7%BB%8F%5C%E5%9B%BE%E7%89%87%5C31.png" alt=""></p>
 <h2 id="bean的作用范围-作用域"><a href="#bean的作用范围-作用域" class="headerlink" title="bean的作用范围/作用域"></a>bean的作用范围/作用域</h2><p>通过 scope 属性指定 bean 的作用范围，包括：</p>
 <p>① singleton：单例模式，是默认作用域，不管收到多少 Bean 请求每个容器中只有一个唯一的 Bean 实例。</p>
@@ -1743,7 +1753,8 @@
 <h3 id="最大tcp连接数跟什么有关"><a href="#最大tcp连接数跟什么有关" class="headerlink" title="最大tcp连接数跟什么有关"></a>最大tcp连接数跟什么有关</h3><p><a href="https://www.cnblogs.com/duanxz/p/4464178.html" target="_blank" rel="noopener">https://www.cnblogs.com/duanxz/p/4464178.html</a></p>
 <p><strong>客户端</strong><br>对于客户端，通过一个四元组来标识一个tcp连接，即{local ip，local port，remote ip， remote port}<br>客户端每次发起tcp连接请求时，除非绑定端口，通常会让系统选取一个空闲的本都端口，该端口是独占的，不能和其他tcp连接共享。tcp端口的数据类型是unsigned short，因此本地端口个数最大只有65536，端口0有特殊含义，不能使用，这样可用端口最多只有65535，所以在全部作为client端的情况下，最大tcp连接数为65535，这些连接可以连到不同的server ip。</p>
 <p><strong>服务端</strong><br>server通常固定在某个本地端口上监听，等待client的连接请求。不考虑地址重用（unix的SO_REUSEADDR选项）的情况下，即使server端有多个ip，本地监听端口也是独占的，因此server端tcp连接4元组中只有remote ip（也就是client ip）和remote port（客户端port）是可变的，因此最大tcp连接为客户端ip数×客户端port数，对IPV4，不考虑ip地址分类等因素，最大tcp连接数约为2的32次方（ip数）×2的16次方（port数），也就是server端单机最大tcp连接数约为2的48次方。<br>实际的tcp连接数<br>上面给出的是理论上的单机最大连接数，在实际环境中，受到机器资源、操作系统等的限制，特别是sever端，其最大并发tcp连接数远不能达到理论上限。在unix/linux下限制连接数的主要因素是内存和允许的文件描述符个数（每个tcp连接都要占用一定内存，每个socket就是一个文件描述符），另外1024以下的端口通常为保留端口。在默认2.6内核配置下，经过试验，每个socket占用内存在15~20k之间。</p>
-<h3 id="TCP中的MSS和MTU"><a href="#TCP中的MSS和MTU" class="headerlink" title="TCP中的MSS和MTU"></a>TCP中的MSS和MTU</h3><h3 id="三次握手、四次挥手各个状态名称-2"><a href="#三次握手、四次挥手各个状态名称-2" class="headerlink" title="三次握手、四次挥手各个状态名称*2"></a>三次握手、四次挥手各个状态名称*2</h3><p>三次握手</p>
+<h3 id="TCP中的MSS和MTU"><a href="#TCP中的MSS和MTU" class="headerlink" title="TCP中的MSS和MTU"></a>TCP中的MSS和MTU</h3><p>MTU(Maximum Transmission Unit)，最大传输单元，以太网的MTU为1500字节<br>MSS(Maximum Segment Size)，最大分段长度，为TCP数据包每次的最大数据分段大小，一般由发送端向对端TCP通知对端在每个分节中能发送的最大TCP数据。MSS值为MTU值减去IPv4 Header(20 Byte)和TCP header(20 Byte)得到。</p>
+<h3 id="三次握手、四次挥手各个状态名称-2"><a href="#三次握手、四次挥手各个状态名称-2" class="headerlink" title="三次握手、四次挥手各个状态名称*2"></a>三次握手、四次挥手各个状态名称*2</h3><p>三次握手</p>
 <p><img src=".%5C%E5%9B%BE%E7%89%87%5C1.png" alt=""></p>
 <p>最初两端的TCP进程都处于<strong>CLOSED（关闭）</strong>状态。</p>
 <p><img src=".%5C%E5%9B%BE%E7%89%87%5C2.png" alt=""></p>
@@ -1818,7 +1829,7 @@
 <p><img src=".%5C%E5%9B%BE%E7%89%87%5C9.png" alt=""></p>
 <h3 id="拥塞如何解决？"><a href="#拥塞如何解决？" class="headerlink" title="拥塞如何解决？"></a>拥塞如何解决？</h3><p>见拥塞控制</p>
 <h3 id="TIME-WAIT的作用-2"><a href="#TIME-WAIT的作用-2" class="headerlink" title="TIME_WAIT的作用*2"></a>TIME_WAIT的作用*2</h3><p>两个原因</p>
-<p>1.保证A发送的最后一个ACK报文段能够到达B。这个ACK报文段有可能丢失，因而使处在LAST_ACK的状态的B收不到对已发送的FIN+ACK报文段确认。B会超时超时重传这个FIN+ACK报文段，而A就能在2MSL时间内收到这个重传的FIN+ACK报文段，接着A重传一次确认，重新启动2MSL计时器。最后A和B都能正常的进入到CLOSED状态。如果A在TIME_WAIT状态不等待一段时间，而是发送完ACK报文段后立即释放连接，那么就无法收到B重传的FIN+ACK报文段，因而也不会再发送一次确认报文段。这样B就无法按照正常步骤进入CLOSED状态。</p>
+<p>1.保证A发送的最后一个ACK报文段能够到达B。这个ACK报文段有可能丢失，因而使处在LAST_ACK的状态的B收不到对已发送的FIN+ACK报文段确认。B会超时重传这个FIN+ACK报文段，而A就能在2MSL时间内收到这个重传的FIN+ACK报文段，接着A重传一次确认，重新启动2MSL计时器。最后A和B都能正常的进入到CLOSED状态。如果A在TIME_WAIT状态不等待一段时间，而是发送完ACK报文段后立即释放连接，那么就无法收到B重传的FIN+ACK报文段，因而也不会再发送一次确认报文段。这样B就无法按照正常步骤进入CLOSED状态。</p>
 <p>2.A在发送完最后一个ACK报文段之后，再经过2MSL就可以使本连接持续时间内所产生的所有报文段都从网络消失。这样就可以使下一个新的连接中不会出现这种旧的连接请求报文段。</p>
 <h3 id="TIME-WAIT为什么是2MSL，如何解决TIME-WAIT状态过多"><a href="#TIME-WAIT为什么是2MSL，如何解决TIME-WAIT状态过多" class="headerlink" title="TIME_WAIT为什么是2MSL，如何解决TIME_WAIT状态过多"></a>TIME_WAIT为什么是2MSL，如何解决TIME_WAIT状态过多</h3><p>MSL是报文最大生存时间。</p>
 <p>在最后的A发送给B确认报文阶段，假如A返回给B的时候，1MSL过去了，报文过期了；B没有收到，再发一遍，如果设置 <code>time_wait 状态</code> 是 <code>1msl</code>，那么 A处于<code>closed</code>状态，拒收B的<code>FIN 包</code>，B 无法关闭。</p>
@@ -6048,9 +6059,35 @@
   <entry>
     <title>Hexo的一些基本操作</title>
     <url>/2020/03/06/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h2 id="创建新文章并部署到远端"><a href="#创建新文章并部署到远端" class="headerlink" title="创建新文章并部署到远端"></a>创建新文章并部署到远端</h2><p>1.执行 hexo new[layout] 文章名 即可<br>layout为布局，Hexo有三种默认布局：post、page和draft，默认为post，可以在_config.yml中的default_layout 参数来指定默认布局</p>
+    <content><![CDATA[<h1 id="Hexo基本操作"><a href="#Hexo基本操作" class="headerlink" title="Hexo基本操作"></a>Hexo基本操作</h1><h2 id="创建新文章并部署到远端"><a href="#创建新文章并部署到远端" class="headerlink" title="创建新文章并部署到远端"></a>创建新文章并部署到远端</h2><p>1.执行 hexo new[layout] 文章名 即可<br>layout为布局，Hexo有三种默认布局：post、page和draft，默认为post，可以在_config.yml中的default_layout 参数来指定默认布局</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo new[layout] 文章名</span><br></pre></td></tr></table></figure>
+
 <p>2.文章写完后保存文件，执行 hexo generate 或 hexo g 生成静态文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo generate &#x2F; hexo g</span><br></pre></td></tr></table></figure>
+
 <p>3.执行 hexo deploy 将文件部署到远端</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo deploy &#x2F; hexo d</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用hexo s在本地预览</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="插入图片并部署到远端且显示"><a href="#插入图片并部署到远端且显示" class="headerlink" title="插入图片并部署到远端且显示"></a>插入图片并部署到远端且显示</h2><p><strong>参考</strong>：<a href="https://www.cnblogs.com/Jesee/p/11234387.html" target="_blank" rel="noopener">https://www.cnblogs.com/Jesee/p/11234387.html</a></p>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li><p>在根目录下配置文件<code>_config.yml</code> 中有 <code>post_asset_folder:false改为true</code>。这样在建立文件时，<code>Hexo</code>会自动建立一个与文章同名的文件夹，这样就可以把与该文章相关的所有资源（图片）都放到那个文件夹里方便后面引用。</p>
+</li>
+<li><p>git bash安装插件：npm install <a href="https://github.com/7ym0n/hexo-asset-image" target="_blank" rel="noopener">https://github.com/7ym0n/hexo-asset-image</a> –save（这是个修改过的插件，经测试无问题），使用这个插件来引入图片，而不是网上那些方法里说的用传统md语法相对路径的方法。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install https:&#x2F;&#x2F;github.com&#x2F;7ym0n&#x2F;hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>插入图片时，按照markdown的格式引入图片，即<img src="xxxx/%E5%9B%BE%E7%89%87%E5%90%8D.%E6%A0%BC%E5%BC%8F" alt=" ">，xxxx就是markdown文件名，也就是存放图片的同名文件夹的名字。然后在图片旁边插入代码，其中test.jpg就是你要引用的图片，这里就是test.jpg，后面的This is an test image是图片描述，可以自己修改。将这行代码放在图片路径旁边</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;% asset_img test.jpg This is an test image %&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
 ]]></content>
   </entry>
   <entry>
